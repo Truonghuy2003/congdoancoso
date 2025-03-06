@@ -36,9 +36,9 @@ return [
     */
 
     'guards' => [
-        'web' => [
+        'nguoidung' => [
             'driver' => 'session',
-            'provider' => 'users',
+            'provider' => 'nguoidung',
         ],
     ],
 
@@ -60,7 +60,7 @@ return [
     */
 
     'providers' => [
-        'users' => [
+        'nguoidung' => [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', App\Models\NguoiDung::class),
         ],
@@ -91,8 +91,8 @@ return [
     */
 
     'passwords' => [
-        'users' => [
-            'provider' => 'users',
+        'nguoidung' => [
+            'provider' => 'nguoidung',
             'table' => env('AUTH_PASSWORD_RESET_TOKEN_TABLE', 'password_reset_tokens'),
             'expire' => 60,
             'throttle' => 60,

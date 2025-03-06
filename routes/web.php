@@ -8,6 +8,7 @@ use App\Http\Controllers\BinhLuanBaiVietController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 // Trang chủ
+Auth::routes();
 
 Route::get('/', [HomeController::class, 'getHome'])->name('home');
 Route::get('/home', [HomeController::class, 'getHome'])->name('home');
