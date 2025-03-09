@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Thêm chủ đề</div>
     <div class="card-body">
-        <form action="{{ route('chude.them') }}" method="post">
+        <form action="{{ route('admin.chude.them') }}" method="post">
             @csrf
             <div class="mb-3">
                 <label class="form-label" for="tenchude">Tên chủ đề</label>

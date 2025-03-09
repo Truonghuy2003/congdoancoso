@@ -9,16 +9,22 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use App\Models\NguoiDung;
-
+use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Mail;
 class HomeController extends Controller
 {
     public function getHome()
     {
-        return view('home');
+        $baiviet = BaiViet::with('chude')->whereHas('chude')->orderBy('created_at', 'desc')->limit(8)->get();
+        foreach ($baiviet as $bv) {
+            if (!$bv->chude) {
+                dd("Lỗi: Bài viết ID {$bv->id} không có chủ đề!", $bv);
+            }
+        }
+        return view('frontend.home', compact('baiviet'));
     }
     public function getBaiViet($tenchude_slug = '')
     {
-        // Bổ sung code tại đây
         if (empty($tenchude_slug)) {
             $title = 'Tin tức';
             $baiviet = BaiViet::where('kichhoat', 1)
@@ -36,12 +42,11 @@ class HomeController extends Controller
                 ->paginate(20);
         }
 
-        return view('baiviet', compact('title', 'baiviet'));
+        return view('frontend.baiviet', compact('title', 'baiviet'));
     }
 
     public function getBaiViet_ChiTiet($tenchude_slug = '', $tieude_slug = '')
     {
-        // Bổ sung code tại đây
         $tieude_id = explode('.', $tieude_slug);
         $tieude = explode('-', $tieude_id[0]);
         $baiviet_id = $tieude[count($tieude) - 1];
@@ -53,7 +58,7 @@ class HomeController extends Controller
 
         if (!$baiviet) abort(404);
 
-        // Cập nhật lượt xem
+        // Cập nhật lượt xemm
         $daxem = 'BV' . $baiviet_id;
         if (!session()->has($daxem)) {
             $orm = BaiViet::find($baiviet_id);
@@ -69,6 +74,45 @@ class HomeController extends Controller
             ->orderBy('created_at', 'desc')
             ->take(4)->get();
 
-        return view('baiviet_chitiet', compact('baiviet', 'baivietcungchuyemuc'));
+        return view('frontend.baiviet_chitiet', compact('baiviet', 'baivietcungchuyemuc'));
+    }
+    /*
+    public function getChuDe($tenchude_slug = ''){
+        $chude = ChuDe::all(); // Lấy tất cả chủ đề
+        return view('frontend.home', compact('topics'));
+    }
+
+    
+    public function getChuDe($tenchude_slug = '')
+    {
+        $chude = ChuDe::where('tenchude_slug', $tenchude_slug)
+            ->firstOrFail();
+        $title = $chude->tenchude;
+        $baiviet = BaiViet::where('kichhoat', 1)
+            ->where('kiemduyet', 1)
+            ->where('chude_id', $chude->id)
+            ->orderBy('created_at', 'desc')
+            ->paginate(20);
+
+        return view('frontend.baiviet', compact('title', 'baiviet'));
+    }
+    */
+
+    public function getLienHe()
+    {
+        return view('frontend.lienhe');
+    }
+    // Trang đăng ký dành cho khách hàng
+    public function getDangKy()
+    {
+        return view('user.dangky');
+    }
+    // Trang đăng nhập dành cho khách hàng
+    public function getDangNhap()
+    {
+        if (Auth::check())
+            return redirect()->route('user.home');
+        else
+            return view('user.dangnhap');
     }
 }

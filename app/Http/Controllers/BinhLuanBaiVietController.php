@@ -15,13 +15,13 @@ class BinhLuanBaiVietController extends Controller
     public function getDanhSach()
     {
         $binhluanbaiviet = binh_luan_bai_viet::orderBy('created_at', 'desc')->get();
-        return view('binhluanbaiviet.danhsach', compact('binhluanbaiviet'));
+        return view('admin.binhluanbaiviet.danhsach', compact('binhluanbaiviet'));
     }
 
     public function getThem()
     {
         $baiviet = baiviet::orderBy('created_at', 'desc')->get();
-        return view('binhluanbaiviet.them', compact('baiviet'));
+        return view('admin.binhluanbaiviet.them', compact('baiviet'));
     }
 
     public function postThem(Request $request)
@@ -42,14 +42,14 @@ class BinhLuanBaiVietController extends Controller
         $orm->save();
 
         // Sau khi thêm thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('binhluanbaiviet');
+        return redirect()->route('admin.binhluanbaiviet');
     }
 
     public function getSua($id)
     {
         $baiviet = BaiViet::orderBy('created_at', 'desc')->get();
         $binhluanbaiviet = binh_luan_bai_viet::find($id);
-        return view('binhluanbaiviet.sua', compact('baiviet', 'binhluanbaiviet'));
+        return view('admin.binhluanbaiviet.sua', compact('baiviet', 'binhluanbaiviet'));
     }
 
     public function postSua(Request $request, $id)
@@ -66,7 +66,7 @@ class BinhLuanBaiVietController extends Controller
         $orm->save();
 
         // Sau khi sửa thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('binhluanbaiviet');
+        return redirect()->route('admin.binhluanbaiviet');
     }
 
     public function getXoa($id)
@@ -75,7 +75,7 @@ class BinhLuanBaiVietController extends Controller
         $orm->delete();
 
         // Sau khi xóa thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('binhluanbaiviet');
+        return redirect()->route('admin.binhluanbaiviet');
     }
 
     public function getKiemDuyet($id)
@@ -84,7 +84,7 @@ class BinhLuanBaiVietController extends Controller
         $orm->kiemduyet = 1 - $orm->kiemduyet;
         $orm->save();
 
-        return redirect()->route('binhluanbaiviet');
+        return redirect()->route('admin.binhluanbaiviet');
     }
 
     public function getKichHoat($id)
@@ -93,6 +93,6 @@ class BinhLuanBaiVietController extends Controller
         $orm->kichhoat = 1 - $orm->kichhoat;
         $orm->save();
 
-        return redirect()->route('binhluanbaiviet');
+        return redirect()->route('admin.binhluanbaiviet');
     }
 }

@@ -12,12 +12,12 @@ class NguoiDungController extends Controller
     public function getDanhSach()
     {
         $nguoidung = NguoiDung::all();
-        return view('nguoidung.danhsach', compact('nguoidung'));
+        return view('admin.nguoidung.danhsach', compact('nguoidung'));
     }
 
     public function getThem()
     {
-        return view('nguoidung.them');
+        return view('admin.nguoidung.them');
     }
 
     public function postThem(Request $request)
@@ -37,7 +37,7 @@ class NguoiDungController extends Controller
         $orm->password = Hash::make($request->password);
         $orm->role = $request->role;
         $orm->save();
-        return redirect()->route('nguoidung');
+        return redirect()->route('admin.nguoidung');
         // Sau khi thêm thành công thì tự động chuyển về trang danh sách
 
     }
@@ -46,7 +46,7 @@ class NguoiDungController extends Controller
     {
 
         $nguoidung = NguoiDung::find($id); // find rỗng là null findOrFail là lỗi 404
-        return view('nguoidung.sua', compact('nguoidung'));
+        return view('admin.nguoidung.sua', compact('nguoidung'));
     }
     public function postSua(Request $request, $id)
     {
@@ -64,7 +64,7 @@ class NguoiDungController extends Controller
         $orm->role = $request->role;
         if (empty($request->password)) $orm->password = Hash::make($request->password);
         $orm->save();
-        return redirect()->route('nguoidung');
+        return redirect()->route('admin.nguoidung');
     }
 
     public function getXoa($id)
@@ -73,7 +73,7 @@ class NguoiDungController extends Controller
         $orm = NguoiDung::find($id);
         $orm->delete();
 
-        return redirect()->route('nguoidung');
+        return redirect()->route('admin.nguoidung');
     }
 
 }

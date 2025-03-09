@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Thêm bình luận bài viết</div>
     <div class="card-body">
-        <form action="{{ route('binhluanbaiviet.them') }}" method="post">
+        <form action="{{ route('admin.binhluanbaiviet.them') }}" method="post">
             @csrf
 
             <div class="mb-3">

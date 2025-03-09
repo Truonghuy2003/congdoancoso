@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Thêm người dùng</div>
     <div class="card-body">
-        <form action="{{route('nguoidung.them')}}" method="post">
+        <form action="{{route('admin.nguoidung.them')}}" method="post">
             @csrf
             <div class="mt-3">
                 <label class="form-lable" for="name">Họ và tên</label>

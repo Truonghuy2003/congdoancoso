@@ -14,13 +14,13 @@ class BaivietController extends Controller
     public function getDanhSach()
     {
         $baiviet = BaiViet::orderBy('created_at', 'desc')->get();
-        return view('baiviet.danhsach', compact('baiviet')); // 
+        return view('admin.baiviet.danhsach', compact('baiviet')); // 
     }
 
     public function getThem()
     {
         $chude = ChuDe::all();
-        return view('baiviet.them', compact('chude')); // 
+        return view('admin.baiviet.them', compact('chude')); // 
     }
 
     public function postThem(Request $request)
@@ -43,7 +43,7 @@ class BaivietController extends Controller
         $orm->noidung = $request->noidung;
         $orm->save();
 
-        return redirect()->route('baiviet'); // 
+        return redirect()->route('admin.baiviet'); // 
 
         //dd($validatedData); //  Dừng lại để kiểm tra dữ liệu nhận được
     }
@@ -52,7 +52,7 @@ class BaivietController extends Controller
     {
         $chude = ChuDe::all();
         $baiviet = BaiViet::find($id);
-        return view('baiviet.sua', compact('chude', 'baiviet')); // 
+        return view('admin.baiviet.sua', compact('chude', 'baiviet')); // 
     }
 
     public function postSua(Request $request, $id)
@@ -71,14 +71,14 @@ class BaivietController extends Controller
         $orm->noidung = $request->noidung;
         $orm->save();
 
-        return redirect()->route('baiviet')->with('success', 'Bài viết đã được thêm!'); // 
+        return redirect()->route('admin.baiviet')->with('success', 'Bài viết đã được thêm!'); // 
     }
 
     public function getXoa($id)
     {
         $orm = BaiViet::find($id);
         $orm->delete();
-        return redirect()->route('baiviet'); //
+        return redirect()->route('admin.baiviet'); //
     }
 
     public function getKiemDuyet($id)
@@ -87,7 +87,7 @@ class BaivietController extends Controller
         $orm->kiemduyet = 1 - $orm->kiemduyet;
         $orm->save();
 
-        return redirect()->route('baiviet'); //
+        return redirect()->route('admin.baiviet'); //
     }
 
     public function getKichHoat($id)
@@ -96,6 +96,19 @@ class BaivietController extends Controller
         $orm->kichhoat = 1 - $orm->kichhoat;
         $orm->save();
 
-        return redirect()->route('baiviet'); //
+        return redirect()->route('admin.baiviet'); //
     }
+    /*
+    public function show($slug)
+    {
+        $baiviet = BaiViet::where('slug', $slug)->firstOrFail();
+        return view('frontend.baiviet', compact('baiviet'));
+    }
+    public function chiTiet($tenchude_slug, $tieude_slug)
+    {
+        $baiviet = BaiViet::where('slug', $tieude_slug)->with('chude')->firstOrFail();
+        return view('frontend.baiviet.chitiet', compact('baiviet'));
+    }
+    */
+
 }

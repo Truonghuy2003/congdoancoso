@@ -1,33 +1,32 @@
 @extends('layouts.app')
 @section('content')
 <div class="card">
-    <div class="card-header">Bài viết</div>
+    <div class="card-header">Bình luận bài viết</div>
     <div class="card-body table-responsive">
-        <p><a href="{{ route('baiviet.them') }}" class="btn btn-info"><i class="fa-light fa-plus"></i> Thêm mới</a></p>
+        <p><a href="{{ route('admin.binhluanbaiviet.them') }}" class="btn btn-info"><i class="fa-light fa-plus"></i> Thêm mới</a></p>
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
                     <th width="5%">#</th>
-                    <th width="20%">Chủ đề</th>
-                    <th width="55%">Thông tin bài viết</th>
+                    <th width="20%">Người đăng</th>
+                    <th width="55%">Thông tin bình luận</th>
                     <th width="20%" colspan="4" class="text-center">Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($baiviet as $value)
+                @foreach($binhluanbaiviet as $value)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $value->ChuDe->tenchude }}</td>
-                    <td>
-                        <span class="d-block fw-bold text-primary"><a href="{{ route('baiviet.sua', ['id' => $value->id]) }}">{{ $value->tieude }}</a></span>
+                    <td>{{ $value->NguoiDung->name }}</td>
+                    <td style="text-align:justify">
+                        <span class="d-block fw-bold text-primary"><a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">{{ $value->BaiViet->tieude }}</a></span>
                         <span class="d-block small">
                             Ngày đăng: <strong>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y H:i:s') }}</strong>
-                            <br />Người đăng: <strong>{{ $value->NguoiDung->name }}</strong>
-                            <br />Có <strong>{{ $value->luotxem }}</strong> lượt xem
+                            <br />Nội dung bình luận: <strong>{{ $value->noidungbinhluan }}</strong>
                         </span>
                     </td>
                     <td class="text-center" title="Trạng thái kiểm duyệt">
-                        <a href="{{ route('baiviet.kiemduyet', ['id' => $value->id]) }}">
+                        <a href="{{ route('admin.binhluanbaiviet.kiemduyet', ['id' => $value->id]) }}">
                             @if($value->kiemduyet == 1)
                             <i class="fa-light fa-lg fa-circle-check"></i>
                             @else
@@ -36,7 +35,7 @@
                         </a>
                     </td>
                     <td class="text-center" title="Trạng thái hiển thị">
-                        <a href="{{ route('baiviet.kichhoat', ['id' => $value->id]) }}">
+                        <a href="{{ route('admin.binhluanbaiviet.kichhoat', ['id' => $value->id]) }}">
                             @if($value->kichhoat == 1)
                             <i class="fa-light fa-lg fa-eye"></i>
                             @else
@@ -45,12 +44,12 @@
                         </a>
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('baiviet.sua', ['id' => $value->id]) }}">
+                        <a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">
                             <i class="fa-light fa-lg fa-edit"></i>
                         </a>
                     </td>
                     <td class="text-center">
-                        <a href="{{ route('baiviet.xoa', ['id' => $value->id]) }}" onclick="return confirm('Bạn có muốn xóa bài viết {{ $value->tieude }} không?')">
+                        <a href="{{ route('admin.binhluanbaiviet.xoa', ['id' => $value->id]) }}" onclick="return confirm('Bạn có muốn xóa bình luận của bài viết {{ $value->BaiViet->tieude }} không?')">
                             <i class="fa-light fa-lg fa-trash-alt text-danger"></i>
                         </a>
                     </td>

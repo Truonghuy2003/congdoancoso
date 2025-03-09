@@ -26,7 +26,7 @@
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
             <div class="container-fluid">
-                <a class="navbar-brand" href="{{ route('home') }}">
+                <a class="navbar-brand" href="{{ route('admin.home') }}">
                     <i class="fa-light fa-star"></i> {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
@@ -40,7 +40,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('chude') }}">
+                                    <a class="dropdown-item" href="{{ route('admin.chude') }}">
                                         <i class="fa-light fa-fw fa-list-tree"></i> Chủ đề
                                     </a>
                                 </li>
@@ -48,19 +48,19 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('baiviet') }}">
+                                    <a class="dropdown-item" href="{{ route('admin.baiviet') }}">
                                         <i class="fa-light fa-fw fa-newspaper"></i> Bài viết
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('binhluanbaiviet') }}">
+                                    <a class="dropdown-item" href="{{ route('admin.binhluanbaiviet') }}">
                                         <i class="fa-light fa-fw fa-comments"></i> Bình luận bài viết
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ route('nguoidung') }}">
+                            <a class="nav-link" href="{{ route('admin.nguoidung') }}">
                                 <i class="fa-light fa-fw fa-users"></i> Tài khoản
                             </a>
                         </li>

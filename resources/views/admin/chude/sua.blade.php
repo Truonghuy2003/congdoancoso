@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Sửa chủ đề</div>
     <div class="card-body">
-        <form action="{{ route('chude.sua', ['id' => $chude->id]) }}" method="post">
+        <form action="{{ route('admin.chude.sua', ['id' => $chude->id]) }}" method="post">
             @csrf
 
             <div class="mb-3">

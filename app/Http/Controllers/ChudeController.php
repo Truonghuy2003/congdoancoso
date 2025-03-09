@@ -11,12 +11,12 @@ class ChudeController extends Controller
     public function getDanhSach()
     {
         $chude = chude::all();
-        return view('chude.danhsach', compact('chude'));
+        return view('admin.chude.danhsach', compact('chude'));
     }
 
     public function getThem()
     {
-        return view('chude.them');
+        return view('admin.chude.them');
     }
 
     public function postThem(Request $request)
@@ -32,13 +32,13 @@ class ChudeController extends Controller
         $orm->save();
 
         // Sau khi thêm thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('chude');
+        return redirect()->route('admin.chude');
     }
 
     public function getSua($id)
     {
         $chude = ChuDe::find($id);
-        return view('chude.sua', compact('chude'));
+        return view('admin.chude.sua', compact('chude'));
     }
 
     public function postSua(Request $request, $id)
@@ -54,7 +54,7 @@ class ChudeController extends Controller
         $orm->save();
 
         // Sau khi sửa thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('chude');
+        return redirect()->route('admin.chude');
     }
 
     public function getXoa($id)
@@ -63,6 +63,24 @@ class ChudeController extends Controller
         $orm->delete();
 
         // Sau khi xóa thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('chude');
+        return redirect()->route('admin.chude');
     }
+    
+    /*
+    public function show($slug)
+    {
+        $chude = ChuDe::where('tenchude_slug', $slug)->firstOrFail();
+        $baiviet = $chude->baiviet()->latest()->paginate(10); // Lấy bài viết thuộc chủ đề
+
+        return view('frontend.chude', compact('chude', 'baiviet'));
+
+        
+    }
+    public function index()
+    {
+        $chude = ChuDe::all(); // Lấy tất cả chủ đề từ database
+        return view('frontend.chude', compact('chude')); // Trả về view với danh sách chủ đề
+    }
+    */
+
 }
