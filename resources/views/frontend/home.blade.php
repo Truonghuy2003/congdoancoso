@@ -2,7 +2,7 @@
 
 @section('title', 'Trang chủ')
 @section('content')
-    <section class="container mt-4 mb-grid-gutter bg-dark text-white rounded-3 shadow-lg"> 
+    <section class="container mt-4 mb-grid-gutter text-white rounded-3 shadow-lg bg-dark"> 
         <div class="rounded-3 py-5 px-4 px-sm-5"> 
             <div class="row align-items-center"> 
                 <!-- Nội dung văn bản -->
@@ -38,8 +38,14 @@
                     </div>
                 </div> 
             </div> 
-             <!-- Hiển thị bài viết -->
-            <h2 class="h4 text-light mt-5 mb-4">Bài viết mới nhất</h2>
+            
+        </div> 
+    </section>
+    <section class="container mt-4 mb-grid-gutter rounded-3 shadow-lg "> 
+        <div class="rounded-3 py-1 px-4 px-sm-1"> 
+            <div class="row align-items-center"> 
+            <!-- Hiển thị bài viết -->
+            <h2 class="h4 text-light mt-5 mb-4 text-dark text-center">Bài viết mới nhất</h2>
             <div class="row pt-2 mx-n2 d-flex flex-wrap">
                 @foreach($baiviet as $bv)
                     <div class="col-lg-4 col-md-6 col-sm-12 px-2 mb-4"> 
@@ -86,7 +92,8 @@
                         </div> 
                     </div> 
                 @endforeach 
-            </div>  
-        </div> 
+            </div>
+        </div>
     </section>
 @endsection
+

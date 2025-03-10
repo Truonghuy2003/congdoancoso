@@ -25,58 +25,73 @@
         </div>
     </div>
 
-    <div class="container pb-5">
-        <div class="row justify-content-center pt-3 mt-md-3">
-            <div class="col-12">
-                <div class="d-flex flex-wrap justify-content-between align-items-center pb-4 mt-n1">
-                    <div class="d-flex align-items-center fs-sm mb-2">
-                        <a class="blog-entry-meta-link" href="#user">
-                            <div class="blog-entry-author-ava">
-                                <img src="{{ $baiviet->NguoiDung->hinhanh ? asset('storage/'.$baiviet->NguoiDung->hinhanh) : asset('public/img/03.jpg') }}" />
-                            </div>
-                            {{ $baiviet->NguoiDung->name }}
-                        </a>
-                        <span class="blog-entry-meta-divider"></span>
-                        <a class="blog-entry-meta-link" href="#date">{{ $baiviet->ngay_dang }}</a>
-                    </div>
-                    <div class="fs-sm mb-2">
-                        <a class="blog-entry-meta-link text-nowrap" href="#view"><i class="ci-eye"></i>{{ $baiviet->luotxem }}</a>
-                    </div>
-                </div>
-
-                <p class="fw-bold" style="text-align:justify">{{ $baiviet->tomtat }}</p>
-                <p style="text-align:justify">{!! $baiviet->noidung !!}</p>
-
-                <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
-                    <div class="mt-3 me-3">
-                        <a class="btn-tag mb-2" href="{{ route('baiviet.chude', ['tenchude_slug' => $baiviet->ChuDe->tenchude_slug]) }}">
-                            #{{ $baiviet->ChuDe->tenchude }}
-                        </a>
-                    </div>
-                    <div class="mt-3">
-                        <span class="d-inline-block align-middle text-muted fs-sm me-3 mt-1 mb-2">Chia sẻ:</span>
-                        <a class="btn-social bs-facebook me-2 mb-2" href="#facebook"><i class="ci-facebook"></i></a>
-                        <a class="btn-social bs-twitter me-2 mb-2" href="#twitter"><i class="ci-twitter"></i></a>
-                        <a class="btn-social bs-pinterest me-2 mb-2" href="#pinterest"><i class="ci-pinterest"></i></a>
-                    </div>
-                </div>
-
-                <div class="pt-2 mt-5" id="comments">
-                    <h2 class="h4">Bình luận <span class="badge bg-secondary fs-sm text-body align-middle ms-2">{{ $baiviet->BinhLuanBaiViet->count() }}</span></h2>
-                    @foreach($baiviet->BinhLuanBaiViet as $value)
-                        <div class="d-flex align-items-start py-4">
-                            <img class="rounded-circle" src="{{ asset('public/img/03.jpg') }}" width="50" />
-                            <div class="ps-3">
-                                <h6 class="fs-md mb-0">{{ $value->NguoiDung->name }}</h6>
-                                <p class="fs-md mb-1" style="text-align:justify">{{ $value->noidungbinhluan }}</p>
-                                <span class="fs-ms text-muted"><i class="ci-time align-middle me-2"></i>{{ $value->ngay_dang }}</span>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
+    <div class="container pb-5"> 
+        <div class="row justify-content-center pt-3 mt-md-3"> 
+            <div class="col-12"> 
+                <div class="d-flex flex-wrap justify-content-between align-items-center pb-4 mt-n1"> 
+                    <div class="d-flex align-items-center fs-sm mb-2"> 
+                        <a class="blog-entry-meta-link" href="#user"> 
+                            <div class="blog-entry-author-ava"><img src="{{ asset('public/img/avatar.jpg') }}" /></div> 
+                            {{ $baiviet->NguoiDung->name }} 
+                        </a> 
+                        <span class="blog-entry-meta-divider"></span> 
+                        <a class="blog-entry-meta-link" href="#date">{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $baiviet->created_at)->format('d/m/Y') }}</a> 
+                    </div> 
+                    <div class="fs-sm mb-2"> 
+                        <a class="blog-entry-meta-link text-nowrap" href="#view" data-scroll><i class="ci-eye"></i>{{ $baiviet->luotxem }}</a> 
+                    </div> 
+                </div> 
+                 
+                <p style="text-align:justify" class="fw-bold">{{ $baiviet->tomtat }}</p> 
+                <p style="text-align:justify">{!! $baiviet->noidung !!}</p> 
+                 
+                <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1"> 
+                    <div class="mt-3 me-3"> 
+                        <a class="btn-tag mb-2" href="#">#{{ $baiviet->ChuDe->tenchude_slug }}</a> 
+                    </div> 
+                    <div class="mt-3"> 
+                        <span class="d-inline-block align-middle text-muted fs-sm me-3 mt-1 mb-2">Chia sẻ:</span> 
+                        <a class="btn-social bs-facebook me-2 mb-2" href="#facebook"><i class="ci-facebook"></i></a> 
+                        <a class="btn-social bs-twitter me-2 mb-2" href="#twitter"><i class="ci-twitter"></i></a> 
+                        <a class="btn-social bs-pinterest me-2 mb-2" href="#pinterest"><i class="ci-pinterest"></i></a> 
+                    </div> 
+                       
+                    <div class="pt-2 mt-5" id="comments"> 
+                        <h2 class="h4">Bình luận<span class="badge bg-secondary fs-sm text-body align-middle ms-2">{{ $baiviet->BinhLuanBaiViet->count() }}</span></h2> 
+                        @foreach($baiviet->BinhLuanBaiViet as $value) 
+                            <div class="d-flex align-items-start py-4"> 
+                                <img class="rounded-circle" src="{{ asset('public/img/avatar.jpg') }}" width="50" /> 
+                                <div class="ps-3"> 
+                                    <div class="d-flex justify-content-between align-items-center mb-2"> 
+                                        <h6 class="fs-md mb-0">{{ $value->NguoiDung->name }}</h6> 
+                                    </div> 
+                                    <p class="fs-md mb-1" style="text-align:justify">{{ $value->noidungbinhluan }}</p>                                     <span class="fs-ms text-muted"><i class="ci-time align-middle me-2"></i>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y') }}</span> 
+                                </div> 
+                            </div> 
+                        @endforeach 
+                        <div class="card border-0 shadow mt-2 mb-4"> 
+                            <div class="card-body"> 
+                                <div class="d-flex align-items-start"> 
+                                    <img class="rounded-circle" src="{{ asset('public/img/avatar.jpg') }}" width="50" /> 
+                                    <form class="w-100 needs-validation ms-3" novalidate> 
+                                        <div class="mb-3"> 
+                                            <textarea class="form-control" rows="3" placeholder="Chia sẻ ý kiến của bạn..." required></textarea> 
+                                            @guest 
+                                                <div class="invalid-feedback">Bạn phải đăng nhập để chia sẻ bình luận.</div> 
+                                            @else 
+                                                <div class="invalid-feedback">Nội dung bình luận không được bỏ trống.</div> 
+                                            @endguest 
+                                        </div> 
+                                        <button class="btn btn-primary btn-sm" type="submit">Đăng bình luận</button> 
+                                    </form> 
+                                </div> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </div> 
 
     <div class="bg-secondary py-5">
         <div class="container py-3">

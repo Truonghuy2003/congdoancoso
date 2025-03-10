@@ -59,7 +59,7 @@
 </div>
 @endsection
 @section('javascript')
-{{--<script src="{{ asset('public/vendor/ckeditor5/ckeditor.js') }}"></script>--}}
+<script src="{{ asset('public/vendor/ckeditor5/ckeditor.js') }}"></script>
 <script>
     ClassicEditor.create(document.querySelector('#noidung'), {
         licenseKey: '',
@@ -68,6 +68,5 @@
     }).catch(error => {
         console.error(error);
     });
-
 </script>
 @endsection

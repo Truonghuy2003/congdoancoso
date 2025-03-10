@@ -74,7 +74,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
+                <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2 ">
                     <div class="container">
                         <div class="collapse navbar-collapse" id="navbarCollapse">
                             <ul class="navbar-nav">
@@ -99,6 +99,8 @@
         </header>
         @yield('content')
     </main>
+
+    </div>
     <footer class="footer bg-dark">
         <div class="pt-5 bg-darker">
             <div class="container">
@@ -118,7 +120,7 @@
                     <div class="col-md-6 text-center text-md-end mb-4">
                         <div class="mb-3">
                             <a class="btn-social bs-light bs-twitter ms-2 mb-2" href="#"><i class="ci-twitter"></i></a>
-                            <a class="btn-social bs-light bs-facebook ms-2 mb-2" href="#"><i class="ci-facebook"></i></a>
+                            <a class="btn-social bs-light bs-facebook ms-2 mb-2" href="https://www.facebook.com/vanhuy383/"><i class="ci-facebook"></i></a>
                             <a class="btn-social bs-light bs-instagram ms-2 mb-2" href="#"><i class="ci-instagram"></i></a>
                             <a class="btn-social bs-light bs-pinterest ms-2 mb-2" href="#"><i class="ci-pinterest"></i></a>
                             <a class="btn-social bs-light bs-youtube ms-2 mb-2" href="#"><i class="ci-youtube"></i></a>
@@ -129,7 +131,6 @@
             </div>
         </div>
     </footer>
-
     <a class="btn-scroll-top" href="#top" data-scroll>
         <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
         <i class="btn-scroll-top-icon ci-arrow-up"></i>
