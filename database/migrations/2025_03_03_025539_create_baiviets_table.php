@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('baiviet', function (Blueprint $table) {
+            $table->id();
             $table->foreignId('chude_id')->constrained('chude');
             $table->foreignId('nguoidung_id')->constrained('nguoidung');
             $table->text('tieude');
@@ -21,7 +22,6 @@ return new class extends Migration
             $table->unsignedInteger('luotxem')->default(0);
             $table->unsignedTinyInteger('kiemduyet')->default(1);
             $table->unsignedTinyInteger('kichhoat')->default(1);
-            $table->id();
             $table->timestamps();
         });
     }

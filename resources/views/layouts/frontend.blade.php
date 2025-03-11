@@ -38,7 +38,7 @@
                 <div class="navbar navbar-expand-lg navbar-light">
                     <div class="container">
                         <a class="navbar-brand d-none d-sm-block flex-shrink-0" href="{{ route('frontend.home') }}">
-                            <img src="{{ asset('public/img/favicon-removebg.png') }}" width="142" />
+                            <img src="{{ asset('public/img/logo.png') }}" width="300" />
                         </a>
                         <a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="{{ route('frontend.home') }}">
                             <img src="{{ asset('public/img/favicon.png') }}" width="74" />
@@ -86,7 +86,7 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('frontend.baiviet') }}"><i class="ci-globe me-2"></i>Thông báo</a>
+                                    <a class="nav-link" href="{{ route('frontend.baiviet') }}"><i class="ci-globe me-2"></i>Tin tức</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('frontend.lienhe') }}"><i class="ci-support me-2"></i>Liên hệ</a>

@@ -70,7 +70,7 @@
 						<h3 class="h6 mb-3">Địa chỉ email</h3>
 						<ul class="list-unstyled fs-sm mb-0">
 							<li>
-								<span class="text-muted me-1">Bán hàng:</span>
+								<span class="text-muted me-1">Kỹ thuật:</span>
 								<a class="nav-link-style" href="mailto:vanhuy382003@gmail.com">kythuat@hhperfume.vn</a>
 							</li>
 							<li class="mb-0">

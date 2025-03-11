@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\ChuDe;
 use Illuminate\Support\Facades\View;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -24,5 +25,7 @@ class AppServiceProvider extends ServiceProvider
         //
         $chude = ChuDe::all();
         View::share('chude', $chude);
+        Paginator::useBootstrapFive();
+
     }
 }

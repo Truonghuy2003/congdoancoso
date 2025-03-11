@@ -23,17 +23,31 @@
     </div>
 
     <div class="container pb-5 mb-2 mb-md-4">
+        {{ $baiviet->links() }}
         <div class="pt-3 mt-md-3">
             <div class="masonry-grid" data-columns="3">
+                @php 
+                    function LayHinhCuoiCung($strNoiDung) 
+                    { 
+                        $first_img = ''; 
+                        ob_start(); 
+                        ob_end_clean(); 
+                        $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
+                        if(empty($output)) 
+                            return asset('public/img/noimage.png'); 
+                        else 
+                            return str_replace('&amp;', '&', $matches[1][0]); 
+                    } 
+                @endphp 
                 @foreach($baiviet as $value) 
                     <article class="masonry-grid-item"> 
                         <div class="card">
-                            <a class="blog-entry-thumb" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->slug, 'tieude_slug' => $bv->slug]) }}"> 
-                                <img class="card-img-top" src="{{ \App\Helpers\Helper::LayHinhDauTien($value->noidung) }}" alt="{{ $value->tieude }}" /> 
+                            <a class="blog-entry-thumb" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}"> 
+                                <img class="card-img-top" src="{{ LayHinhCuoiCung($value->noidung) }}" /> 
                             </a> 
                             <div class="card-body"> 
                                 <h2 class="h6 blog-entry-title"> 
-                                    <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->slug, 'tieude_slug' => $bv->slug]) }}"> 
+                                    <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}"> 
                                         {{ $value->tieude }} 
                                     </a> 
                                 </h2> 
@@ -45,7 +59,7 @@
                             <div class="card-footer d-flex align-items-center fs-xs"> 
                                 <a class="blog-entry-meta-link" href="#user"> 
                                     <div class="blog-entry-author-ava">
-                                        <img src="{{ $value->NguoiDung->hinhanh ? asset('storage/'.$value->NguoiDung->hinhanh) : asset('public/img/03.jpg') }}" />
+                                        <img src="{{ $value->NguoiDung->hinhanh ? asset('storage/'.$value->NguoiDung->hinhanh) : asset('public/img/avatar.jpg') }}" />
                                     </div> 
                                     {{ $value->NguoiDung->name }} 
                                 </a> 
@@ -60,5 +74,7 @@
                 @endforeach 
             </div>
         </div>
+        <!-- Hiển thị nút chuyển trang -->
+        {{ $baiviet->links() }}       
     </div>
 @endsection

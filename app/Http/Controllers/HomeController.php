@@ -15,7 +15,7 @@ class HomeController extends Controller
 {
     public function getHome()
     {
-        $baiviet = BaiViet::with('chude')->whereHas('chude')->orderBy('created_at', 'desc')->limit(8)->get();
+        $baiviet = BaiViet::with('chude')->whereHas('chude')->orderBy('created_at', 'desc')->limit(9)->get();
         foreach ($baiviet as $bv) {
             if (!$bv->chude) {
                 dd("Lỗi: Bài viết ID {$bv->id} không có chủ đề!", $bv);
@@ -114,5 +114,39 @@ class HomeController extends Controller
             return redirect()->route('user.home');
         else
             return view('user.dangnhap');
+    }
+    public function getGoogleLogin()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    public function getGoogleCallback()
+    {
+        try {
+            $user = Socialite::driver('google')
+                ->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))
+                ->stateless()
+                ->user();
+        } catch (Exception $e) {
+            return redirect()->route('user.dangnhap')->with('warning', 'Lỗi xác thực. Xin vui lòng thử lại!');
+        }
+
+        $existingUser = NguoiDung::where('email', $user->email)->first();
+        if ($existingUser) {
+            // Nếu người dùng đã tồn tại thì đăng nhập
+            Auth::login($existingUser, true);
+            return redirect()->route('user.home');
+        } else {
+            // Nếu chưa tồn tại người dùng thì thêm mới
+            $newUser = NguoiDung::create([
+                'name' => $user->name,
+                'email' => $user->email,
+                'username' => Str::before($user->email, '@'),
+                'password' => Hash::make('larashop@2024'), // Gán mật khẩu tự do
+            ]);
+
+            // Sau đó đăng nhập
+            Auth::login($newUser, true);
+            return redirect()->route('user.home');
+        }
     }
 }
