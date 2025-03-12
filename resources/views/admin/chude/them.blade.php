@@ -12,7 +12,7 @@
                 <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
-            <button type="submit" class="btn btn-primary"><i class="fa-light fa-save"></i> Thêm vào CSDL</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-light fas fa-save"></i> Thêm vào CSDL</button>
         </form>
     </div>
 </div>

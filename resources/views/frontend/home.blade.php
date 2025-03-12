@@ -3,39 +3,30 @@
 @section('title', 'Trang chủ')
 
 @section('content')
-    <section class="container mt-4 mb-grid-gutter text-white rounded-3 shadow-lg bg-dark"> 
+    <section class="container mt-4 mb-grid-gutter rounded-3 shadow-lg bg-body-secondary"> 
         <div class="rounded-3 py-5 px-4 px-sm-5"> 
             <div class="row align-items-center"> 
-                <div class="col-md-5 mb-4 mb-md-0"> 
-                    <div class="text-center text-sm-start"> 
-                        <span class="badge bg-primary fs-6 px-4 py-2 text-uppercase">Chào mừng đến với Website Công Đoàn Cơ Sở</span> 
-                        <h3 class="mt-4 mb-2 text-light fw-light fs-5">Cập nhật thông tin nhanh chóng về công đoàn</h3> 
-                        <p class="fs-6 fw-light fst-italic border-start border-3 ps-2">Trang web hỗ trợ giáo viên kết nối, tham gia phong trào, nâng cao đời sống và bảo vệ quyền lợi lao động.</p> 
-                    </div>
-                </div>  
-                <div class="col-md-7 text-center">
-                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="{{ asset('public/img/minhhoa.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('public/img/minhhoa1.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="{{ asset('public/img/minhhoa2.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 3">
-                            </div>
+                <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="{{ asset('public/img/minhhoa.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 1">
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Lùi lại</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Tiến tới</span>
-                        </button>
+                        <div class="carousel-item">
+                            <img src="{{ asset('public/img/minhhoa1.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="{{ asset('public/img/minhhoa2.jpg') }}" class="img-fluid rounded-3 shadow-sm" alt="Hình 3">
+                        </div>
                     </div>
-                </div> 
+                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Lùi lại</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Tiến tới</span>
+                    </button>
+                </div>
             </div> 
         </div> 
     </section>
@@ -44,7 +35,9 @@
         <div class="rounded-3 py-1 px-4 px-sm-1"> 
             <div class="row align-items-center"> 
                 <h2 class="h4 text-light mt-5 mb-4 text-dark text-center">Bài viết mới nhất</h2>
-                
+                <div class="d-flex justify-content-end mt-4">
+                    {{ $baiviet->links() }}
+                </div>
                 <div class="row pt-2 mx-n2 d-flex flex-wrap">
                     @php
                         function LayHinhCuoiCung($strNoiDung) 
@@ -69,9 +62,9 @@
                                         style="width: 100%; height: 200px; object-fit: cover;" 
                                         alt="Hình minh họa bài viết" />
                                 </a> 
-                                <div class="card-body py-3"> 
-                                    <span class="badge bg-primary mb-2">{{ $bv->chude->tenchude ?? 'Không có chủ đề' }}</span>
-                                    <h5 class="card-title text-dark"> 
+                                <div class="card-body py-3 "> 
+                                    <span class="badge bg-primary mb-2 ">{{ $bv->chude->tenchude ?? 'Không có chủ đề' }}</span>
+                                    <h5 class="card-title text-dark blog-entry-title"> 
                                         <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
                                             {{ $bv->tieude }}
                                         </a> 
@@ -87,6 +80,10 @@
                             </div> 
                         </div> 
                     @endforeach 
+                </div>
+                <!-- Hiển thị nút phân trang -->
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $baiviet->links() }}
                 </div>
             </div>
         </div>

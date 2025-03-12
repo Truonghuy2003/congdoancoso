@@ -33,7 +33,7 @@
                         </div>
 
                         <div class="mb-0">
-                            <button type="submit" class="btn btn-info"><i class="fa-light fa-sign-in-alt"></i> Đăng nhập</button>
+                            <button type="submit" class="btn btn-info"><i class="fa-light fas fa-sign-in-alt"></i> Đăng nhập</button>
                             @if (Route::has('password.request'))
                             <a class="btn btn-link" href="{{ route('password.request') }}">Quên mật khẩu?</a>
                             @endif

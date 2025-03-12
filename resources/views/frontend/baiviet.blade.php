@@ -4,13 +4,13 @@
 @section('title',  $title)
 
 @section('content') 	
-    <div class="bg-secondary py-4">
+    <div class="bg-body-secondary py-0">
         <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
             <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
                         <li class="breadcrumb-item">
-                            <a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="ci-home"></i>Trang chủ</a>
+                            <a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $title }}</li>
                     </ol>
@@ -51,7 +51,7 @@
                                         {{ $value->tieude }} 
                                     </a> 
                                 </h2> 
-                                <p class="fs-sm" style="text-align:justify">{{ $value->tomtat }}</p> 
+                                <p class="fs-sm " style="text-align:justify">{{ $value->tomtat }}</p> 
                                 <a class="btn-tag me-2 mb-2" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
                                     {{ $value->ChuDe->tenchude }}
                                 </a> 

@@ -48,7 +48,7 @@
                 <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
-            <button class="btn btn-primary"><i class="fa-light fa-user-plus"></i>Thêm vào CSDL</button>
+            <button class="btn btn-primary"><i class="fa-light fas fa-user-plus"></i> Thêm vào CSDL</button>
         </form>
     </div>
 </div>

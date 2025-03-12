@@ -12,14 +12,13 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="{{ asset('public/vendor/font-awesome/css/all.min.css') }}" />
-    @yield('css')
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Styles -->
     <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
-    
 
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
 </head>
 <body>
@@ -27,7 +26,7 @@
         <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="{{ route('admin.home') }}">
-                    <i class="fa-light fa-star"></i> {{ config('app.name', 'Laravel') }}
+                    <i class=" fas fa-light fa-star"></i> {{ config('app.name', 'Laravel') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
@@ -36,12 +35,12 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-light fa-fw fa-newspaper"></i> Quản lý bài viết
+                                <i class="fas fa-light fa-fw fa-newspaper"></i> Quản lý bài viết
                             </a>
                             <ul class="dropdown-menu">
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.chude') }}">
-                                        <i class="fa-light fa-fw fa-list-tree"></i> Chủ đề
+                                        <i class="fas fa-th-list"></i> Chủ đề
                                     </a>
                                 </li>
                                 <li>
@@ -49,19 +48,19 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.baiviet') }}">
-                                        <i class="fa-light fa-fw fa-newspaper"></i> Bài viết
+                                        <i class="fas fa-light fa-fw fa-newspaper"></i> Bài viết
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item" href="{{ route('admin.binhluanbaiviet') }}">
-                                        <i class="fa-light fa-fw fa-comments"></i> Bình luận bài viết
+                                        <i class="fas fa-light fa-fw fa-comments"></i> Bình luận bài viết
                                     </a>
                                 </li>
                             </ul>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('admin.nguoidung') }}">
-                                <i class="fa-light fa-fw fa-users"></i> Tài khoản
+                                <i class="fas fa-light fa-fw fa-users"></i> Tài khoản
                             </a>
                         </li>
                     </ul>

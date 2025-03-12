@@ -2,14 +2,14 @@
  
 @section('title', 'Liên hệ') 
  
-@section('content') 	
-	<div class="bg-secondary py-4">
+@section('content')
+	<div class="bg-body-secondary py-0">
 		<div class="container d-lg-flex justify-content-between py-2 py-lg-3">
 			<div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
 						<li class="breadcrumb-item">
-							<a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="ci-home"></i>Trang chủ</a>
+							<a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
 						</li>
 						<li class="breadcrumb-item text-nowrap active" aria-current="page">Liên hệ</li>
 					</ol>
@@ -26,17 +26,17 @@
 			<div class="col-xl-3 col-sm-6 mb-grid-gutter">
 				<a class="card h-100" href="#map" data-scroll>
 					<div class="card-body text-center">
-						<i class="ci-location h3 mt-2 mb-4 text-primary"></i>
+						<i class="fas fa-map-pin h3 mt-2 mb-4 text-primary"></i>
 						<h3 class="h6 mb-2">Địa chỉ</h3>
 						<p class="fs-sm text-muted">18 Ung Văn Khiêm</p>
-						<div class="fs-sm text-primary">Xem bản đồ<i class="ci-arrow-right align-middle ms-1"></i></div>
+						<div class="fs-sm text-primary">Xem bản đồ<i class="fas fa-location-arrow align-middle ms-1"></i></div>
 					</div>
 				</a>
 			</div>
 			<div class="col-xl-3 col-sm-6 mb-grid-gutter">
 				<div class="card h-100">
 					<div class="card-body text-center">
-						<i class="ci-time h3 mt-2 mb-4 text-primary"></i>
+						<i class="fas fa-clock h3 mt-2 mb-4 text-primary"></i>
 						<h3 class="h6 mb-3">Giờ làm việc</h3>
 						<ul class="list-unstyled fs-sm text-muted mb-0">
 							<li>Thứ 2 - Thứ 6: 08:00 AM - 05:00 PM</li>
@@ -48,11 +48,11 @@
 			<div class="col-xl-3 col-sm-6 mb-grid-gutter">
 				<div class="card h-100">
 					<div class="card-body text-center">
-						<i class="ci-phone h3 mt-2 mb-4 text-primary"></i>
+						<i class="fas fa-phone h3 mt-2 mb-4 text-primary"></i>
 						<h3 class="h6 mb-3">Điện thoại</h3>
 						<ul class="list-unstyled fs-sm mb-0">
 							<li>
-								<span class="text-muted me-1">Bán hàng:</span>
+								<span class="text-muted me-1">Kỹ thuật:</span>
 								<a class="nav-link-style" href="tel:+84123456888">+84 0366 652 716</a>
 							</li>
 							<li class="mb-0">
@@ -66,7 +66,7 @@
 			<div class="col-xl-3 col-sm-6 mb-grid-gutter">
 				<div class="card h-100">
 					<div class="card-body text-center">
-						<i class="ci-mail h3 mt-2 mb-4 text-primary"></i>
+						<i class="fas fa-envelope h3 mt-2 mb-4 text-primary"></i>
 						<h3 class="h6 mb-3">Địa chỉ email</h3>
 						<ul class="list-unstyled fs-sm mb-0">
 							<li>

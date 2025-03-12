@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-
+use Illuminate\Support\Facades\Storage;
 class KhachController extends Controller
 {
     //
@@ -46,10 +46,11 @@ class KhachController extends Controller
 
         return redirect()->route('user.home')->with('success', 'Đã cập nhật thông tin thành công.');
     }
-    
-    public function postDangXuat(Request $request)
+        public function postDangXuat(Request $request)
     {
-        // Bổ sung code tại đây
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
         return redirect()->route('frontend.home');
     }
 }

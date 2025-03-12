@@ -15,7 +15,10 @@ class HomeController extends Controller
 {
     public function getHome()
     {
-        $baiviet = BaiViet::with('chude')->whereHas('chude')->orderBy('created_at', 'desc')->limit(9)->get();
+        $baiviet = BaiViet::with('chude')
+        ->whereHas('chude')
+        ->orderBy('created_at', 'desc')
+        ->paginate(9);
         foreach ($baiviet as $bv) {
             if (!$bv->chude) {
                 dd("Lỗi: Bài viết ID {$bv->id} không có chủ đề!", $bv);
@@ -76,27 +79,6 @@ class HomeController extends Controller
 
         return view('frontend.baiviet_chitiet', compact('baiviet', 'baivietcungchuyemuc'));
     }
-    /*
-    public function getChuDe($tenchude_slug = ''){
-        $chude = ChuDe::all(); // Lấy tất cả chủ đề
-        return view('frontend.home', compact('topics'));
-    }
-
-    
-    public function getChuDe($tenchude_slug = '')
-    {
-        $chude = ChuDe::where('tenchude_slug', $tenchude_slug)
-            ->firstOrFail();
-        $title = $chude->tenchude;
-        $baiviet = BaiViet::where('kichhoat', 1)
-            ->where('kiemduyet', 1)
-            ->where('chude_id', $chude->id)
-            ->orderBy('created_at', 'desc')
-            ->paginate(20);
-
-        return view('frontend.baiviet', compact('title', 'baiviet'));
-    }
-    */
 
     public function getLienHe()
     {
