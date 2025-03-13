@@ -52,21 +52,21 @@
                                     </a> 
                                 </h2> 
                                 <p class="fs-sm " style="text-align:justify">{{ $value->tomtat }}</p> 
-                                <a class="btn-tag me-2 mb-2" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
+                                <a class="badge bg-primary mb-2 " href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
                                     {{ $value->ChuDe->tenchude }}
                                 </a> 
                             </div> 
                             <div class="card-footer d-flex align-items-center fs-xs"> 
-                                <a class="blog-entry-meta-link" href="#user"> 
+                                <a class="blog-entry-meta-link" href="{{ route('user.hosocanhan') }}"> 
                                     <div class="blog-entry-author-ava">
                                         <img src="{{ $value->NguoiDung->hinhanh ? asset('storage/'.$value->NguoiDung->hinhanh) : asset('public/img/avatar.jpg') }}" />
                                     </div> 
                                     {{ $value->NguoiDung->name }} 
                                 </a> 
                                 <div class="ms-auto text-nowrap"> 
-                                    <a class="blog-entry-meta-link text-nowrap" href="#date">{{ $value->ngay_dang }}</a> 
+                                    <a class="blog-entry-meta-link text-nowrap">{{ $value->ngay_dang }}</a> 
                                     <span class="blog-entry-meta-divider mx-2"></span> 
-                                    <a class="blog-entry-meta-link text-nowrap" href="#view"><i class="ci-eye"></i>{{ $value->luotxem }}</a> 
+                                    <a class="blog-entry-meta-link text-nowrap"><i class="fas fa-eye"></i>{{ $value->luotxem }}</a> 
                                 </div> 
                             </div> 
                         </div> 

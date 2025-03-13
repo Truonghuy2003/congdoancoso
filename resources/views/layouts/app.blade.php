@@ -22,6 +22,7 @@
     
 </head>
 <body>
+    <!-- Đây là trang giao diện cho admin -->
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
             <div class="container-fluid">
@@ -70,25 +71,25 @@
                         @if (Route::has('login'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('login') }}">
-                                <i class="fa-light fa-fw fa-sign-in-alt"></i> Đăng nhập
+                                <i class="fa-light fa-fw fas fa-sign-in-alt"></i> Đăng nhập
                             </a>
                         </li>
                         @endif
                         @if (Route::has('register'))
                         <li class="nav-item">
                             <a class="nav-link" href="{{ route('register') }}">
-                                <i class="fa-light fa-fw fa-user-plus"></i> Đăng ký
+                                <i class="fa-light fa-fw fas fa-user-plus"></i> Đăng ký
                             </a>
                         </li>
                         @endif
                         @else
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#nguoidung" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-light fa-fw fa-user-circle"></i> {{ Auth::user()->name }}
+                                <i class="fa-light fa-fw fas fa-user-circle"></i> {{ Auth::user()->name }}
                             </a>
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <i class="fa-light fa-fw fa-sign-out-alt"></i> Đăng xuất
+                                    <i class="fa-light fa-fw fas fa-sign-out-alt"></i> Đăng xuất
                                 </a>
                                 <form id="logout-form" action="{{ route('logout') }}" method="post" class="d-none">
                                     @csrf

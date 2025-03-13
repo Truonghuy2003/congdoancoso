@@ -47,6 +47,9 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     Route::get('/ho-so-ca-nhan', [KhachController::class, 'getHoSoCaNhan'])->name('hosocanhan');
     Route::post('/ho-so-ca-nhan', [KhachController::class, 'postHoSoCaNhan'])->name('hosocanhan');
 
+    //Xem bài viết đã đăng
+    Route::get('/bai-viet', [KhachController::class, 'postBaiViet'])->name('baiviet');
+
     // Đăng xuất
     Route::post('/dang-xuat', [KhachController::class, 'postDangXuat'])->name('dangxuat');
 });

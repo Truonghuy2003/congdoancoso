@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="card">
-    <div class="card-header">Người dùng</div>
+    <div class="card-header fw-bold">Người dùng</div>
     <div class="card-body table-responsive">
-        <p><a href="{{route('admin.nguoidung.them')}}" class="btn btn-info"><i class="fa-light fa-plus"></i>Thêm mới</a></p>
+        <p><a href="{{route('admin.nguoidung.them')}}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
@@ -25,11 +25,11 @@
                     <td>{{$value->email}}</td>
                     <td>{{$value->role}}</td>
                     <td class="text-center"><a href="{{route('admin.nguoidung.sua', ['id' => $value->id])}}"><i
-                                class="fa-light fa-edit"></i></a></td>
+                                class="fa-light fas fa-edit"></i></a></td>
                     <td class="text-center">
                         <a href="{{route('admin.nguoidung.xoa', ['id' => $value->id])}}"
                             onclick="return confirm('Bạn có muốn xóa {{$value->name}} không?')">
-                            <i class="fa-light fa-trash-alt text-danger"></i>
+                            <i class="fa-light fas fa-trash-alt text-danger"></i>
                         </a>
                     </td>
                 </tr>

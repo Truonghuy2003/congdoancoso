@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\baiviet;
 use Illuminate\Http\Request;
 use App\Models\NguoiDung;
 use Illuminate\Support\Str;
@@ -9,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ChuDe;
 class KhachController extends Controller
 {
     //
@@ -46,11 +48,25 @@ class KhachController extends Controller
 
         return redirect()->route('user.home')->with('success', 'Đã cập nhật thông tin thành công.');
     }
-        public function postDangXuat(Request $request)
+    public function postDangXuat(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('frontend.home');
+    }
+    public function chude()
+    {
+        // Lấy tất cả chủ đề từ database
+        $chude = ChuDe::all();
+
+        // Trả dữ liệu về view user.home
+        return view('user.home', compact('chude'));
+    }
+    public function postBaiViet()
+    {
+        $nguoidung = Auth::user();
+        $baiviet = baiviet::where('nguoidung_id', $nguoidung->id)->orderBy('created_at', 'desc')->get();
+        return view('user.baiviet', compact('nguoidung', 'baiviet'));
     }
 }

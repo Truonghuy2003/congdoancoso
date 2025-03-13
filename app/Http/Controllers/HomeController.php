@@ -101,6 +101,27 @@ class HomeController extends Controller
     {
         return Socialite::driver('google')->redirect();
     }
+    public function getTimKiem(Request $request)
+    {
+        // Kiểm tra dữ liệu nhập
+        $request->validate([
+            'tukhoa' => ['required', 'string', 'max:255'],
+        ]);
+
+        // Lấy từ khóa tìm kiếm từ request
+        $tukhoa = $request->input('tukhoa');
+
+        // Tìm bài viết có tiêu đề hoặc nội dung chứa từ khóa
+        $baiviet_timkiem = BaiViet::where('tieude', 'LIKE', "%$tukhoa%")
+            ->orWhere('tomtat', 'LIKE', "%$tukhoa%")
+            ->orWhere('noidung', 'LIKE', "%$tukhoa%")
+            ->orderBy('created_at', 'desc')
+            ->paginate(9)
+            ->appends(['tukhoa' => $tukhoa]);
+
+        // Trả về view hiển thị kết quả tìm kiếm
+        return view('frontend.baiviet_timkiem', compact('baiviet_timkiem', 'tukhoa'));
+    }
     public function getGoogleCallback()
     {
         try {

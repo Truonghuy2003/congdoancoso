@@ -1,9 +1,9 @@
 @extends('layouts.app')
 @section('content')
 <div class="card">
-    <div class="card-header">Chủ đề</div>
+    <div class="card-header fw-bold">Chủ đề</div>
     <div class="card-body table-responsive">
-        <p><a href="{{ route('admin.chude.them') }}" class="btn btn-info"><i class="fa-light fa-plus"></i> Thêm mới</a></p>
+        <p><a href="{{ route('admin.chude.them') }}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
@@ -22,12 +22,12 @@
                     <td>{{ $value->tenchude_slug }}</td>
                     <td class="text-center">
                         <a href="{{ route('admin.chude.sua', ['id' => $value->id]) }}">
-                            <i class="fa-light fa-edit"></i>
+                            <i class="fa-light fas fa-edit"></i>
                         </a>
                     </td>
                     <td class="text-center">
                         <a href="{{ route('admin.chude.xoa', ['id' => $value->id]) }}" onclick="return confirm('Bạn có muốn xóa chủ đề {{ $value->tenchude }} không?')">
-                            <i class="fa-light fa-trash-alt text-danger"></i>
+                            <i class="fa-light fas fa-trash-alt text-danger"></i>
                         </a>
                     </td>
                 </tr>

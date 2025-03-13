@@ -63,19 +63,22 @@
                                         alt="Hình minh họa bài viết" />
                                 </a> 
                                 <div class="card-body py-3 "> 
-                                    <span class="badge bg-primary mb-2 ">{{ $bv->chude->tenchude ?? 'Không có chủ đề' }}</span>
+                                    <a class="badge bg-primary mb-2 " href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
+                                        {{ $bv->ChuDe->tenchude }}
+                                    </a> 
                                     <h5 class="card-title text-dark blog-entry-title"> 
                                         <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
-                                            {{ $bv->tieude }}
+                                            {{ Str::limit($bv->tieude, 100)  }}
                                         </a> 
                                     </h5> 
                                     <p class="card-text text-muted small">{{ Str::limit($bv->tomtat, 100) }}</p>
                                 </div> 
                                 <div class="card-footer bg-white d-flex justify-content-between align-items-center"> 
                                     <small class="text-muted">
-                                        📅 {{ Carbon\Carbon::parse($bv->created_at)->format('d/m/Y H:i') }} 
-                                        | 👁️ {{ $bv->luotxem }} lượt xem
-                                    </small>
+                                        <i class="fas fa-user"></i> {{ $bv->nguoidung->name ?? 'Ẩn danh' }} 
+                                        | <i class="fas fa-calendar-alt"></i> {{ Carbon\Carbon::parse($bv->created_at)->format('d/m/Y H:i') }} 
+                                        | <i class="fas fa-eye"></i> {{ $bv->luotxem }} lượt xem
+                                    </small>                    
                                 </div> 
                             </div> 
                         </div> 

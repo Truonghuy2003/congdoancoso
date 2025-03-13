@@ -35,7 +35,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Header Top -->
-    <div class="header-top bg-primary text-white py-2">
+    <div class="header-top text-white py-2 "style="background-color: #0072C6">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="contact-info d-flex">
                 <span class="me-5">
@@ -106,8 +106,28 @@
                                 </li>
                             </ul>
                             <ul class="navbar-nav">
-                                <li class="nav-item">
-                                    <a class="nav-link fw-bold" href="{{ route('frontend.baiviet') }}"><i class="fas fa-newspaper me-2 fw-bold"></i>Tin tức</a>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-info-circle me-2"></i>Giới thiệu</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">Về công đoàn cơ sở</a></li>
+                                        <li><a class="dropdown-item" href="#">Nghị quyết Đại hội nhiệm kỳ 2023-2028</a></li>
+                                        <li><a class="dropdown-item" href="#">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-newspaper me-2 "></i>Tin Tức</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'thong-bao']) }}">Thông báo</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'hoat-dong']) }}">Hoạt động</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-file-alt me-2 "></i>Văn bản</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'van-ban-di']) }}">Văn bản đi</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'bao-cao-thang']) }}">Báo cáo tháng</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'bao-cao-nam']) }}">Báo cáo năm</a></li>
+                                    </ul>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link fw-bold" href="{{ route('frontend.lienhe') }}"><i class="fas fa-headset me-2 fw-bold"></i>Liên hệ</a>
