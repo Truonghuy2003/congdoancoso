@@ -47,13 +47,13 @@
                     <div class="d-flex flex-wrap justify-content-between">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input ms-2" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
-                            <label class="form-check-label" for="remember">Duy trì đăng nhập</label>
+                            <label class="form-check-label ms-2" for="remember">Duy trì đăng nhập</label>
                         </div>
                         @if (Route::has('register'))
                         <a class="nav-link-inline fs-sm" href="{{ route('user.dangky') }}">Chưa có tài khoản?</a>
                         @endif
                         @if (Route::has('password.request'))
-                        <a class="nav-link-inline fs-sm me-4" href="#">Quên mật khẩu?</a>
+                        <a class="nav-link-inline fs-sm me-4" href="{{ route('password.request') }}">Quên mật khẩu?</a>
                         @endif
                     </div>
                     <hr class="mt-4">

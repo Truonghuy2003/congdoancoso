@@ -57,7 +57,7 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     Route::post('/dang-xuat', [KhachController::class, 'postDangXuat'])->name('dangxuat');
 });
 // Trang tài khoản quản lý
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Trang chủ
     Route::get('/', [AdminController::class, 'getHome'])->name('home');
     Route::get('/home', [AdminController::class, 'getHome'])->name('home');

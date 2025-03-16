@@ -23,7 +23,11 @@
                 <li>Hoặc đến địa chỉ số 18 Ung Văn Khiêm TPLX AG.</li>
             </ol>
         </div>
-
+        <div class=" mt-3">
+            <a href="{{ route('frontend.home') }}" class="btn btn-primary">
+                <i class="fas fa-home me-2"></i> Về trang chủ
+            </a>
+        </div>
     </div>
 </div>
 @endsection

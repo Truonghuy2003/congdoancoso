@@ -10,7 +10,7 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
                         <li class="breadcrumb-item">
-                            <a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
+                            <a class="text-nowrap text-decoration-none" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item text-nowrap active" aria-current="page">{{ $title }}</li>
                     </ol>

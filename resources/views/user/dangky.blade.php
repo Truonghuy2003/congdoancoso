@@ -38,7 +38,7 @@
                         @enderror
                     </div>
                     <div class="col-12 text-end">
-                        <button class="btn btn-primary" type="submit"><i class="ci-user me-2 ms-n1"></i>Đăng ký</button>
+                        <button class="btn btn-primary" type="submit"><i class="fa-solid fa-user-plus me-2 ms-n1"></i>Đăng ký</button>
                     </div>
                 </div>
             </form>

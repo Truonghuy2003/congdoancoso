@@ -12,9 +12,9 @@
                             <a class="text-nowrap text-decoration-none" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
                         </li>
                         <li class="breadcrumb-item text-nowrap">
-                            <a class="text-decoration-none" href="{{ route('frontend.baiviet') }}">Tin tức</a>
+                            <a class=" text-decoration-none" href="{{ route('frontend.baiviet') }}">Tin tức</a>
                         </li>
-                        <li class="breadcrumb-item text-nowrap active" aria-current="page">Chi tiết</li>
+                        <li class="breadcrumb-item text-nowrap active ms-1" aria-current="page">Chi tiết</li>
                     </ol>
                 </nav>
             </div>
@@ -23,7 +23,6 @@
             </div>
         </div>
     </div>
-
     <div class="container pb-5">
         <div class="row justify-content-center pt-3 mt-md-3">
             <div class="col-12">
@@ -38,7 +37,6 @@
                 </div>
                 <p style="text-align:justify" class="fw-bold">{{ $baiviet->tomtat }}</p>
                 <p style="text-align:justify">{!! $baiviet->noidung !!}</p>
-    
                 <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
                     <div class="mt-3 me-3">
                         <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => optional($baiviet->ChuDe)->tenchude_slug]) }}">

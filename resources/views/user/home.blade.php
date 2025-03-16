@@ -91,16 +91,23 @@
             <form action="{{ route('user.hosocanhan') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="bg-body-secondary rounded-3 p-4 mb-4">
-                    <div class="d-flex align-items-center">
-                        <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
-                        <div class="ps-3">
-                            <input type="file" name="avatar" class="form-control mb-2" accept="image/*">
-                            <button class="btn btn-light btn-shadow btn-sm" type="submit">
-                                <i class="fas fa-image"></i> Đổi ảnh đại diện
-                            </button>
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div class="d-flex align-items-center">
+                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
+                            <div class="ps-3">
+                                <input type="file" name="avatar" class="form-control mb-2" accept="image/*">
+                                <button class="btn btn-light btn-shadow btn-sm" type="submit">
+                                    <i class="fas fa-image"></i> Đổi ảnh đại diện
+                                </button>
+                            </div>
                         </div>
+                        @if($nguoidung->role === 'admin')
+                            <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm ">
+                                <i class="fas fa-user-shield me-2"></i> Đăng nhập Admin
+                            </a>
+                        @endif
                     </div>
-                </div>
+                </div>         
                 <div class="row gx-4 gy-3 bg-white rounded-3 p-4">
                     <div class="col-sm-6">
                         <label class="form-label">Họ và tên</label>
@@ -131,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            </form>            
         </section>
     </div>
 </div>

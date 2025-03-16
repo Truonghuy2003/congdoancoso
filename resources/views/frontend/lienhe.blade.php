@@ -9,7 +9,7 @@
 				<nav aria-label="breadcrumb">
 					<ol class="breadcrumb flex-lg-nowrap justify-content-center justify-content-lg-start">
 						<li class="breadcrumb-item">
-							<a class="text-nowrap" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
+							<a class="text-nowrap text-decoration-none" href="{{ route('frontend.home') }}"><i class="fas fa-home"></i>Trang chủ</a>
 						</li>
 						<li class="breadcrumb-item text-nowrap active" aria-current="page">Liên hệ</li>
 					</ol>
@@ -34,7 +34,7 @@
 		</style>
 		<div class="row">
 			<div class="col-xl-3 col-sm-6 mb-grid-gutter">
-				<a class="card h-100 shadow-sm hover-shadow" href="#map" data-scroll>
+				<a class="card h-100 shadow-sm hover-shadow " href="#map" data-scroll>
 					<div class="card-body text-center">
 						<i class="fas fa-map-pin h3 mt-2 mb-4 text-primary"></i>
 						<h3 class="h6 mb-2">Địa chỉ</h3>

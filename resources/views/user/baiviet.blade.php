@@ -7,12 +7,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
                     <li class="breadcrumb-item">
-                        <a class="text-nowrap text-dark" href="{{ route('frontend.home') }}">
+                        <a class="text-nowrap text-dark text-decoration-none" href="{{ route('frontend.home') }}">
                             <i class="fas fa-home"></i> Trang chủ
                         </a>
                     </li>
                     <li class="breadcrumb-item text-nowrap">
-                        <a class="text-dark" href="{{ route('user.home') }}">Khách hàng</a>
+                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách hàng</a>
                     </li>
                     <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">Hồ sơ</li>
                 </ol>
@@ -105,7 +105,7 @@
                         <td class="text-center">{{ $value->luotxem }}</td>
                         <td>{{ $value->created_at->format('d/m/Y H:i:s') }}</td>
                         <td>
-                            <a href="#" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                            <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary" class="btn btn-sm btn-primary">Xem chi tiết</a>
                         </td>
                     </tr>
                     @endforeach

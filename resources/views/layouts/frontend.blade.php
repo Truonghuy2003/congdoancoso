@@ -130,6 +130,32 @@
                                                ]) }}">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
                                     </ul>
                                 </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i class="fas fa-book me-2"></i>Quy chế▾
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" 
+                                               href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'quy-che-lam-viec-cua-ban-chap-hanh-cong-doan-co-so'
+                                               ]) }}">
+                                               Quy chế làm việc của BCH CĐCS</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'quy-che-chi-tieu-noi-bo-cong-doan-co-so'
+                                               ]) }}">Quy chế chi tiêu nội bộ CĐCS</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'quy-che-lam-viec-cua-uy-ban-kiem-tra'
+                                               ]) }}">Quy chế làm việc của UBKT</a></li>
+                                               <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                                'tenchude_slug' => 'gioi-thieu', 
+                                                'tieude_slug' => 'quy-che-phoi-hop-hoat-dong-giua-bch-cong-doan-co-so-va-hieu-truong'
+                                            ]) }}">Quy chế phối hợp hoạt động giữa BCHCĐCS & HT</a></li>
+                                    </ul>
+                                </li>
                                 
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-newspaper me-2 "></i>Tin Tức▾</a>
@@ -142,8 +168,9 @@
                                     <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-file-alt me-2 "></i>Văn bản▾</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'van-ban-di']) }}">Văn bản đi</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'bao-cao-thang']) }}">Báo cáo tháng</a></li>
-                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'bao-cao-nam']) }}">Báo cáo năm</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'van-ban-den']) }}">Văn bản đến</a></li>
+                                        <li><a class="dropdown-item" href="#">Báo cáo tháng</a></li>
+                                        <li><a class="dropdown-item" href="#">Báo cáo năm</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
