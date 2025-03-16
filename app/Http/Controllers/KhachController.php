@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\baiviet;
+use App\Models\binh_luan_bai_viet;
 use Illuminate\Http\Request;
 use App\Models\NguoiDung;
 use Illuminate\Support\Str;
@@ -68,5 +69,32 @@ class KhachController extends Controller
         $nguoidung = Auth::user();
         $baiviet = baiviet::where('nguoidung_id', $nguoidung->id)->orderBy('created_at', 'desc')->get();
         return view('user.baiviet', compact('nguoidung', 'baiviet'));
+    }
+    public function getBinhLuanBaiViet()
+    {
+        $binhluans = binh_luan_bai_viet::where('nguoidung_id', Auth::id())->orderBy('created_at', 'desc')->get();
+        return view('khach.binhluan', compact('binhluans'));
+    }
+
+    // Xử lý thêm bình luận
+    public function postBinhLuanBaiViet(Request $request, $baiviet_id)
+    {
+        $request->validate([
+            'noidung' => 'required|string|max:1000',
+        ]);
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để bình luận.');
+        }
+        $baiviet = BaiViet::findOrFail($baiviet_id);
+
+        binh_luan_bai_viet::create([
+            'nguoidung_id' => Auth::id(),
+            'baiviet_id' => $baiviet->id,
+            'noidungbinhluan' => $request->noidung,
+            'kiemduyet' => 1, // Bình luận tự kiểm duyệt
+            'kichhoat' => 1, // Bình luận được kích hoạt
+        ]);
+        
+        return redirect()->back()->with('success', 'Bình luận của bạn đã được gửi và đang chờ duyệt!');
     }
 }

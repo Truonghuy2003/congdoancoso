@@ -11,14 +11,19 @@ use Illuminate\Support\Str;
 use App\Models\NguoiDung;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Mail;
+use App\Mail\GuiMail;
+use Exception;
 class HomeController extends Controller
 {
+    //Controller cho khách
     public function getHome()
     {
         $baiviet = BaiViet::with('chude')
+        ->where('kichhoat', 1)
+        ->where('kiemduyet', 1)
         ->whereHas('chude')
         ->orderBy('created_at', 'desc')
-        ->paginate(9);
+        ->paginate(perPage: 9);
         foreach ($baiviet as $bv) {
             if (!$bv->chude) {
                 dd("Lỗi: Bài viết ID {$bv->id} không có chủ đề!", $bv);
@@ -48,34 +53,29 @@ class HomeController extends Controller
         return view('frontend.baiviet', compact('title', 'baiviet'));
     }
 
-    public function getBaiViet_ChiTiet($tenchude_slug = '', $tieude_slug = '')
+    public function getBaiViet_ChiTiet($tenchude_slug, $tieude_slug)
     {
-        $tieude_id = explode('.', $tieude_slug);
-        $tieude = explode('-', $tieude_id[0]);
-        $baiviet_id = $tieude[count($tieude) - 1];
-
+        // Tìm bài viết theo slug và đảm bảo bài viết đã kích hoạt và được kiểm duyệt
         $baiviet = BaiViet::where('kichhoat', 1)
             ->where('kiemduyet', 1)
-            ->where('id', $baiviet_id)
-            ->firstOrFail();
+            ->where('tieude_slug', $tieude_slug)
+            ->firstOrFail(); // Trả về 404 nếu không tìm thấy
 
-        if (!$baiviet) abort(404);
-
-        // Cập nhật lượt xemm
-        $daxem = 'BV' . $baiviet_id;
+        // Cập nhật lượt xem
+        $daxem = 'BV' . $baiviet->id;
         if (!session()->has($daxem)) {
-            $orm = BaiViet::find($baiviet_id);
-            $orm->luotxem = $baiviet->luotxem + 1;
-            $orm->save();
+            $baiviet->increment('luotxem');
             session()->put($daxem, 1);
         }
 
+        // Lấy danh sách bài viết cùng chủ đề
         $baivietcungchuyemuc = BaiViet::where('kichhoat', 1)
             ->where('kiemduyet', 1)
             ->where('chude_id', $baiviet->chude_id)
-            ->where('id', '!=', $baiviet_id)
+            ->where('id', '!=', $baiviet->id)
             ->orderBy('created_at', 'desc')
-            ->take(4)->get();
+            ->take(4)
+            ->get();
 
         return view('frontend.baiviet_chitiet', compact('baiviet', 'baivietcungchuyemuc'));
     }
@@ -84,7 +84,7 @@ class HomeController extends Controller
     {
         return view('frontend.lienhe');
     }
-    // Trang đăng ký dành cho khách hàng
+    // Trang đăng ký dành cho khách
     public function getDangKy()
     {
         return view('user.dangky');

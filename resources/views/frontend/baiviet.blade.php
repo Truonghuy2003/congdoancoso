@@ -26,24 +26,25 @@
         {{ $baiviet->links() }}
         <div class="pt-3 mt-md-3">
             <div class="masonry-grid" data-columns="3">
-                @php 
-                    function LayHinhCuoiCung($strNoiDung) 
+                @php
+                    function LayHinhDauTien($strNoiDung) 
                     { 
+                        // Khởi tạo biến lưu ảnh
                         $first_img = ''; 
-                        ob_start(); 
-                        ob_end_clean(); 
-                        $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
-                        if(empty($output)) 
-                            return asset('public/img/noimage.png'); 
-                        else 
-                            return str_replace('&amp;', '&', $matches[1][0]); 
+                        // Dùng preg_match để chỉ lấy ảnh đầu tiên (thay vì lấy tất cả)
+                        if (preg_match('/<img[^>]+src=[\'"]([^\'"]+)[\'"]/i', $strNoiDung, $matches)) {
+                            $first_img = str_replace('&amp;', '&', $matches[1]); // Chuyển đổi URL
+                        }
+                        // Nếu không tìm thấy ảnh, trả về ảnh mặc định
+                        return $first_img ?: asset('public/img/noimage.png'); 
                     } 
-                @endphp 
+                @endphp
+
                 @foreach($baiviet as $value) 
                     <article class="masonry-grid-item"> 
                         <div class="card">
                             <a class="blog-entry-thumb" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}"> 
-                                <img class="card-img-top" src="{{ LayHinhCuoiCung($value->noidung) }}" /> 
+                                <img class="card-img-top" src="{{ LayHinhDauTien($value->noidung) }}" /> 
                             </a> 
                             <div class="card-body"> 
                                 <h2 class="h6 blog-entry-title"> 
@@ -52,21 +53,21 @@
                                     </a> 
                                 </h2> 
                                 <p class="fs-sm " style="text-align:justify">{{ $value->tomtat }}</p> 
-                                <a class="badge bg-primary mb-2 " href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
+                                <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
                                     {{ $value->ChuDe->tenchude }}
                                 </a> 
                             </div> 
                             <div class="card-footer d-flex align-items-center fs-xs"> 
-                                <a class="blog-entry-meta-link" href="{{ route('user.hosocanhan') }}"> 
+                                <a class="blog-entry-meta-link text-decoration-none" href="{{ route('user.hosocanhan') }}"> 
                                     <div class="blog-entry-author-ava">
                                         <img src="{{ $value->NguoiDung->hinhanh ? asset('storage/'.$value->NguoiDung->hinhanh) : asset('public/img/avatar.jpg') }}" />
                                     </div> 
                                     {{ $value->NguoiDung->name }} 
                                 </a> 
                                 <div class="ms-auto text-nowrap"> 
-                                    <a class="blog-entry-meta-link text-nowrap">{{ $value->ngay_dang }}</a> 
+                                    <a class="blog-entry-meta-link text-nowrap text-decoration-none">{{ $value->ngay_dang }}</a> 
                                     <span class="blog-entry-meta-divider mx-2"></span> 
-                                    <a class="blog-entry-meta-link text-nowrap"><i class="fas fa-eye"></i>{{ $value->luotxem }}</a> 
+                                    <a class="blog-entry-meta-link text-nowrap text-decoration-none"><i class="fas fa-eye"></i>{{ $value->luotxem }}</a> 
                                 </div> 
                             </div> 
                         </div> 

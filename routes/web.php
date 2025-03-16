@@ -47,9 +47,12 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     Route::get('/ho-so-ca-nhan', [KhachController::class, 'getHoSoCaNhan'])->name('hosocanhan');
     Route::post('/ho-so-ca-nhan', [KhachController::class, 'postHoSoCaNhan'])->name('hosocanhan');
 
+    //Bình luận bài viết
+    Route::get('/binh-luan', [KhachController::class, 'getBinhLuanBaiViet'])->name('binhluan');
+    Route::post('/bai-viet/{baiviet_id}/binh-luan', [KhachController::class, 'postBinhLuanBaiViet'])->name('baiviet.binhluan');
+
     //Xem bài viết đã đăng
     Route::get('/bai-viet', [KhachController::class, 'postBaiViet'])->name('baiviet');
-
     // Đăng xuất
     Route::post('/dang-xuat', [KhachController::class, 'postDangXuat'])->name('dangxuat');
 });
@@ -91,61 +94,6 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
     Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
     Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
 });
-
-
-//để cả đống code dưới đây mới hết lỗi đăng nhập đăng ký được, không biết cách fix lỗi ở đâu
-// Đăng nhập
-Route::get('/login', function () {
-    return view('login');
-})->name('login');
-Route::post('/login', function () {
-    $credentials = request()->only('email', 'password');
-    if (Auth::attempt($credentials)) {
-        request()->session()->regenerate();
-        return redirect()->intended('home');
-    }
-    return back()->withErrors([
-        'email' => 'The provided credentials do not match our records.',
-    ]);
-})->name('login');
-// Đăng xuất
-Route::post('/logout', function () {
-    Auth::logout();
-    request()->session()->invalidate();
-    request()->session()->regenerateToken();
-    return redirect('login');
-})->name('logout'); // Add missing semicolon
-// Đăng ký
-Route::get('/register', function () {
-    return view('register');
-})->name('register');
-Route::post('/register', function () {
-    $credentials = request()->only('name', 'email', 'password');
-    $credentials['password'] = bcrypt($credentials['password']);
-    $user = App\Models\NguoiDung::create($credentials);
-    Auth::login($user);
-    return redirect('home');
-})->name('register');
-
-Route::post('/logout', function () {
-    Auth::logout();
-    return redirect('/home');
-})->name('logout');
-
-Route::get('/home', function () {
-    return view('home');
-})->name('home');
-
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
-Route::get('/register', function () {
-    return view('auth.register');
-})->name('register');
-
-
-
 
 //Gửi email từ form liên hệ mà không cần tạo controller
 Route::post('/contact', function (Request $request) {

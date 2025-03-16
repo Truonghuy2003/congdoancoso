@@ -12,6 +12,12 @@ use Illuminate\Notifications\Messages\MailMessage;
 
 class NguoiDung extends Authenticatable
 {
+    use Notifiable;
+
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 

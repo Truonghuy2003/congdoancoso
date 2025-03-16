@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 
 class BaivietController extends Controller
 {
-    //
+    //Controller cho admin
     public function getDanhSach()
     {
         $baiviet = BaiViet::orderBy('created_at', 'desc')->get();
@@ -41,6 +41,8 @@ class BaivietController extends Controller
         $orm->tieude_slug = Str::slug($request->tieude, '-');
         if (!empty($request->tomtat)) $orm->tomtat = $request->tomtat;
         $orm->noidung = $request->noidung;
+        $orm->kiemduyet = 0; // Đặt trạng thái kiểm duyệt mặc định là 0 (chưa duyệt)
+        $orm->kichhoat = 1;
         $orm->save();
 
         return redirect()->route('admin.baiviet'); // 

@@ -44,7 +44,7 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="{{ route('user.baiviet') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none active" href="{{ route('user.baiviet') }}">
                                 <i class="fas fa-newspaper me-2"></i> Bài đăng
                             </a>
                         </li>      
@@ -64,7 +64,7 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('user.hosocanhan') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.hosocanhan') }}">
                                 <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
                             </a>
                         </li>      

@@ -5,12 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class baiviet extends Model
 {
     //
     protected $table = 'baiviet';
+    protected static function boot()
+    {
+        parent::boot();
+        static::creating(function ($baiviet) {
+            $baiviet->tieude_slug = Str::slug($baiviet->tieude);
+        });
+    }
 
     public function chude(): BelongsTo
     {

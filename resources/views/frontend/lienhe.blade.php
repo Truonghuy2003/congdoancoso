@@ -120,7 +120,7 @@
 							<div class="invalid-feedback">Vui lòng cung cấp số điện thoại hợp lệ!</div>
 						</div>
 						<div class="col-sm-6">
-							<label class="form-label" for="ChuDe">Chủ đề:</label>
+							<label class="form-label" for="ChuDe">Tiêu đề:</label>
 							<input class="form-control" type="text" name="ChuDe" id="ChuDe" placeholder="Cung cấp tiêu đề ngắn gọn" />
 						</div>
 						<div class="col-12">

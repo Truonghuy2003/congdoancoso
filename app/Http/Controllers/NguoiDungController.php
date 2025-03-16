@@ -50,22 +50,28 @@ class NguoiDungController extends Controller
     }
     public function postSua(Request $request, $id)
     {
-        //check
+        // Kiểm tra dữ liệu đầu vào
         $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:nguoidung,email,' . $id],
             'role' => ['required'],
-            'password' => ['confirmed'],
+            'password' => ['nullable', 'min:4', 'confirmed'], // Cho phép password rỗng, nhưng nếu nhập phải xác nhận
         ]);
         $orm = NguoiDung::find($id);
         $orm->name = $request->name;
         $orm->username = Str::before($request->email, '@');
         $orm->email = $request->email;
         $orm->role = $request->role;
-        if (empty($request->password)) $orm->password = Hash::make($request->password);
+
+        // Chỉ cập nhật mật khẩu nếu người dùng nhập vào
+        if (!empty($request->password)) {
+            $orm->password = Hash::make($request->password);
+        }
+
         $orm->save();
         return redirect()->route('admin.nguoidung');
     }
+
 
     public function getXoa($id)
     {

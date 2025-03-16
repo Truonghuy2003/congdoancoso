@@ -12,17 +12,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('baiviet', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('chude_id')->constrained('chude');
-            $table->foreignId('nguoidung_id')->constrained('nguoidung');
-            $table->text('tieude');
-            $table->text('tieude_slug');
-            $table->text('tomtat')->nullable();
-            $table->text('noidung');
-            $table->unsignedInteger('luotxem')->default(0);
-            $table->unsignedTinyInteger('kiemduyet')->default(1);
-            $table->unsignedTinyInteger('kichhoat')->default(1);
-            $table->timestamps();
+            Schema::create('baiviet', function (Blueprint $table) {
+                $table->id();
+                $table->foreignId('chude_id')->constrained('chude')->onDelete('cascade');
+                $table->foreignId('nguoidung_id')->constrained('nguoidung')->onDelete('cascade');
+                $table->string('tieude', 255);
+                $table->string('tieude_slug', 255)->unique();
+                $table->text('tomtat')->nullable();
+                $table->longText('noidung'); // Nội dung dài nên dùng longText
+                $table->unsignedInteger('luotxem')->default(0);
+                $table->boolean('kiemduyet')->default(1);
+                $table->boolean('kichhoat')->default(1);
+                $table->timestamps();
+            });
         });
     }
 

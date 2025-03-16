@@ -36,7 +36,7 @@
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-light fa-fw fa-newspaper"></i> Quản lý bài viết
+                                <i class="fas fa-light fa-fw fa-newspaper"></i> Quản lý 
                             </a>
                             <ul class="dropdown-menu">
                                 <li>

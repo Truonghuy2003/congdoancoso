@@ -9,6 +9,7 @@ class binh_luan_bai_viet extends Model
 {
     //
     protected $table = 'binhluanbaiviet';
+    protected $fillable = ['nguoidung_id', 'baiviet_id', 'noidungbinhluan', 'kiemduyet', 'kichhoat'];
     public function BaiViet(): BelongsTo
     {
         return $this->belongsTo(BaiViet::class, 'baiviet_id', 'id');

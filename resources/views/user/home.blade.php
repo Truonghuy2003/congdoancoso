@@ -7,12 +7,12 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
                     <li class="breadcrumb-item ">
-                        <a class="text-nowrap text-dark" href="{{ route('frontend.home') }}">
+                        <a class="text-nowrap text-dark text-decoration-none" href="{{ route('frontend.home') }}">
                             <i class="fas fa-home"></i> Trang chủ
                         </a>
                     </li>
                     <li class="breadcrumb-item text-nowrap ">
-                        <a class="text-dark" href="{{ route('user.home') }}">Khách hàng</a>
+                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách hàng</a>
                     </li>
                     <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">Hồ sơ</li>
                 </ol>
@@ -45,7 +45,7 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('user.baiviet') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.baiviet') }}">
                                 <i class="fas fa-newspaper me-2"></i> Bài đăng
                             </a>
                         </li>       
@@ -65,7 +65,7 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3 active" href="{{ route('user.hosocanhan') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 active text-decoration-none" href="{{ route('user.hosocanhan') }}">
                                 <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
                             </a>
                         </li>      

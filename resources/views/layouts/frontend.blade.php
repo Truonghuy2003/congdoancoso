@@ -81,12 +81,12 @@
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon fas fa-bars"></i></div>
                             </a>
                             @guest
-                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="{{ route('user.dangnhap') }}">
+                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2 text-decoration-none" href="{{ route('user.dangnhap') }}">
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon fas fa-user"></i></div>
                                 <div class="navbar-tool-text ms-n3"><small>Xin chào</small>Khách</div>
                             </a>
                             @else
-                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2" href="{{ route('user.home') }}">
+                            <a class="navbar-tool ms-1 ms-lg-0 me-n1 me-lg-2 text-decoration-none" href="{{ route('user.home') }}">
                                 <div class="navbar-tool-icon-box"><i class="navbar-tool-icon fas fa-user"></i></div>
                                 <div class="navbar-tool-text ms-n3"><small>Xin chào</small>{{ Auth::user()->name }}</div>
                             </a>
@@ -107,22 +107,39 @@
                             </ul>
                             <ul class="navbar-nav">
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-info-circle me-2"></i>Giới thiệu</a>
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i class="fas fa-info-circle me-2"></i>Giới thiệu▾
+                                    </a>
                                     <ul class="dropdown-menu">
-                                        <li><a class="dropdown-item" href="#">Về công đoàn cơ sở</a></li>
-                                        <li><a class="dropdown-item" href="#">Nghị quyết Đại hội nhiệm kỳ 2023-2028</a></li>
-                                        <li><a class="dropdown-item" href="#">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
+                                        <li>
+                                            <a class="dropdown-item" 
+                                               href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'gioi-thieu-ve-cong-doan-co-so-truong-dai-hoc-an-giang'
+                                               ]) }}">
+                                               Về công đoàn cơ sở
+                                            </a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'nghi-quyet-dai-hoi-cong-doan-co-so-truong-dai-hoc-an-giang-nhiem-ky-2023-2028'
+                                               ]) }}">Nghị quyết Đại hội nhiệm kỳ 2023-2028</a></li>
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                                   'tenchude_slug' => 'gioi-thieu', 
+                                                   'tieude_slug' => 'van-kien-dai-hoi-nhiem-ky-2023-2028'
+                                               ]) }}">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
                                     </ul>
                                 </li>
+                                
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-newspaper me-2 "></i>Tin Tức</a>
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-newspaper me-2 "></i>Tin Tức▾</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'thong-bao']) }}">Thông báo</a></li>
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'hoat-dong']) }}">Hoạt động</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item dropdown">
-                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-file-alt me-2 "></i>Văn bản</a>
+                                    <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-file-alt me-2 "></i>Văn bản▾</a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'van-ban-di']) }}">Văn bản đi</a></li>
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'bao-cao-thang']) }}">Báo cáo tháng</a></li>
@@ -140,10 +157,9 @@
         </header>
         @yield('content')
     </main>
-
     </div>
-    <footer class="footer bg-dark">
-        <div class="pt-5 bg-darker">
+    <footer class="footer"style="background-color: #222222">
+        <div class="pt-5">
             <div class="container">
                 <div class="row pb-2">
                     <div class="col-md-6 text-center text-md-start mb-4">
@@ -152,9 +168,9 @@
                         </div>
                         <div class="widget widget-links widget-light ">
                             <ul class="widget-list d-flex flex-wrap justify-content-center justify-content-md-start">
-                                <li class="widget-list-item me-4"><a class="widget-list-link" href="{{ route('frontend.home') }}">Trang chủ</a></li>
-                                <li class="widget-list-item me-4"><a class="widget-list-link" href="{{ route('frontend.baiviet') }}">Tin tức</a></li>
-                                <li class="widget-list-item me-4"><a class="widget-list-link" href="{{ route('frontend.lienhe') }}">Liên hệ</a></li>
+                                <li class="widget-list-item me-4"><a class="widget-list-link text-decoration-none" href="{{ route('frontend.home') }}">Trang chủ</a></li>
+                                <li class="widget-list-item me-4"><a class="widget-list-link text-decoration-none" href="{{ route('frontend.baiviet') }}">Tin tức</a></li>
+                                <li class="widget-list-item me-4"><a class="widget-list-link text-decoration-none" href="{{ route('frontend.lienhe') }}">Liên hệ</a></li>
                             </ul>
                         </div>
                     </div>
