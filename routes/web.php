@@ -11,6 +11,7 @@ use App\Http\Controllers\KhachController;
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+
 // Đăng ký, đăng nhập, Quên mật khẩu
 Auth::routes();
 // Google OAuth
@@ -50,9 +51,17 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     //Bình luận bài viết
     Route::get('/binh-luan', [KhachController::class, 'getBinhLuanBaiViet'])->name('binhluan');
     Route::post('/bai-viet/{baiviet_id}/binh-luan', [KhachController::class, 'postBinhLuanBaiViet'])->name('baiviet.binhluan');
+    //Lưu bài viết
+    Route::post('/baiviet/luu', [BaiVietController::class, 'luuBaiViet'])->name('baiviet.luu')->middleware('auth');
 
     //Xem bài viết đã đăng
     Route::get('/bai-viet', [KhachController::class, 'postBaiViet'])->name('baiviet');
+    //Xem bài viết đã lưu
+    Route::get('/baiviet/luu', [BaivietController::class, 'baivietDaLuu'])->name('baiviet.luu');
+    //Bỏ lưu bài viết
+    Route::delete('/baiviet/boluu/{id}', [BaiVietController::class, 'boLuuBaiViet'])->name('baiviet.boluulai');
+
+    
     // Đăng xuất
     Route::post('/dang-xuat', [KhachController::class, 'postDangXuat'])->name('dangxuat');
 });
@@ -84,6 +93,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/baiviet/xoa/{id}', [BaiVietController::class, 'getXoa'])->name('baiviet.xoa');
     Route::get('/baiviet/kiemduyet/{id}', [BaiVietController::class, 'getKiemDuyet'])->name('baiviet.kiemduyet');
     Route::get('/baiviet/kichhoat/{id}', [BaiVietController::class, 'getKichHoat'])->name('baiviet.kichhoat');
+    
     // Quản lý Bình luận bài viết
     Route::get('/binhluanbaiviet', [BinhLuanBaiVietController::class, 'getDanhSach'])->name('binhluanbaiviet');
     Route::get('/binhluanbaiviet/them', [BinhLuanBaiVietController::class, 'getThem'])->name('binhluanbaiviet.them');

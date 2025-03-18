@@ -82,19 +82,26 @@ class KhachController extends Controller
         $request->validate([
             'noidung' => 'required|string|max:1000',
         ]);
+
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để bình luận.');
         }
+
         $baiviet = BaiViet::findOrFail($baiviet_id);
+        $nguoidung = Auth::user();
+        
+        // Nếu người dùng là admin, bình luận sẽ tự động được kiểm duyệt
+        $kiemduyet = $nguoidung->role === 'admin' ? 1 : 0;
 
         binh_luan_bai_viet::create([
-            'nguoidung_id' => Auth::id(),
+            'nguoidung_id' => $nguoidung->id,
             'baiviet_id' => $baiviet->id,
             'noidungbinhluan' => $request->noidung,
-            'kiemduyet' => 1, // Bình luận tự kiểm duyệt
+            'kiemduyet' => $kiemduyet,
             'kichhoat' => 1, // Bình luận được kích hoạt
         ]);
-        
-        return redirect()->back()->with('success', 'Bình luận của bạn đã được gửi và đang chờ duyệt!');
+
+        return redirect()->back()->with('success', $kiemduyet ? 'Bình luận của bạn đã được đăng!' : 'Bình luận của bạn đã được gửi và đang chờ duyệt!');
     }
+
 }

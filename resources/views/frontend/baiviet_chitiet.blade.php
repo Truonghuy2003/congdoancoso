@@ -35,7 +35,7 @@
                         <span class="blog-entry-meta-link text-nowrap"><i class="fas fa-eye"></i> {{ $baiviet->luotxem }}</span>
                     </div>
                 </div>
-                <p style="text-align:justify" class="fw-bold">{{ $baiviet->tomtat }}</p>
+                <p style="text-align:justify" class="fw-bold text-center">{{ $baiviet->tomtat }}</p>
                 <p style="text-align:justify">{!! $baiviet->noidung !!}</p>
                 <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
                     <div class="mt-3 me-3">
@@ -45,28 +45,48 @@
                     </div>
     
                     <div class="pt-2 mt-5 text-center w-100" id="comments">
-                        <h2 class="h4">Bình luận
+                        <h2 class="h4">
+                            Bình luận
                             <span class="badge bg-body-secondary fs-sm text-body align-middle ms-2">
                                 {{ $baiviet->BinhLuanBaiViet->where('kiemduyet', 1)->count() }}
                             </span>
                         </h2>
                     
-                        {{-- Hiển thị bình luận đã được duyệt --}}
+                        {{-- Hiển thị bình luận --}}
                         <div class="d-flex flex-column align-items-center">
-                            @foreach($baiviet->BinhLuanBaiViet->where('kiemduyet', 1) as $value)
-                                <div class="d-flex align-items-start py-4 w-50">
-                                    <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.jpg') }}" width="50" />
-                                    <div class="text-start w-100">
-                                        <h6 class="fs-md mb-0">{{ optional($value->NguoiDung)->name }}</h6>
-                                        <p class="fs-md mb-1" style="text-align:justify">{{ $value->noidungbinhluan }}</p>
-                                        <span class="fs-ms text-muted">
-                                            <i class="fas fa-calendar-alt align-middle me-2"></i>{{ Carbon\Carbon::parse($value->created_at)->format('d/m/Y') }}
-                                        </span>
+                            @foreach($baiviet->BinhLuanBaiViet as $value)
+                                @php
+                                    $laBinhLuanCuaChinhToi = Auth::check() && $value->nguoidung_id === Auth::id();
+                                @endphp
+                        
+                                @if($value->kiemduyet == 1 || $laBinhLuanCuaChinhToi)
+                                    <div class="d-flex align-items-start py-4 w-50">
+                                        <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.jpg') }}" width="50" />
+                                        <div class="text-start w-100">
+                                            <h6 class="fs-md mb-0">
+                                                {{ optional($value->NguoiDung)->name }}
+                                                @if(optional($value->NguoiDung)->role === 'admin')
+                                                    <span class="badge bg-danger ms-2">Admin</span>
+                                                @endif
+                                            </h6>
+                                            <p class="fs-md mb-1 d-inline" style="text-align: justify;">
+                                                {{ $value->noidungbinhluan }}
+                                            </p>
+                        
+                                            {{-- Hiển thị trạng thái "Đang chờ duyệt" ngay bên cạnh nội dung bình luận --}}
+                                            @if($value->kiemduyet == 0 && $laBinhLuanCuaChinhToi)
+                                                <span class="badge bg-warning text-dark ms-2 align-middle">Đang chờ duyệt</span>
+                                            @endif
+                        
+                                            <div class="fs-ms text-muted mt-1">
+                                                <i class="fas fa-calendar-alt align-middle me-2"></i>
+                                                {{ Carbon\Carbon::parse($value->created_at)->format('d/m/Y') }}
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                @endif
                             @endforeach
-                        </div>
-                    
+                        </div>                    
                         {{-- Chỉ hiển thị form bình luận nếu người dùng đã đăng nhập --}}
                         @auth
                             <div class="card border-0 shadow mt-2 mb-4 w-50 mx-auto">
@@ -77,21 +97,25 @@
                                             @csrf
                                             <div class="mb-3">
                                                 <textarea class="form-control" name="noidung" rows="3" placeholder="Chia sẻ ý kiến của bạn..." required></textarea>
-                                                <div class="invalid-feedback">Nội dung bình luận không được bỏ trống.</div>
+                                                <div class="invalid-feedback">
+                                                    Nội dung bình luận không được bỏ trống.
+                                                </div>
                                             </div>
                                             <button class="btn btn-primary btn-sm" type="submit">Đăng bình luận</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
-                            @else
-                                <div class="alert alert-warning text-center mt-3" role="alert">
-                                    <i class="fas fa-exclamation-circle me-2"></i>
-                                    Bạn cần <a href="{{ route('user.dangnhap') }}" class="fw-bold text-decoration-none">Đăng nhập</a> để bình luận.
-                                </div>
-                            @endauth
-                        
-                    </div>                                     
+                        @else
+                            <div class="alert alert-warning text-center mt-3" role="alert">
+                                <i class="fas fa-exclamation-circle me-2"></i>
+                                Bạn cần 
+                                <a href="{{ route('user.dangnhap') }}" class="fw-bold text-decoration-none">Đăng nhập</a> 
+                                để bình luận.
+                            </div>
+                        @endauth   
+                    </div> 
+                                      
                 </div>
             </div>
         </div>
@@ -116,9 +140,10 @@
                 <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 20},&quot;900&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">
                     @foreach($baivietcungchuyemuc as $value)
                         <article>
-                            <a class="blog-entry-thumb mb-3" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
-                                <img src="{{ LayHinhCuoiCung($value->noidung) }}"/>
+                            <a class="blog-entry-thumb mb-3 d-block" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
+                                <img class="img-fluid rounded shadow" src="{{ LayHinhCuoiCung($value->noidung) }}" alt="{{ $value->tieude }}">
                             </a>
+                            
                             <div class="d-flex align-items-center fs-sm mb-2">
                                 <span class="blog-entry-meta-link">bởi {{ optional($value->NguoiDung)->name }}</span>
                                 <span class="blog-entry-meta-divider"></span>
@@ -135,4 +160,36 @@
             </div>
         </div>
     </div>
+    <style>
+        .badge.bg-danger {
+            background-color: #dc3545 !important; /* Màu đỏ Bootstrap */
+            font-size: 0.75rem;
+            font-weight: bold;
+            padding: 4px 8px;
+            border-radius: 10px;
+        }
+        .blog-entry-thumb img {
+        width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng */
+        height: 200px; 
+        object-fit: cover; /* Cắt ảnh để vừa khung */
+        border-radius: 10px; /* Bo góc ảnh cho đẹp */
+        transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Hiệu ứng hover */
+        }
+        .blog-entry-thumb img:hover {
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng khi hover */
+            transform: scale(1.05); /* Phóng to nhẹ khi hover */
+        }    
+        article {
+            text-align: center; 
+            padding: 10px;
+        }
+        .blog-entry-title a {
+            text-decoration: none;
+            color: #333; /* Màu chữ */
+            font-weight: bold;
+        }
+        .blog-entry-title a:hover {
+            color: #FE696A; /* Đổi màu khi di chuột */
+        }
+    </style>
 @endsection

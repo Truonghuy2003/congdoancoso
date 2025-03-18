@@ -47,6 +47,11 @@
                             <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none active" href="{{ route('user.baiviet') }}">
                                 <i class="fas fa-newspaper me-2"></i> Bài đăng
                             </a>
+                        </li> 
+                        <li class="border-bottom mb-0">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.baiviet.luu') }}">
+                                <i class="fas fa-bookmark me-2"></i> Bài viết đã lưu
+                            </a>
                         </li>      
                         <li class="d-lg-none border-top mb-0">
                             <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">

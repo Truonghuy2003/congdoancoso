@@ -30,7 +30,16 @@
             </div> 
         </div> 
     </section>
-
+    <style>
+        /* Hiệu ứng khi di chuột vào bài viết */
+        .hover-shadow {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    
+        .hover-shadow:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+    </style>
     <section class="container mt-4 mb-grid-gutter rounded-3 shadow-lg"> 
         <div class="rounded-3 py-1 px-4 px-sm-1"> 
             <div class="row align-items-center"> 
@@ -54,11 +63,9 @@
                             return $first_img ?: asset('public/img/noimage.png'); 
                         } 
                     @endphp
-
-
                     @foreach($baiviet as $bv)
                         <div class="col-lg-4 col-md-6 col-sm-12 px-2 mb-4"> 
-                            <div class="card shadow-sm border-0"> 
+                            <div class="card shadow-sm border-0 hover-shadow"> 
                                 <a class="card-img-top d-block overflow-hidden" 
                                     href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
                                     <img src="{{ LayHinhDauTien($bv->noidung) }}" 
@@ -66,7 +73,7 @@
                                         alt="Hình minh họa bài viết" />
                                 </a> 
                                 <div class="card-body py-3 "> 
-                                    <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
+                                    <a class="badge bg-primary mb-2 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
                                         {{ $bv->ChuDe->tenchude }}
                                     </a> 
                                     <h5 class="card-title text-dark blog-entry-title"> 
@@ -80,12 +87,66 @@
                                     <small class="text-muted">
                                         <i class="fas fa-user"></i> {{ $bv->nguoidung->name ?? 'Ẩn danh' }} 
                                         | <i class="fas fa-calendar-alt"></i> {{ Carbon\Carbon::parse($bv->created_at)->format('d/m/Y H:i') }} 
-                                        | <i class="fas fa-eye"></i> {{ $bv->luotxem }} lượt xem
-                                    </small>                    
+                                        | <i class="fas fa-eye"></i> {{ $bv->luotxem }}
+                                    </small>  
+                                    <div>
+                                        @auth
+                                            <button class="btn btn-outline-primary btn-sm save-post" data-id="{{ $bv->id }}">
+                                                <i class="fas fa-bookmark"></i> Lưu
+                                            </button>
+                                        @else
+                                            <button class="btn btn-outline-secondary btn-sm" onclick="alert('Vui lòng đăng nhập để lưu bài viết!')">
+                                                <i class="fas fa-bookmark"></i> Lưu
+                                            </button>
+                                        @endauth
+                                    </div>                  
                                 </div> 
                             </div> 
                         </div> 
-                    @endforeach 
+                        @push('scripts')
+                        <script>
+                            document.addEventListener("DOMContentLoaded", function () {
+                                let buttons = document.querySelectorAll(".save-post");
+                        
+                                buttons.forEach((btn) => {
+                                    btn.onclick = function () {
+                                        let postId = this.dataset.id;
+                                        
+                                        // Vô hiệu hóa nút khi đang gửi request
+                                        btn.disabled = true;
+                                        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
+                        
+                                        fetch("{{ route('user.baiviet.luu') }}", {
+                                            method: "POST",
+                                            headers: {
+                                                "Content-Type": "application/json",
+                                                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                                            },
+                                            body: JSON.stringify({ baiviet_id: postId }),
+                                        })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.message) {
+                                                alert(data.message);
+                                                btn.innerHTML = '<i class="fas fa-check"></i> Đã lưu';
+                                                btn.classList.remove("btn-outline-primary");
+                                                btn.classList.add("btn-success");
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error("Lỗi khi lưu bài viết:", error);
+                                            alert("Đã xảy ra lỗi, vui lòng thử lại!");
+                                        })
+                                        .finally(() => {
+                                            btn.disabled = false;
+                                        });
+                                    };
+                                });
+                            });
+                        </script>                        
+                        @endpush
+                        @stack('scripts')
+                    @endforeach
                 </div>
                 <!-- Hiển thị nút phân trang -->
                 <div class="d-flex justify-content-center mt-4">

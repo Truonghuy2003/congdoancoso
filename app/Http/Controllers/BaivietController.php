@@ -6,6 +6,9 @@ use App\Models\BaiViet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use App\Models\LuuBaiViet;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 
 class BaivietController extends Controller
@@ -100,17 +103,65 @@ class BaivietController extends Controller
 
         return redirect()->route('admin.baiviet'); //
     }
-    /*
-    public function show($slug)
+    public function luuBaiViet(Request $request)
     {
-        $baiviet = BaiViet::where('slug', $slug)->firstOrFail();
-        return view('frontend.baiviet', compact('baiviet'));
+        if (!Auth::check()) {
+            return response()->json(['message' => 'Bạn cần đăng nhập để lưu bài viết!'], 401);
+        }
+    
+        try {
+            $request->validate([
+                'baiviet_id' => 'required|exists:baiviet,id',
+            ]);
+    
+            $baiviet_id = $request->baiviet_id;
+            $user_id = Auth::id();
+    
+            if (LuuBaiViet::where('nguoidung_id', $user_id)->where('baiviet_id', $baiviet_id)->exists()) {
+                return response()->json(['message' => 'Bạn đã lưu bài viết này rồi!'], 400);
+            }
+    
+            LuuBaiViet::create([
+                'nguoidung_id' => $user_id,
+                'baiviet_id' => $baiviet_id,
+            ]);
+    
+            return response()->json(['message' => 'Bài viết đã được lưu thành công!'], 200);
+        } catch (\Exception $e) {
+            Log::error('Lỗi khi lưu bài viết: ' . $e->getMessage()); // Use the imported Log facade
+            return response()->json(['message' => 'Lỗi server: ' . $e->getMessage()], 500);
+        }
     }
-    public function chiTiet($tenchude_slug, $tieude_slug)
+    public function baivietDaLuu()
     {
-        $baiviet = BaiViet::where('slug', $tieude_slug)->with('chude')->firstOrFail();
-        return view('frontend.baiviet.chitiet', compact('baiviet'));
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để xem bài viết đã lưu.');
+        }
+    
+        $nguoidung = Auth::user(); // Lấy thông tin người dùng hiện tại
+    
+        $baiviet = BaiViet::join('luubaiviet', 'baiviet.id', '=', 'luubaiviet.baiviet_id')
+            ->where('luubaiviet.nguoidung_id', Auth::id())
+            ->select('baiviet.*')
+            ->get();
+    
+        return view('user.baivietdaluu', compact('baiviet', 'nguoidung'));
     }
-    */
+    public function boLuuBaiViet($id)
+{
+    if (!Auth::check()) {
+        return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thực hiện thao tác này.');
+    }
+
+    DB::table('luubaiviet')
+        ->where('nguoidung_id', Auth::id())
+        ->where('baiviet_id', $id)
+        ->delete();
+
+    return redirect()->route('user.baiviet.luu')->with('success', 'Bỏ lưu bài viết thành công.');
+}
+
+
+
 
 }

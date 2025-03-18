@@ -21,6 +21,16 @@
             </div>
         </div>
     </div>
+    <style>
+        /* Hiệu ứng khi di chuột vào bài viết */
+        .hover-shadow {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    
+        .hover-shadow:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+    </style>
 
     <div class="container pb-5 mb-2 mb-md-4">
         {{ $baiviet->links() }}
@@ -39,10 +49,9 @@
                         return $first_img ?: asset('public/img/noimage.png'); 
                     } 
                 @endphp
-
                 @foreach($baiviet as $value) 
                     <article class="masonry-grid-item"> 
-                        <div class="card">
+                        <div class="card hover-shadow">
                             <a class="blog-entry-thumb" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}"> 
                                 <img class="card-img-top" src="{{ LayHinhDauTien($value->noidung) }}" /> 
                             </a> 
@@ -53,7 +62,7 @@
                                     </a> 
                                 </h2> 
                                 <p class="fs-sm " style="text-align:justify">{{ $value->tomtat }}</p> 
-                                <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
+                                <a class="badge bg-primary mb-2 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $value->ChuDe->tenchude_slug]) }}">
                                     {{ $value->ChuDe->tenchude }}
                                 </a> 
                             </div> 

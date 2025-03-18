@@ -34,16 +34,33 @@
                         <i class="fas fa-user position-absolute top-50 translate-middle-y text-muted fs-base ms-3 "></i>
                         <input type="text" class="form-control rounded-start {{ ($errors->has('email') || $errors->has('username')) ? 'is-invalid' : '' }}" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required />
                     </div>
-                    <div class="input-group mb-3 mx-auto"style="max-width: 600px;">
+                    <div class="input-group mb-3 mx-auto" style="max-width: 600px;">
                         <i class="fas fa-lock position-absolute top-50 translate-middle-y text-muted fs-base ms-3"></i>
-                        <div class="password-toggle w-100">
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="Mật khẩu" required />
-                            <label class="password-toggle-btn" aria-label="Hiện/Ẩn mật khẩu">
-                                <input class="password-toggle-check" type="checkbox" />
-                                <span class="password-toggle-indicator"></span>
-                            </label>
+                        <div class="password-toggle w-100 position-relative">
+                            <input type="password" class="form-control @error('password') is-invalid @enderror" 
+                                   id="password" name="password" placeholder="Mật khẩu" required />
+                            <span class="position-absolute end-0 top-50 translate-middle-y me-3 cursor-pointer" 
+                                  onclick="togglePassword()">
+                                <i id="togglePasswordIcon" class="fas fa-eye-slash text-muted"></i>
+                            </span>
                         </div>
                     </div>
+                    
+                    <script>
+                        function togglePassword() {
+                            let passwordInput = document.getElementById("password");
+                            let icon = document.getElementById("togglePasswordIcon");
+                            if (passwordInput.type === "password") {
+                                passwordInput.type = "text";
+                                icon.classList.remove("fa-eye-slash");
+                                icon.classList.add("fa-eye");
+                            } else {
+                                passwordInput.type = "password";
+                                icon.classList.remove("fa-eye");
+                                icon.classList.add("fa-eye-slash");
+                            }
+                        }
+                    </script>                    
                     <div class="d-flex flex-wrap justify-content-between">
                         <div class="form-check">
                             <input type="checkbox" class="form-check-input ms-2" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} />
@@ -58,7 +75,7 @@
                     </div>
                     <hr class="mt-4">
                     <div class="text-end pt-4">
-                        <button class="btn btn-primary " type="submit"><i class="fas fa-sign-in-alt"></i>Đăng nhập</button>
+                        <button class="btn btn-primary " type="submit"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>
                     </div>
                 </form>
             </div>

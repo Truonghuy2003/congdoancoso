@@ -35,6 +35,13 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
     <!-- Header Top -->
+
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Font chữ google -->
+    <style>
+        body {
+        font-family: 'Roboto', sans-serif;
+    }
+    </style>
     <div class="header-top text-white py-2 "style="background-color: #0072C6">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="contact-info d-flex">
@@ -51,7 +58,6 @@
         </div>
     </div>
 </head>
-
 <body class="handheld-toolbar-enabled ">
     <main class="page-wrapper">
         <header class="shadow-sm">
@@ -130,7 +136,6 @@
                                                ]) }}">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
                                     </ul>
                                 </li>
-
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside">
                                         <i class="fas fa-book me-2"></i>Quy chế▾
@@ -171,6 +176,16 @@
                                         <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => 'van-ban-den']) }}">Văn bản đến</a></li>
                                         <li><a class="dropdown-item" href="#">Báo cáo tháng</a></li>
                                         <li><a class="dropdown-item" href="#">Báo cáo năm</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link fw-bold"><i class="fas fa-link me-2 fw-bold"></i>Liên kết▾</a>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="http://agu.edu.vn/">Đại học An Giang</a></li>
+                                        <li><a class="dropdown-item" href="http://ldld.angiang.gov.vn/wps/portal/">LĐLĐ Tỉnh An Giang</a></li>
+                                        <li><a class="dropdown-item" href="http://mail.agu.edu.vn/">Thư điện tử</a></li>
+                                        <li><a class="dropdown-item" href="http://lib.agu.edu.vn/">Tạp chí khoa học</a></li>
+                                        <li><a class="dropdown-item" href="http://enews.agu.edu.vn/">e-News</a></li> 
                                     </ul>
                                 </li>
                                 <li class="nav-item">
@@ -232,6 +247,7 @@
     <script src="{{ asset('public/vendor/lightgallery/plugins/video/lg-video.min.js') }}"></script>
     <script src="{{ asset('public/vendor/drift-zoom/Drift.min.js') }}"></script>
     <script src="{{ asset('public/js/theme.min.js') }}"></script>
+    @stack('scripts')
 </body>
 
 </html>

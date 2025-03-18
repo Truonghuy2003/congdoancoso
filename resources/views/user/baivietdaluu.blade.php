@@ -6,12 +6,12 @@
         <div class="order-lg-2 mb-3 mb-lg-0 pt-lg-2">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-light flex-lg-nowrap justify-content-center justify-content-lg-start">
-                    <li class="breadcrumb-item ">
+                    <li class="breadcrumb-item">
                         <a class="text-nowrap text-dark text-decoration-none" href="{{ route('frontend.home') }}">
                             <i class="fas fa-home"></i> Trang chủ
                         </a>
                     </li>
-                    <li class="breadcrumb-item text-nowrap ">
+                    <li class="breadcrumb-item text-nowrap">
                         <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách hàng</a>
                     </li>
                     <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">Hồ sơ</li>
@@ -23,7 +23,6 @@
         </div>
     </div>
 </div>
-
 <div class="container pb-5 mb-2 mb-md-4">
     <div class="row">
         <aside class="col-lg-4 pt-4 pt-lg-0 pe-xl-5">
@@ -45,15 +44,15 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.baiviet') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none " href="{{ route('user.baiviet') }}">
                                 <i class="fas fa-newspaper me-2"></i> Bài đăng
                             </a>
-                        </li>
+                        </li>    
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.baiviet.luu') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none active" href="{{ route('user.baiviet.luu') }}">
                                 <i class="fas fa-bookmark me-2"></i> Bài viết đã lưu
                             </a>
-                        </li>        
+                        </li>   
                         <li class="d-lg-none border-top mb-0">
                             <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
@@ -70,7 +69,7 @@
                     </div>
                     <ul class="list-unstyled mb-0">
                         <li class="border-bottom mb-0">
-                            <a class="nav-link-style d-flex align-items-center px-4 py-3 active text-decoration-none" href="{{ route('user.hosocanhan') }}">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.hosocanhan') }}">
                                 <i class="fas fa-user me-2"></i> Hồ sơ cá nhân
                             </a>
                         </li>      
@@ -88,63 +87,47 @@
         </aside>
         <section class="col-lg-8">
             <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-                <h6 class="fs-base text-dark mb-0">Cập nhật chi tiết hồ sơ của bạn:</h6>
-                <a class="btn btn-primary btn-sm" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                    <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
-                </a>
+                <h6 class="fs-base text-dark mb-0">Danh sách bài viết đã lưu:</h6>
             </div>
-            <form action="{{ route('user.hosocanhan') }}" method="post" class="needs-validation" enctype="multipart/form-data" novalidate>
-                @csrf
-                <div class="bg-body-secondary rounded-3 p-4 mb-4">
-                    <div class="d-flex align-items-center justify-content-between">
-                        <div class="d-flex align-items-center">
-                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
-                            <div class="ps-3">
-                                <input type="file" name="avatar" class="form-control mb-2" accept="image/*">
-                                <button class="btn btn-light btn-shadow btn-sm" type="submit">
-                                    <i class="fas fa-image"></i> Đổi ảnh đại diện
-                                </button>
-                            </div>
-                        </div>
-                        @if($nguoidung->role === 'admin')
-                            <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm ">
-                                <i class="fas fa-user-shield me-2"></i>Trang quản trị
-                            </a>
-                        @endif
-                    </div>
-                </div>         
-                <div class="row gx-4 gy-3 bg-white rounded-3 p-4">
-                    <div class="col-sm-6">
-                        <label class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" name="name" value="{{ $nguoidung->name }}" required>
-                    </div>
-                    <div class="col-sm-6">
-                        <label class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" value="{{ $nguoidung->email }}" required>
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label">Mật khẩu mới</label>
-                        <input type="password" class="form-control" name="password" placeholder="Để trống nếu không thay đổi">
-                    </div>
-                    <div class="col-12">
-                        <label class="form-label">Xác nhận mật khẩu</label>
-                        <input type="password" class="form-control" name="password_confirmation" placeholder="Để trống nếu không thay đổi">
-                    </div>
-                    <div class="col-12">
-                        <hr class="mt-2 mb-3">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="subscribe" checked>
-                                <label class="form-check-label" for="subscribe">Đăng ký nhận thông báo</label>
-                            </div>
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fas fa-save me-2"></i> Cập nhật hồ sơ
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>            
+            @if ($baiviet->count() > 0)
+                <table class="table table-bordered table-hover table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th width="5%">STT</th>
+                            <th width="25%">Tiêu đề</th>
+                            <th width="30%">Tóm tắt</th>
+                            <th width="10%">Lượt xem</th>
+                            <th width="20%">Ngày đăng</th>
+                            <th width="10%">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($baiviet as $key => $value)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $value->tieude }}</td>
+                            <td>{{ Str::limit($value->tomtat, 50) }}</td>
+                            <td class="text-center">{{ $value->luotxem }}</td>
+                            <td>{{ $value->created_at->format('d/m/Y H:i:s') }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                                <form action="{{ route('user.baiviet.boluulai', $value->id) }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger " onclick="return confirm('Bạn có chắc chắn muốn bỏ lưu bài viết này?');">
+                                        <i class="fas fa-times"></i> <!-- Đổi biểu tượng X để bỏ lưu -->
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-center">Bạn chưa lưu bài viết nào.</p>
+            @endif
         </section>
+        
     </div>
 </div>
 @endsection

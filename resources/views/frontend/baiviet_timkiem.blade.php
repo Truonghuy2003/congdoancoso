@@ -6,7 +6,6 @@
 <div class="container mt-4">
     <h4 class="fw-bold">Kết quả tìm kiếm cho: "{{ $tukhoa }}"</h4>
     <hr>
-    
     @if($baiviet_timkiem->count() > 0)
         <div class="row">
             @php
@@ -23,8 +22,8 @@
                         } 
                     @endphp 
             @foreach ($baiviet_timkiem as $bv)
-            <div class="col-lg-4 col-md-6 col-sm-12 px-2 mb-4"> 
-                <div class="card shadow-sm border-0"> 
+            <div class="col-lg-4 col-md-6 col-sm-12 px-2 mb-4 "> 
+                <div class="card shadow-sm border-0 hover-shadow"> 
                     <a class="card-img-top d-block overflow-hidden" 
                         href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
                         <img src="{{ LayHinhCuoiCung($bv->noidung) }}" 
@@ -32,7 +31,7 @@
                             alt="Hình minh họa bài viết" />
                     </a> 
                     <div class="card-body py-3 "> 
-                        <a class="badge bg-primary mb-2 " href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
+                        <a class="badge bg-primary mb-2 hover-shadow text-decoration-none " href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
                             {{ $bv->ChuDe->tenchude }}
                         </a> 
                         <h5 class="card-title text-dark blog-entry-title"> 
@@ -61,5 +60,15 @@
     @else
         <p class="text-muted">Không tìm thấy bài viết nào.</p>
     @endif
+    <style>
+        /* Hiệu ứng khi di chuột vào bài viết */
+        .hover-shadow {
+            transition: box-shadow 0.3s ease-in-out;
+        }
+    
+        .hover-shadow:hover {
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important;
+        }
+    </style>
 </div>
 @endsection
