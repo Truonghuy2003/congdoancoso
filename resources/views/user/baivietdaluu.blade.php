@@ -94,10 +94,10 @@
                     <thead>
                         <tr>
                             <th width="5%">STT</th>
-                            <th width="25%">Tiêu đề</th>
+                            <th width="30%">Tiêu đề</th>
                             <th width="30%">Tóm tắt</th>
                             <th width="10%">Lượt xem</th>
-                            <th width="20%">Ngày đăng</th>
+                            <th width="15%">Ngày đăng</th>
                             <th width="10%">Thao tác</th>
                         </tr>
                     </thead>
@@ -106,15 +106,15 @@
                         <tr>
                             <td>{{ $loop->iteration }}</td>
                             <td>{{ $value->tieude }}</td>
-                            <td>{{ Str::limit($value->tomtat, 50) }}</td>
+                            <td>{{ Str::limit($value->tomtat, 90) }}</td>
                             <td class="text-center">{{ $value->luotxem }}</td>
-                            <td>{{ $value->created_at->format('d/m/Y H:i:s') }}</td>
+                            <td>{{ $value->created_at->format('d/m/Y') }}</td>
                             <td class="text-center">
                                 <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary">Xem chi tiết</a>
                                 <form action="{{ route('user.baiviet.boluulai', $value->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-sm btn-outline-danger " onclick="return confirm('Bạn có chắc chắn muốn bỏ lưu bài viết này?');">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger mt-2 " onclick="return confirm('Bạn có chắc chắn muốn bỏ lưu bài viết này?');">
                                         <i class="fas fa-times"></i> <!-- Đổi biểu tượng X để bỏ lưu -->
                                     </button>
                                 </form>
