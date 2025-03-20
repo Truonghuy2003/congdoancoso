@@ -107,8 +107,12 @@
                             </div>
                         </div>
                         @if($nguoidung->role === 'admin')
-                            <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm ">
+                            <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm">
                                 <i class="fas fa-user-shield me-2"></i>Trang quản trị
+                            </a>
+                        @elseif($nguoidung->role === 'giaovien')
+                            <a href="{{ route('admin.home') }}" class="btn btn-primary btn-sm">
+                                <i class="fas fa-chalkboard-teacher me-2"></i>Trang giáo viên
                             </a>
                         @endif
                     </div>

@@ -10,7 +10,7 @@ class AdminController extends Controller
     //
     public function getHome()
     {
-        if (Auth::check() && Auth::user()->role !== 'admin') {
+        if (Auth::check() && !in_array(Auth::user()->role, ['admin', 'giaovien'])) {
             return redirect()->route('frontend.home');
         }
         return view('admin.home');

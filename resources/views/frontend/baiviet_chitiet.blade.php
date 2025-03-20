@@ -67,6 +67,8 @@
                                                 {{ optional($value->NguoiDung)->name }}
                                                 @if(optional($value->NguoiDung)->role === 'admin')
                                                     <span class="badge bg-danger ms-2">Admin</span>
+                                                @elseif(optional($value->NguoiDung)->role === 'giaovien')
+                                                    <span class="badge bg-primary ms-2">Giáo viên</span>
                                                 @endif
                                             </h6>
                                             <p class="fs-md mb-1 d-inline" style="text-align: justify;">

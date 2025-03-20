@@ -11,7 +11,7 @@
         <div style="background-color: #dff0d8; border: 1px solid #d6e9c6; padding: 15px; border-radius: 5px;">
             <p>
                 <strong>
-                Đây là trang chủ cho quản trị viên <br>
+                Đây là trang chủ cho quản trị viên và cán bộ giáo viên <br>
                 Nếu cần hỗ trợ kỹ thuật, quý khách vui lòng thực hiện một trong những cách sau:
                 </strong>
             </p>

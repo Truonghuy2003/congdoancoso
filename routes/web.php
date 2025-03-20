@@ -65,26 +65,41 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     // Đăng xuất
     Route::post('/dang-xuat', [KhachController::class, 'postDangXuat'])->name('dangxuat');
 });
-// Trang tài khoản quản lý
+// Trang tài khoản quản lý Admin (quản lý tất cả)
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
     // Trang chủ
     Route::get('/', [AdminController::class, 'getHome'])->name('home');
     Route::get('/home', [AdminController::class, 'getHome'])->name('home');
-    // Quản lý Tài khoản người dùng
-    Route::get('/nguoidung', [NguoiDungController::class, 'getDanhSach'])->name('nguoidung');
-    Route::get('/nguoidung/them', [NguoiDungController::class, 'getThem'])->name('nguoidung.them');
-    Route::post('/nguoidung/them', [NguoiDungController::class, 'postThem'])->name('nguoidung.them');
-    Route::get('/nguoidung/sua/{id}', [NguoiDungController::class, 'getSua'])->name('nguoidung.sua');
-    Route::post('/nguoidung/sua/{id}', [NguoiDungController::class, 'postSua'])->name('nguoidung.sua');
-    Route::get('/nguoidung/xoa/{id}', [NguoiDungController::class, 'getXoa'])->name('nguoidung.xoa');
-    // Quản lý Chủ đề
+
+    // Quản lý Tài khoản người dùng (chỉ admin được truy cập)
+    Route::prefix('nguoidung')->middleware('restrict.giaovien.nguoidung')->group(function () {
+        Route::get('/', [NguoiDungController::class, 'getDanhSach'])->name('nguoidung');
+        Route::get('/them', [NguoiDungController::class, 'getThem'])->name('nguoidung.them');
+        Route::post('/them', [NguoiDungController::class, 'postThem'])->name('nguoidung.them');
+        Route::get('/sua/{id}', [NguoiDungController::class, 'getSua'])->name('nguoidung.sua');
+        Route::post('/sua/{id}', [NguoiDungController::class, 'postSua'])->name('nguoidung.sua');
+        Route::get('/xoa/{id}', [NguoiDungController::class, 'getXoa'])->name('nguoidung.xoa');
+
+        // Quản lý Bình luận bài viết ((chỉ admin được truy cập)
+        Route::get('/binhluanbaiviet', [BinhLuanBaiVietController::class, 'getDanhSach'])->name('binhluanbaiviet');
+        Route::get('/binhluanbaiviet/them', [BinhLuanBaiVietController::class, 'getThem'])->name('binhluanbaiviet.them');
+        Route::post('/binhluanbaiviet/them', [BinhLuanBaiVietController::class, 'postThem'])->name('binhluanbaiviet.them');
+        Route::get('/binhluanbaiviet/sua/{id}', [BinhLuanBaiVietController::class, 'getSua'])->name('binhluanbaiviet.sua');
+        Route::post('/binhluanbaiviet/sua/{id}', [BinhLuanBaiVietController::class, 'postSua'])->name('binhluanbaiviet.sua');
+        Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
+        Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
+        Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
+    });
+
+    // Quản lý Chủ đề (cả admin và giaovien đều được truy cập)
     Route::get('/chude', [ChuDeController::class, 'getDanhSach'])->name('chude');
     Route::get('/chude/them', [ChuDeController::class, 'getThem'])->name('chude.them');
     Route::post('/chude/them', [ChuDeController::class, 'postThem'])->name('chude.them');
     Route::get('/chude/sua/{id}', [ChuDeController::class, 'getSua'])->name('chude.sua');
     Route::post('/chude/sua/{id}', [ChuDeController::class, 'postSua'])->name('chude.sua');
     Route::get('/chude/xoa/{id}', [ChuDeController::class, 'getXoa'])->name('chude.xoa');
-    // Quản lý Bài viết
+
+    // Quản lý Bài viết (cả admin và giaovien đều được truy cập)
     Route::get('/baiviet', [BaiVietController::class, 'getDanhSach'])->name('baiviet');
     Route::get('/baiviet/them', [BaiVietController::class, 'getThem'])->name('baiviet.them');
     Route::post('/baiviet/them', [BaiVietController::class, 'postThem'])->name('baiviet.them');
@@ -94,16 +109,25 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/baiviet/kiemduyet/{id}', [BaiVietController::class, 'getKiemDuyet'])->name('baiviet.kiemduyet');
     Route::get('/baiviet/kichhoat/{id}', [BaiVietController::class, 'getKichHoat'])->name('baiviet.kichhoat');
     
-    // Quản lý Bình luận bài viết
-    Route::get('/binhluanbaiviet', [BinhLuanBaiVietController::class, 'getDanhSach'])->name('binhluanbaiviet');
-    Route::get('/binhluanbaiviet/them', [BinhLuanBaiVietController::class, 'getThem'])->name('binhluanbaiviet.them');
-    Route::post('/binhluanbaiviet/them', [BinhLuanBaiVietController::class, 'postThem'])->name('binhluanbaiviet.them');
-    Route::get('/binhluanbaiviet/sua/{id}', [BinhLuanBaiVietController::class, 'getSua'])->name('binhluanbaiviet.sua');
-    Route::post('/binhluanbaiviet/sua/{id}', [BinhLuanBaiVietController::class, 'postSua'])->name('binhluanbaiviet.sua');
-    Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
-    Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
-    Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
+    
 });
+
+// Trang tài khoản giáo viên
+Route::prefix('giaovien')->name('giaovien.')->middleware(['auth', 'giaovien'])->group(function () {
+    // Trang chủ
+    Route::get('/', [AdminController::class, 'getHome'])->name('home');
+    Route::get('/home', [AdminController::class, 'getHome'])->name('home');
+
+    // Quản lý Bài viết (giáo viên có thể đăng, sửa, xóa bài viết của mình)
+    //Route::get('/baiviet', [BaiVietController::class, 'getDanhSachGiaoVien'])->name('baiviet');
+    //Route::get('/baiviet/them', [BaiVietController::class, 'getThem'])->name('baiviet.them');
+    //Route::post('/baiviet/them', [BaiVietController::class, 'postThem'])->name('baiviet.them');
+    //Route::get('/baiviet/sua/{id}', [BaiVietController::class, 'getSua'])->name('baiviet.sua');
+    //Route::post('/baiviet/sua/{id}', [BaiVietController::class, 'postSua'])->name('baiviet.sua');
+    //Route::get('/baiviet/xoa/{id}', [BaiVietController::class, 'getXoa'])->name('baiviet.xoa');
+
+});
+
 
 //Gửi email từ form liên hệ mà không cần tạo controller
 Route::post('/contact', function (Request $request) {

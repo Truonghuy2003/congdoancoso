@@ -91,7 +91,7 @@ class KhachController extends Controller
         $nguoidung = Auth::user();
         
         // Nếu người dùng là admin, bình luận sẽ tự động được kiểm duyệt
-        $kiemduyet = $nguoidung->role === 'admin' ? 1 : 0;
+        $kiemduyet = in_array($nguoidung->role, ['admin', 'giaovien']) ? 1 : 0;
 
         binh_luan_bai_viet::create([
             'nguoidung_id' => $nguoidung->id,

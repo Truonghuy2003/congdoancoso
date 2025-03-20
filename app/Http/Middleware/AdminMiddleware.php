@@ -12,7 +12,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         // Kiểm tra nếu người dùng không phải là admin thì chặn lại
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
+        if (!Auth::check() || !in_array(Auth::user()->role, ['admin', 'giaovien'])) {
             return redirect()->route('frontend.home')->with('error', 'Bạn không có quyền truy cập trang quản trị.');
         }
 

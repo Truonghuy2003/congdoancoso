@@ -15,13 +15,45 @@
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- Styles -->
-    <script src="https://cdn.ckeditor.com/ckeditor5/36.0.1/classic/ckeditor.js"></script>
+    <script src="{{ asset('public/vendor/ckeditor5/ckeditor.js') }}"></script>
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     
 </head>
 <body>
+    <style>
+        /* Tùy chỉnh navbar */
+        .navbar-nav .nav-item-custom {
+            position: relative; /* Để định vị dấu | */
+            margin-right: 10px; /* Khoảng cách giữa các mục */
+        }
+        /* Thêm dấu | sau mỗi mục, trừ mục cuối cùng */
+        .navbar-nav .nav-item-custom:not(:last-child)::after {
+            content: "|"; /* Dấu phân cách */
+            position: absolute;
+            right: -10px; /* Đặt dấu | ở bên phải */
+            top: 50%;
+            transform: translateY(-50%);
+            color: #6c757d; /* Màu của dấu | (có thể tùy chỉnh) */
+            font-size: 1.2rem; /* Kích thước dấu | */
+        }
+
+        /* Tùy chỉnh liên kết */
+        .navbar-nav .nav-item-custom .nav-link {
+            padding: 8px 15px; /* Khoảng cách bên trong */
+            border-radius: 5px; /* Bo góc */
+            transition: all 0.3s ease; /* Hiệu ứng chuyển động mượt mà */
+        }
+
+        /* Hiệu ứng hover */
+        .navbar-nav .nav-item-custom .nav-link:hover {
+            background-color: #007bff; /* Màu nền khi hover (màu xanh Bootstrap) */
+            color: #fff; /* Màu chữ khi hover */
+            transform: scale(1.1); /* Phóng to 110% */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Thêm bóng */
+        }
+    </style>
     <!-- Đây là trang giao diện cho admin -->
     <div class="container-fluid">
         <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
@@ -34,36 +66,36 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fas fa-light fa-fw fa-newspaper"></i> Quản lý 
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.chude') }}">
-                                        <i class="fas fa-th-list"></i> Chủ đề
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.baiviet') }}">
-                                        <i class="fas fa-light fa-fw fa-newspaper"></i> Bài viết
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('admin.binhluanbaiviet') }}">
+                        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'giaovien']))
+                            <!-- Hiển thị liên kết "Chủ đề" -->
+                            <li class="nav-item nav-item-custom">
+                                <a class="nav-link" href="{{ route('admin.chude') }}">
+                                    <i class="fas fa-th-list"></i> Chủ đề
+                                </a>
+                            </li>
+                            <!-- Hiển thị liên kết "Bài viết" -->
+                            <li class="nav-item nav-item-custom">
+                                <a class="nav-link" href="{{ route('admin.baiviet') }}">
+                                    <i class="fas fa-light fa-fw fa-newspaper"></i> Bài viết
+                                </a>
+                            </li>
+                            <!-- Hiển thị liên kết "Bình luận bài viết" chỉ cho admin -->
+                            @if(auth()->user()->role === 'admin')
+                                <li class="nav-item nav-item-custom">
+                                    <a class="nav-link" href="{{ route('admin.binhluanbaiviet') }}">
                                         <i class="fas fa-light fa-fw fa-comments"></i> Bình luận bài viết
                                     </a>
                                 </li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('admin.nguoidung') }}">
-                                <i class="fas fa-light fa-fw fa-users"></i> Tài khoản
-                            </a>
-                        </li>
+                            @endif
+                            <!-- Chỉ hiển thị liên kết "Quản lý người dùng" cho admin -->
+                            @if(auth()->user()->role === 'admin')
+                                <li class="nav-item nav-item-custom">
+                                    <a class="nav-link" href="{{ route('admin.nguoidung') }}">
+                                        <i class="fas fa-users"></i> Quản lý người dùng
+                                    </a>
+                                </li>
+                            @endif
+                        @endif
                     </ul>
                     <!-- Right side of Navbar -->
                     <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

@@ -26,24 +26,27 @@
                             <br />Có <strong>{{ $value->luotxem }}</strong> lượt xem
                         </span>
                     </td>
-                    <td class="text-center" title="Trạng thái kiểm duyệt">
-                        <a href="{{ route('admin.baiviet.kiemduyet', ['id' => $value->id]) }}">
-                            @if($value->kiemduyet == 1)
-                            <i class="fa-light fa-lg fas fa-circle-check"></i>
-                            @else
-                            <i class="fa-light fa-lg fas fa-circle-xmark text-danger"></i>
-                            @endif
-                        </a>
-                    </td>
-                    <td class="text-center" title="Trạng thái hiển thị">
-                        <a href="{{ route('admin.baiviet.kichhoat', ['id' => $value->id]) }}">
-                            @if($value->kichhoat == 1)
-                            <i class="fa-light fa-lg fas fa-eye"></i>
-                            @else
-                            <i class="fa-light fa-lg fas fa-eye-slash text-danger"></i>
-                            @endif
-                        </a>
-                    </td>
+                    @if(auth()->user()->role === 'admin')
+                        <td class="text-center" title="Trạng thái kiểm duyệt">
+                            <a href="{{ route('admin.baiviet.kiemduyet', ['id' => $value->id]) }}">
+                                @if($value->kiemduyet == 1)
+                                <i class="fa-light fa-lg fas fa-circle-check"></i>
+                                @else
+                                <i class="fa-light fa-lg fas fa-circle-xmark text-danger"></i>
+                                @endif
+                            </a>
+                        </td>
+                        <td class="text-center" title="Trạng thái hiển thị">
+                            <a href="{{ route('admin.baiviet.kichhoat', ['id' => $value->id]) }}">
+                                @if($value->kichhoat == 1)
+                                <i class="fa-light fa-lg fas fa-eye"></i>
+                                @else
+                                <i class="fa-light fa-lg fas fa-eye-slash text-danger"></i>
+                                @endif
+                            </a>
+                        </td>
+                    @endif
+
                     <td class="text-center">
                         <a href="{{ route('admin.baiviet.sua', ['id' => $value->id]) }}">
                             <i class="fa-light fa-lg fas fa-edit"></i>
