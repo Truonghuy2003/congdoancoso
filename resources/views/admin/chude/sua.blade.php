@@ -14,7 +14,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="btn btn-primary"><i class="fa-light fa-save"></i> Cập nhật</button>
+            <button type="submit" class="btn btn-primary"><i class="fa-light fas fa-save"></i> Cập nhật</button>
         </form>
     </div>
 </div>

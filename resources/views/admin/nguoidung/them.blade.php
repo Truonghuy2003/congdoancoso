@@ -26,8 +26,8 @@
                 <select class="form-select @error('role') is-invalid @enderror" id="role" name="role">
                     <option value="">--Chọn--</option>
                     <option value="admin">Quản trị viên</option>
-                    <option value="giaovien">Cán bộ giáo viên</option>
-                    <option value="user">Khách</option>
+                    <option value="giaovien">Giáo viên</option>
+                    <option value="user">Người dùng</option>
                 </select>
                 @error('role')
                 <div class="invalid-feedback"><strong>{{$message}}</strong></div>

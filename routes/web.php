@@ -17,6 +17,10 @@ Auth::routes();
 // Google OAuth
 Route::get('/login/google', [HomeController::class, 'getGoogleLogin'])->name('google.login');
 Route::get('/login/google/callback', [HomeController::class, 'getGoogleCallback'])->name('google.callback');
+
+// Route tải tệp (thêm ở đây để tất cả người dùng đều truy cập được)
+Route::get('/tai-tep/{id}', [App\Http\Controllers\BaiVietController::class, 'taiTep'])->name('tai-tep');
+
 // Các trang dành cho khách chưa đăng nhập
 Route::name('frontend.')->group(function () {
     // Trang chủ
@@ -89,6 +93,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
         Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
         Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
+
     });
 
     // Quản lý Chủ đề (cả admin và giaovien đều được truy cập)

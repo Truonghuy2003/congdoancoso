@@ -24,6 +24,12 @@
                             Ngày đăng: <strong>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y H:i:s') }}</strong>
                             <br />Người đăng: <strong>{{ $value->NguoiDung->name }}</strong>
                             <br />Có <strong>{{ $value->luotxem }}</strong> lượt xem
+                            @if($value->file->isNotEmpty())
+                                <br />Tệp đính kèm: 
+                                <a href="{{ route('tai-tep', $value->file->first()->id) }}" class="text-decoration-none">
+                                    <i class="fas fa-file"></i> {{ $value->file->first()->loai_file }}
+                                </a>
+                            @endif
                         </span>
                     </td>
                     @if(auth()->user()->role === 'admin')

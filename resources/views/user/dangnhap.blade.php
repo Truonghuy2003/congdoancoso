@@ -22,17 +22,17 @@
                     @csrf
                     @if(session('warning'))
                     <div class="alert alert-danger fs-base" role="alert">
-                        <i class="ci-close-circle me-2"></i>{{ session('warning') }}
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>{{ session('warning') }}
                     </div>
                     @endif
                     @if($errors->has('email') || $errors->has('username'))
                     <div class="alert alert-danger fs-base" role="alert">
-                        <i class="ci-close-circle me-2"></i>{{ empty($errors->first('email')) ? $errors->first('username') : $errors->first('email') }}
+                        <i class="fa-solid fa-triangle-exclamation me-2"></i>{{ empty($errors->first('email')) ? $errors->first('username') : $errors->first('email') }}
                     </div>
                     @endif
                     <div class="input-group mb-3 mx-auto"style="max-width: 600px;">
                         <i class="fas fa-user position-absolute top-50 translate-middle-y text-muted fs-base ms-3 "></i>
-                        <input type="text" class="form-control rounded-start {{ ($errors->has('email') || $errors->has('username')) ? 'is-invalid' : '' }}" id="email" name="email" value="{{ old('email') }}" placeholder="Email" required />
+                        <input type="text" class="form-control rounded-start {{ ($errors->has('email') || $errors->has('username')) ? 'is-invalid' : '' }}" id="email" name="email" value="{{ old('email') }}" placeholder="Email hoặc Tên đăng nhập" required />
                     </div>
                     <div class="input-group mb-3 mx-auto" style="max-width: 600px;">
                         <i class="fas fa-lock position-absolute top-50 translate-middle-y text-muted fs-base ms-3"></i>
@@ -67,10 +67,10 @@
                             <label class="form-check-label ms-2" for="remember">Duy trì đăng nhập</label>
                         </div>
                         @if (Route::has('register'))
-                        <a class="nav-link-inline fs-sm" href="{{ route('user.dangky') }}">Chưa có tài khoản?</a>
+                        <a class="nav-link-inline fs-sm text-decoration-none" href="{{ route('user.dangky') }}">Chưa có tài khoản?</a>
                         @endif
                         @if (Route::has('password.request'))
-                        <a class="nav-link-inline fs-sm me-4" href="{{ route('password.request') }}">Quên mật khẩu?</a>
+                        <a class="nav-link-inline fs-sm me-4 text-decoration-none" href="{{ route('password.request') }}">Quên mật khẩu?</a>
                         @endif
                     </div>
                     <hr class="mt-4">

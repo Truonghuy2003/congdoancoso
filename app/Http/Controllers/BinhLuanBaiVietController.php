@@ -6,16 +6,27 @@ use App\Models\baiviet;
 use App\Models\binh_luan_bai_viet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class BinhLuanBaiVietController extends Controller
 {
-    //
-    //
-    protected $table = 'binhluanbaiviets';
     public function getDanhSach()
     {
-        $binhluanbaiviet = binh_luan_bai_viet::orderBy('created_at', 'desc')->get();
-        return view('admin.binhluanbaiviet.danhsach', compact('binhluanbaiviet'));
+        // Lấy bình luận mới nhất cho mỗi baiviet_id
+        $binhluanmoinhat = binh_luan_bai_viet::select('binhluanbaiviet.*') // Sửa tên bảng
+            ->join(DB::raw('(SELECT baiviet_id, MAX(created_at) as max_created_at FROM binhluanbaiviet GROUP BY baiviet_id) as latest'), function ($join) {
+                $join->on('binhluanbaiviet.baiviet_id', '=', 'latest.baiviet_id') // Sửa tên bảng
+                     ->on('binhluanbaiviet.created_at', '=', 'latest.max_created_at'); // Sửa tên bảng
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Lấy tất cả bình luận để hiển thị khi mở rộng
+        $tatcabinhluan = binh_luan_bai_viet::orderBy('created_at', 'desc')->get();
+
+
+
+        return view('admin.binhluanbaiviet.danhsach', compact('binhluanmoinhat', 'tatcabinhluan'));
     }
 
     public function getThem()
@@ -47,7 +58,7 @@ class BinhLuanBaiVietController extends Controller
 
     public function getSua($id)
     {
-        $baiviet = BaiViet::orderBy('created_at', 'desc')->get();
+        $baiviet = baiviet::orderBy('created_at', 'desc')->get();
         $binhluanbaiviet = binh_luan_bai_viet::find($id);
         return view('admin.binhluanbaiviet.sua', compact('baiviet', 'binhluanbaiviet'));
     }

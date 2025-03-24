@@ -43,5 +43,9 @@ class baiviet extends Model
     {
         return 'slug';
     }
+    public function file()
+    {
+        return $this->hasMany(File::class, 'baiviet_id');
+    }
 
 }

@@ -3,7 +3,7 @@
 <div class="card">
     <div class="card-header">Thêm bài viết</div>
     <div class="card-body">
-        <form action="{{ route('admin.baiviet.them') }}" method="post">
+        <form action="{{ route('admin.baiviet.them') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3">
                 <label class="form-label" for="chude_id">Chủ đề</label>
@@ -39,6 +39,14 @@
                 {{--<textarea class="form-control" id="noidung" name="noidung" required>{{ old('noidung') }}</textarea>--}}
                 <textarea class="form-control" id="noidung" name="noidung">{{ old('noidung') }}</textarea>
                 @error('noidung')
+                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                @enderror
+            </div>
+            <!-- Thêm vào trước nút submit -->
+            <div class="mb-3">
+                <label class="form-label" for="tep">Đính kèm tệp (tùy chọn)</label>
+                <input type="file" class="form-control @error('tep') is-invalid @enderror" id="tep" name="tep" />
+                @error('tep')
                 <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>

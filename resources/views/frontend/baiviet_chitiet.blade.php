@@ -37,6 +37,22 @@
                 </div>
                 <p style="text-align:justify" class="fw-bold text-center">{{ $baiviet->tomtat }}</p>
                 <p style="text-align:justify">{!! $baiviet->noidung !!}</p>
+
+                @if ($baiviet->file->isNotEmpty())
+                    <div class="mt-4">
+                        <h3 class="h5">Tệp đính kèm:</h3>
+                        <ul>
+                            @foreach ($baiviet->file as $tep)
+                                <li>
+                                    <a href="{{ route('tai-tep', $tep->id) }}" class="text-decoration-none">
+                                        <i class="fas fa-file"></i> Tải xuống ({{ $tep->ten_goc}})
+                                    </a>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
                 <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
                     <div class="mt-3 me-3">
                         <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => optional($baiviet->ChuDe)->tenchude_slug]) }}">
@@ -48,18 +64,20 @@
                         <h2 class="h4">
                             Bình luận
                             <span class="badge bg-body-secondary fs-sm text-body align-middle ms-2">
-                                {{ $baiviet->BinhLuanBaiViet->where('kiemduyet', 1)->count() }}
-                            </span>
+                                {{ $baiviet->BinhLuanBaiViet->where('kiemduyet', 1)->where('kichhoat', 1)->count() }}
+                            </span>                            
                         </h2>
-                    
                         {{-- Hiển thị bình luận --}}
                         <div class="d-flex flex-column align-items-center">
                             @foreach($baiviet->BinhLuanBaiViet as $value)
                                 @php
                                     $laBinhLuanCuaChinhToi = Auth::check() && $value->nguoidung_id === Auth::id();
+                                    $binhLuanHienThi = $value->kiemduyet == 1 && $value->kichhoat == 1;
+                                    $binhLuanBiAn = $value->kichhoat == 0; // Nếu kichhoat = 0, bình luận bị ẩn
                                 @endphp
-                        
-                                @if($value->kiemduyet == 1 || $laBinhLuanCuaChinhToi)
+                                
+                                {{-- Nếu bình luận được kích hoạt hoặc là của chính người dùng --}}
+                                @if($binhLuanHienThi || $laBinhLuanCuaChinhToi)
                                     <div class="d-flex align-items-start py-4 w-50">
                                         <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.jpg') }}" width="50" />
                                         <div class="text-start w-100">
@@ -71,11 +89,21 @@
                                                     <span class="badge bg-primary ms-2">Giáo viên</span>
                                                 @endif
                                             </h6>
-                                            <p class="fs-md mb-1 d-inline" style="text-align: justify;">
-                                                {{ $value->noidungbinhluan }}
-                                            </p>
                         
-                                            {{-- Hiển thị trạng thái "Đang chờ duyệt" ngay bên cạnh nội dung bình luận --}}
+                                            {{-- Nếu bình luận bị ẩn, chỉ hiển thị với chủ bình luận kèm badge --}}
+                                            @if($binhLuanBiAn && $laBinhLuanCuaChinhToi)
+                                                <p class="fs-md mb-1 d-inline text-muted" style="text-align: justify;">
+                                                    {{ $value->noidungbinhluan }}
+                                                </p>
+                                                <span class="badge bg-secondary text-light ms-2 align-middle">Bình luận đã bị ẩn</span>
+                                            @elseif(!$binhLuanBiAn)
+                                                {{-- Hiển thị nội dung bình luận bình thường nếu không bị ẩn --}}
+                                                <p class="fs-md mb-1 d-inline" style="text-align: justify;">
+                                                    {{ $value->noidungbinhluan }}
+                                                </p>
+                                            @endif
+                        
+                                            {{-- Hiển thị trạng thái "Đang chờ duyệt" nếu chưa kiểm duyệt --}}
                                             @if($value->kiemduyet == 0 && $laBinhLuanCuaChinhToi)
                                                 <span class="badge bg-warning text-dark ms-2 align-middle">Đang chờ duyệt</span>
                                             @endif
@@ -88,7 +116,8 @@
                                     </div>
                                 @endif
                             @endforeach
-                        </div>                    
+                        </div>
+                                   
                         {{-- Chỉ hiển thị form bình luận nếu người dùng đã đăng nhập --}}
                         @auth
                             <div class="card border-0 shadow mt-2 mb-4 w-50 mx-auto">
