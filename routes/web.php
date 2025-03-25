@@ -9,6 +9,7 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\KhachController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\FileController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
@@ -74,6 +75,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     // Trang chủ
     Route::get('/', [AdminController::class, 'getHome'])->name('home');
     Route::get('/home', [AdminController::class, 'getHome'])->name('home');
+    
+        
 
     // Quản lý Tài khoản người dùng (chỉ admin được truy cập)
     Route::prefix('nguoidung')->middleware('restrict.giaovien.nguoidung')->group(function () {
@@ -93,6 +96,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
         Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
         Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
+        // Quản lý Bình luận File ((chỉ admin được truy cập)
+        
 
     });
 
@@ -113,6 +118,14 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/baiviet/xoa/{id}', [BaiVietController::class, 'getXoa'])->name('baiviet.xoa');
     Route::get('/baiviet/kiemduyet/{id}', [BaiVietController::class, 'getKiemDuyet'])->name('baiviet.kiemduyet');
     Route::get('/baiviet/kichhoat/{id}', [BaiVietController::class, 'getKichHoat'])->name('baiviet.kichhoat');
+
+    //Quản lý file được cả gv sử dụng
+    Route::get('/file', [FileController::class, 'getDanhSach'])->name('file');
+    Route::get('/file/them', [FileController::class, 'getThem'])->name('file.them');
+    Route::post('/file/them', [FileController::class, 'postThem'])->name('file.them');
+    Route::get('/file/sua/{id}', [FileController::class, 'getSua'])->name('file.sua');
+    Route::post('/file/sua/{id}', [FileController::class, 'postSua'])->name('file.sua');
+    Route::get('/file/xoa/{id}', [FileController::class, 'getXoa'])->name('file.xoa');
     
     
 });
@@ -123,13 +136,7 @@ Route::prefix('giaovien')->name('giaovien.')->middleware(['auth', 'giaovien'])->
     Route::get('/', [AdminController::class, 'getHome'])->name('home');
     Route::get('/home', [AdminController::class, 'getHome'])->name('home');
 
-    // Quản lý Bài viết (giáo viên có thể đăng, sửa, xóa bài viết của mình)
-    //Route::get('/baiviet', [BaiVietController::class, 'getDanhSachGiaoVien'])->name('baiviet');
-    //Route::get('/baiviet/them', [BaiVietController::class, 'getThem'])->name('baiviet.them');
-    //Route::post('/baiviet/them', [BaiVietController::class, 'postThem'])->name('baiviet.them');
-    //Route::get('/baiviet/sua/{id}', [BaiVietController::class, 'getSua'])->name('baiviet.sua');
-    //Route::post('/baiviet/sua/{id}', [BaiVietController::class, 'postSua'])->name('baiviet.sua');
-    //Route::get('/baiviet/xoa/{id}', [BaiVietController::class, 'getXoa'])->name('baiviet.xoa');
+
 
 });
 

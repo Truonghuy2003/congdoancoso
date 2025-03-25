@@ -4,7 +4,7 @@
 
 @section('content')
     <section class="container mt-4 mb-grid-gutter rounded-3 shadow-lg bg-body-secondary"> 
-        <div class="rounded-3 py-5 px-4 px-sm-5"> 
+        <div class="rounded-3 py-3 px-4 px-sm-2"> 
             <div class="row align-items-center"> 
                 <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -35,7 +35,6 @@
         .hover-shadow {
             transition: box-shadow 0.3s ease-in-out;
         }
-    
         .hover-shadow:hover {
             box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important;
         }

@@ -34,32 +34,57 @@
     <!-- Font Awesome CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Header Top -->
-
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet"> <!-- Font chữ google -->
+    <!-- Fonts and Styles -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <style>
         body {
-        font-family: 'Roboto', sans-serif;
-    }
+            font-family: 'Roboto', sans-serif;
+        }
+        /* Tối ưu hóa header top */
+        .header-top .contact-info {
+            display: flex;
+            flex-wrap: nowrap; /* Giữ nằm ngang trên mọi thiết bị */
+            justify-content: flex-start; /* Căn trái trên desktop */
+            align-items: center;
+        }
+        .header-top .contact-info span {
+            margin-right: 1.5rem; /* Khoảng cách giữa các thông tin */
+            font-size: 0.9rem; /* Kích thước chữ mặc định */
+            white-space: nowrap; /* Không cho text xuống dòng */
+        }
+        @media (max-width: 576px) {
+            .header-top .contact-info {
+                flex-wrap: nowrap; /* Vẫn giữ nằm ngang trên mobile */
+                justify-content: center; /* Căn giữa trên mobile */
+                overflow-x: auto; /* Cho phép cuộn ngang nếu nội dung quá dài */
+                padding: 0 10px; /* Thêm padding để không bị sát mép */
+            }
+            .header-top .contact-info span {
+                margin-right: 1rem; /* Giảm khoảng cách trên mobile */
+                font-size: 0.75rem; /* Giảm kích thước chữ trên mobile */
+            }
+        }
     </style>
-    <div class="header-top text-white py-2 "style="background-color: #0072C6">
-        <div class="container d-flex justify-content-between align-items-center">
-            <div class="contact-info d-flex">
-                <span class="me-5">
-                    <i class="fas fa-phone"></i> +84 0366 527 16
-                </span>
-                <span class="me-5">
-                    <i class="fas fa-fax"></i> +84 0376 031 905
-                </span>
-                <span>
-                    <i class="fas fa-envelope"></i> congdoan@agu.edu.vn
-                </span>
+</head>
+
+<body class="handheld-toolbar-enabled">
+    <main class="page-wrapper">
+        <!-- Header Top -->
+        <div class="header-top text-white py-2" style="background-color: #0072C6">
+            <div class="container d-flex justify-content-between align-items-center">
+                <div class="contact-info d-flex">
+                    <span>
+                        <i class="fas fa-phone"></i> +84 366 652 716
+                    </span>
+                    <span>
+                        <i class="fas fa-fax"></i> +84 376 031 905
+                    </span>
+                    <span>
+                        <i class="fas fa-envelope"></i> congdoan@agu.edu.vn
+                    </span>
+                </div>
             </div>
         </div>
-    </div>
-</head>
-<body class="handheld-toolbar-enabled ">
-    <main class="page-wrapper">
         <header class="shadow-sm">
             <div class="navbar-sticky bg-light">
                 <div class="navbar navbar-expand-lg navbar-light">
@@ -72,10 +97,10 @@
                         </a>
                         <div class="input-group d-none d-lg-flex mx-4">
                             <form action="{{ route('frontend.timkiem') }}" method="GET" class="w-100">
-                                    <input class="form-control rounded-end pe-5" type="text" name="tukhoa" placeholder="Tìm kiếm" />
-                                    <button type="submit" class="position-absolute top-50 end-0 translate-middle-y text-muted border-0 bg-transparent me-3">
-                                        <i class="fas fa-search fs-base"></i>
-                                    </button>
+                                <input class="form-control rounded-end pe-5" type="text" name="tukhoa" placeholder="Tìm kiếm" />
+                                <button type="submit" class="position-absolute top-50 end-0 translate-middle-y text-muted border-0 bg-transparent me-3">
+                                    <i class="fas fa-search fs-base"></i>
+                                </button>
                             </form>
                         </div>
                         <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
@@ -97,7 +122,6 @@
                                 <div class="navbar-tool-text ms-n3"><small>Xin chào</small>{{ Auth::user()->name }}</div>
                             </a>
                             @endguest
-
                         </div>
                     </div>
                 </div>
@@ -155,13 +179,12 @@
                                                    'tenchude_slug' => 'gioi-thieu', 
                                                    'tieude_slug' => 'quy-che-lam-viec-cua-uy-ban-kiem-tra'
                                                ]) }}">Quy chế làm việc của UBKT</a></li>
-                                               <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
+                                        <li><a class="dropdown-item" href="{{ route('frontend.baiviet.chitiet', [
                                                 'tenchude_slug' => 'gioi-thieu', 
                                                 'tieude_slug' => 'quy-che-phoi-hop-hoat-dong-giua-bch-cong-doan-co-so-va-hieu-truong'
                                             ]) }}">Quy chế phối hợp hoạt động giữa BCHCĐCS & HT</a></li>
                                     </ul>
                                 </li>
-                                
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside"><i class="fas fa-newspaper me-2 "></i>Tin Tức▾</a>
                                     <ul class="dropdown-menu">
@@ -199,8 +222,8 @@
         </header>
         @yield('content')
     </main>
-    </div>
-    <footer class="footer"style="background-color: #222222">
+
+    <footer class="footer" style="background-color: #222222">
         <div class="pt-5">
             <div class="container">
                 <div class="row pb-2">
@@ -230,10 +253,12 @@
             </div>
         </div>
     </footer>
+
     <a class="btn-scroll-top" href="#top" data-scroll>
         <span class="btn-scroll-top-tooltip text-muted fs-sm me-2">Top</span>
         <i class="btn-scroll-top-icon fas fa-arrow-up"></i>
     </a>
+
     <script src="{{ asset('public/vendor/bootstrap/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('public/vendor/simplebar/simplebar.min.js') }}"></script>
     <script src="{{ asset('public/vendor/tiny-slider/tiny-slider.js') }}"></script>

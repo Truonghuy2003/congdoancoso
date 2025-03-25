@@ -74,7 +74,7 @@
                         @endif
                     </div>
                     <hr class="mt-4">
-                    <div class="text-end pt-4">
+                    <div class="text-end pt-4 py-3 me-4">
                         <button class="btn btn-primary " type="submit"><i class="fas fa-sign-in-alt"></i> Đăng nhập</button>
                     </div>
                 </form>

@@ -80,6 +80,13 @@
                                     <i class="fas fa-light fa-fw fa-newspaper"></i> Bài viết
                                 </a>
                             </li>
+
+                            <!-- Hiển thị liên kết "File" -->
+                            <li class="nav-item nav-item-custom">
+                                <a class="nav-link" href="{{ route('admin.file') }}">
+                                    <i class="fas fa-light fa-fw fa-file"></i> File
+                                </a>
+                            </li>
                             <!-- Hiển thị liên kết "Bình luận bài viết" chỉ cho admin -->
                             @if(auth()->user()->role === 'admin')
                                 <li class="nav-item nav-item-custom">
@@ -96,6 +103,7 @@
                                     </a>
                                 </li>
                             @endif
+                            
                         @endif
                     </ul>
                     <!-- Right side of Navbar -->
