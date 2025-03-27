@@ -126,6 +126,8 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::get('/file/sua/{id}', [FileController::class, 'getSua'])->name('file.sua');
     Route::post('/file/sua/{id}', [FileController::class, 'postSua'])->name('file.sua');
     Route::get('/file/xoa/{id}', [FileController::class, 'getXoa'])->name('file.xoa');
+
+    Route::get('/thongke', [AdminController::class, 'statistics'])->name('thongke');
     
     
 });

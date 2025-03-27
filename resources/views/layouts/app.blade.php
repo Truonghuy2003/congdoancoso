@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <!-- CkEditor -->
     <script src="{{ asset('public/vendor/ckeditor5/ckeditor.js') }}"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
 
     <!-- Bootstrap CSS -->
@@ -92,6 +94,14 @@
                                 <li class="nav-item nav-item-custom">
                                     <a class="nav-link" href="{{ route('admin.binhluanbaiviet') }}">
                                         <i class="fas fa-light fa-fw fa-comments"></i> Bình luận bài viết
+                                    </a>
+                                </li>
+                            @endif
+                            <!-- Thêm mục Thống kê (chỉ cho admin) -->
+                            @if(auth()->user()->role === 'admin')
+                                <li class="nav-item nav-item-custom">
+                                    <a class="nav-link" href="{{ route('admin.thongke') }}">
+                                        <i class="fas fa-chart-bar"></i> Thống kê
                                     </a>
                                 </li>
                             @endif

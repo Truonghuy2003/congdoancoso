@@ -34,6 +34,9 @@
                         <span class="blog-entry-meta-divider"></span>
                         <span class="blog-entry-meta-link text-nowrap"><i class="fas fa-eye"></i> {{ $baiviet->luotxem }}</span>
                     </div>
+                    <div>
+                        <span class="blog-entry-meta-link text-nowrap"><i class="fas fa-pencil-alt"></i>Đã chỉnh sửa: {{($baiviet->updated_at)->format('d/m/Y H:i') }}</span>
+                    </div>
                 </div>
                 <p style="text-align:justify" class="fw-bold text-center">{{ $baiviet->tomtat }}</p>
                 <p style="text-align:justify">{!! $baiviet->noidung !!}</p>

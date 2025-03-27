@@ -86,7 +86,7 @@ class BaivietController extends Controller
         $request->validate([
             'chude_id' => ['required', 'integer'],
             'tieude' => ['required', 'string', 'max:300', 'unique:baiviet,tieude,'.$id],
-            'noidung' => ['required', 'string', 'min:20'],
+            'noidung' => ['required', 'string'],
             'tep' => ['nullable', 'file', 'mimetypes:image/jpeg,image/png,application/pdf,text/plain', 'max:10240'],
         ], [
             'tep.file' => 'Tệp tải lên không hợp lệ.',
