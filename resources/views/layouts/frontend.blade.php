@@ -52,6 +52,46 @@
             font-size: 0.9rem; /* Kích thước chữ mặc định */
             white-space: nowrap; /* Không cho text xuống dòng */
         }
+        /* Tối ưu hóa thanh tìm kiếm */
+        .search-bar {
+            position: relative;
+            width: 100%;
+            max-width: 500px; /* Chiều rộng tối đa trên desktop */
+        }
+        .search-bar input {
+            padding-right: 40px; /* Đảm bảo không che icon tìm kiếm */
+        }
+        .search-bar button {
+            cursor: pointer;
+        }
+        /* Tối ưu hóa navbar trên desktop */
+        @media (min-width: 992px) {
+            .search-bar {
+                max-width: 750px; /* Chiều rộng tối đa trên desktop */
+                margin: 0 20px; /* Thêm khoảng cách hai bên */
+            }
+            .navbar-brand img {
+                max-width: 300px;
+            }
+            .navbar-toolbar {
+                margin-left: auto; /* Đẩy các nút sang bên phải */
+            }
+        }
+        /* Tối ưu hóa trên thiết bị di động */
+        @media (max-width: 991px) {
+            .search-bar {
+                display: none; /* Ẩn thanh tìm kiếm mặc định trên mobile */
+            }
+            .navbar-brand img {
+                max-width: 74px; /* Logo nhỏ trên mobile */
+            }
+            .navbar-toolbar {
+                margin-left: auto; /* Đẩy các nút sang bên phải */
+            }
+            .btn.d-lg-none {
+                margin-right: 10px; /* Khoảng cách giữa nút tìm kiếm và các nút khác */
+            }
+        }
         @media (max-width: 576px) {
             .header-top .contact-info {
                 flex-wrap: nowrap; /* Vẫn giữ nằm ngang trên mobile */
@@ -88,21 +128,31 @@
         <header class="shadow-sm">
             <div class="navbar-sticky bg-light">
                 <div class="navbar navbar-expand-lg navbar-light">
-                    <div class="container">
+                    <div class="container d-flex align-items-center justify-content-between">
+                        <!-- Logo -->
                         <a class="navbar-brand d-none d-sm-block flex-shrink-0" href="{{ route('frontend.home') }}">
                             <img src="{{ asset('public/img/logo.png') }}" width="300" />
                         </a>
                         <a class="navbar-brand d-sm-none flex-shrink-0 me-2" href="{{ route('frontend.home') }}">
                             <img src="{{ asset('public/img/favicon.png') }}" width="74" />
                         </a>
-                        <div class="input-group d-none d-lg-flex mx-4">
-                            <form action="{{ route('frontend.timkiem') }}" method="GET" class="w-100">
+
+                        <!-- Tìm kiếm trên mobile (nút mở modal) -->
+                        <button class="btn d-lg-none border-0 bg-transparent" type="button" data-bs-toggle="modal" data-bs-target="#searchModal">
+                            <i class="fas fa-search fs-4 text-muted"></i>
+                        </button>
+
+                        <!-- Thanh tìm kiếm trên desktop -->
+                        <div class="search-bar d-none d-lg-flex mx-4">
+                            <form action="{{ route('frontend.timkiem') }}" method="GET" class="w-100 position-relative">
                                 <input class="form-control rounded-end pe-5" type="text" name="tukhoa" placeholder="Tìm kiếm" />
                                 <button type="submit" class="position-absolute top-50 end-0 translate-middle-y text-muted border-0 bg-transparent me-3">
                                     <i class="fas fa-search fs-base"></i>
                                 </button>
                             </form>
                         </div>
+
+                        <!-- Navbar toolbar (menu và user) -->
                         <div class="navbar-toolbar d-flex flex-shrink-0 align-items-center">
                             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                                 <span class="navbar-toggler-icon"></span>
@@ -125,6 +175,29 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Modal tìm kiếm cho mobile -->
+                <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="searchModalLabel">Tìm kiếm</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('frontend.timkiem') }}" method="GET">
+                                    <div class="input-group">
+                                        <input class="form-control" type="text" name="tukhoa" placeholder="Nhập từ khóa..." />
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-search"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="navbar navbar-expand-lg navbar-light navbar-stuck-menu mt-n2 pt-0 pb-2">
                     <div class="container">
                         <div class="collapse navbar-collapse" id="navbarCollapse">
@@ -264,7 +337,7 @@
     <script src="{{ asset('public/vendor/tiny-slider/tiny-slider.js') }}"></script>
     <script src="{{ asset('public/vendor/smooth-scroll/smooth-scroll.polyfills.min.js') }}"></script>
     <script src="{{ asset('public/vendor/nouislider/nouislider.min.js') }}"></script>
-    <script src="{{ asset('public/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+    <script src="{{ asset('public/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}" ></script>
     <script src="{{ asset('public/vendor/shufflejs/shuffle.min.js') }}"></script>
     <script src="{{ asset('public/vendor/lightgallery/lightgallery.min.js') }}"></script>
     <script src="{{ asset('public/vendor/lightgallery/plugins/fullscreen/lg-fullscreen.min.js') }}"></script>

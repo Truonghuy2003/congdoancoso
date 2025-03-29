@@ -14,37 +14,36 @@
         </form>
     </div>
 
-    <!-- Tổng quan bằng chữ số -->
     <div class="row mb-4">
         <div class="col-md-3">
-            <div class="card text-center">
+            <div class="card text-center shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Tổng bài viết</h5>
-                    <p class="card-text display-4 counter" data-target="{{ $totalPosts }}">0</p>
+                    <h5 class="card-title text-primary"><i class="fas fa-newspaper me-2"></i>Tổng bài viết</h5>
+                    <p class="card-text display-4 counter" data-target="{{ \App\Models\Baiviet::count() }}">0</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center">
+            <div class="card text-center shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Tổng bình luận</h5>
-                    <p class="card-text display-4 counter" data-target="{{ $totalComments }}">0</p>
+                    <h5 class="card-title text-success"><i class="fas fa-comments me-2"></i>Tổng bình luận</h5>
+                    <p class="card-text display-4 counter" data-target="{{ \App\Models\Binh_luan_bai_viet::count() }}">0</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center">
+            <div class="card text-center shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Tổng lượt xem</h5>
-                    <p class="card-text display-4 counter" data-target="{{ $totalViews }}">0</p>
+                    <h5 class="card-title text-warning"><i class="fas fa-eye me-2"></i>Tổng lượt xem</h5>
+                    <p class="card-text display-4 counter" data-target="{{ \App\Models\Baiviet::sum('luotxem') }}">0</p>
                 </div>
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card text-center">
+            <div class="card text-center shadow-sm">
                 <div class="card-body">
-                    <h5 class="card-title">Tổng file</h5>
-                    <p class="card-text display-4 counter" data-target="{{ $totalFiles }}">0</p>
+                    <h5 class="card-title text-info"><i class="fas fa-file me-2"></i>Tổng file</h5>
+                    <p class="card-text display-4 counter" data-target="{{ \App\Models\File::count() }}">0</p>
                 </div>
             </div>
         </div>
@@ -279,5 +278,14 @@
         color: #ff9800;
         text-shadow: 0px 0px 10px rgba(255, 152, 0, 0.8);
     }
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
 </style>
 @endsection
