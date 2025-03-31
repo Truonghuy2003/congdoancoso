@@ -16,7 +16,8 @@
                         ob_end_clean(); 
                         $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
                         if(empty($output)) 
-                            return asset('public/img/noimage.png'); 
+                            // Nếu không tìm thấy ảnh, trả về ảnh mặc định
+                            return $first_img ?: asset('public/img/noimage.jpg'); 
                         else 
                             return str_replace('&amp;', '&', $matches[1][0]); 
                     } 

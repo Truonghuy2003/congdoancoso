@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ChuDe;
 use App\Models\BaiViet;
+use App\Models\BanChapHanh;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -51,6 +52,33 @@ class HomeController extends Controller
         }
 
         return view('frontend.baiviet', compact('title', 'baiviet'));
+    }
+    public function getBanChapHanh(Request $request)
+    {
+        $ten_phong_ban = $request->input('ten_phong_ban'); // Lấy ten_phong_ban từ query string
+    
+        // Lấy danh sách nhiệm kỳ duy nhất dựa trên ten_phong_ban
+        $nhiem_ky_query = BanChapHanh::select('nhiem_ky')->distinct();
+        if ($ten_phong_ban) {
+            $nhiem_ky_query->where('ten_phong_ban', $ten_phong_ban);
+        }
+        $nhiem_ky_list = $nhiem_ky_query->pluck('nhiem_ky');
+    
+        // Chọn nhiem_ky từ request, nếu không có thì lấy nhiệm kỳ đầu tiên trong danh sách
+        $nhiem_ky = $request->input('nhiem_ky', $nhiem_ky_list->first() ?? '2023-2028');
+    
+        // Lọc danh sách thành viên
+        $query = BanChapHanh::query();
+        if ($ten_phong_ban) {
+            $query->where('ten_phong_ban', $ten_phong_ban);
+        }
+        $query->where('nhiem_ky', $nhiem_ky);
+        $thanhvien = $query->orderBy('created_at', 'desc')->get();
+    
+        // Lấy danh sách phòng ban
+        $phong_ban_list = BanChapHanh::select('ten_phong_ban')->distinct()->pluck('ten_phong_ban');
+    
+        return view('frontend.banchaphanh', compact('thanhvien', 'nhiem_ky', 'nhiem_ky_list', 'phong_ban_list', 'ten_phong_ban'));
     }
 
     public function getBaiViet_ChiTiet($tenchude_slug, $tieude_slug)

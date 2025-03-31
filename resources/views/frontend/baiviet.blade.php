@@ -46,7 +46,7 @@
                             $first_img = str_replace('&amp;', '&', $matches[1]); // Chuyển đổi URL
                         }
                         // Nếu không tìm thấy ảnh, trả về ảnh mặc định
-                        return $first_img ?: asset('public/img/noimage.png'); 
+                        return $first_img ?: asset('public/img/noimage.jpg'); 
                     } 
                 @endphp
                 @foreach($baiviet as $value)

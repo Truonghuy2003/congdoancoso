@@ -57,109 +57,102 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Thêm bóng */
         }
     </style>
-    <!-- Đây là trang giao diện cho admin -->
-    <div class="container-fluid">
-        <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="{{ route('admin.home') }}">
-                    <i class=" fas fa-light fa-star"></i> {{ config('app.name', 'Laravel') }}
-                </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'giaovien']))
-                            <!-- Hiển thị liên kết "Chủ đề" -->
-                            <li class="nav-item nav-item-custom">
-                                <a class="nav-link" href="{{ route('admin.chude') }}">
+<!-- Đây là trang giao diện cho admin -->
+<div class="container-fluid">
+    <nav class="navbar navbar-expand-md navbar-light shadow-sm bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="{{ route('admin.home') }}">
+                <i class="fas fa-light fa-star"></i> {{ config('app.name', 'Laravel') }}
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    @if(auth()->check() && in_array(auth()->user()->role, ['admin', 'giaovien']))
+                        <!-- Dropdown Quản lý -->
+                        <li class="nav-item dropdown nav-item-custom">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownManage" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-cog"></i> Quản lý
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownManage">
+                                <a class="dropdown-item" href="{{ route('admin.chude') }}">
                                     <i class="fas fa-th-list"></i> Chủ đề
                                 </a>
-                            </li>
-                            <!-- Hiển thị liên kết "Bài viết" -->
-                            <li class="nav-item nav-item-custom">
-                                <a class="nav-link" href="{{ route('admin.baiviet') }}">
-                                    <i class="fas fa-light fa-fw fa-newspaper"></i> Bài viết
+                                <a class="dropdown-item" href="{{ route('admin.baiviet') }}">
+                                    <i class="fas fa-newspaper"></i> Bài viết
                                 </a>
-                            </li>
-
-                            <!-- Hiển thị liên kết "File" -->
-                            <li class="nav-item nav-item-custom">
-                                <a class="nav-link" href="{{ route('admin.file') }}">
-                                    <i class="fas fa-light fa-fw fa-file"></i> File
+                                <a class="dropdown-item" href="{{ route('admin.file') }}">
+                                    <i class="fas fa-file"></i> File
                                 </a>
-                            </li>
-                            <!-- Hiển thị liên kết "Bình luận bài viết" chỉ cho admin -->
-                            @if(auth()->user()->role === 'admin')
-                                <li class="nav-item nav-item-custom">
-                                    <a class="nav-link" href="{{ route('admin.binhluanbaiviet') }}">
-                                        <i class="fas fa-light fa-fw fa-comments"></i> Bình luận bài viết
+                                @if(auth()->user()->role === 'admin')
+                                    <a class="dropdown-item" href="{{ route('admin.binhluanbaiviet') }}">
+                                        <i class="fas fa-comments"></i> Bình luận bài viết
                                     </a>
-                                </li>
-                            @endif
-                            <!-- Thêm mục Thống kê (chỉ cho admin) -->
-                            @if(auth()->user()->role === 'admin')
-                                <li class="nav-item nav-item-custom">
-                                    <a class="nav-link" href="{{ route('admin.thongke') }}">
-                                        <i class="fas fa-chart-bar"></i> Thống kê
+                                    <a class="dropdown-item" href="{{ route('admin.nguoidung') }}">
+                                        <i class="fas fa-users"></i> Người dùng
                                     </a>
-                                </li>
-                            @endif
-                            <!-- Chỉ hiển thị liên kết "Quản lý người dùng" cho admin -->
-                            @if(auth()->user()->role === 'admin')
-                                <li class="nav-item nav-item-custom">
-                                    <a class="nav-link" href="{{ route('admin.nguoidung') }}">
-                                        <i class="fas fa-users"></i> Quản lý người dùng
+                                    <a class="dropdown-item" href="{{ route('admin.banchaphanh') }}">
+                                        <i class="fas fa-users-cog"></i> Ban Chấp Hành
                                     </a>
-                                </li>
-                            @endif
-                            
-                        @endif
-                    </ul>
-                    <!-- Right side of Navbar -->
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                        @guest
-                        @if (Route::has('login'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">
-                                <i class="fa-light fa-fw fas fa-sign-in-alt"></i> Đăng nhập
-                            </a>
-                        </li>
-                        @endif
-                        @if (Route::has('register'))
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">
-                                <i class="fa-light fa-fw fas fa-user-plus"></i> Đăng ký
-                            </a>
-                        </li>
-                        @endif
-                        @else
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#nguoidung" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="fa-light fa-fw fas fa-user-circle"></i> {{ Auth::user()->name }}
-                            </a>
-                            <div class="dropdown-menu">
-                                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
-                                    <i class="fa-light fa-fw fas fa-sign-out-alt"></i> Đăng xuất
-                                </a>
-                                <form id="logout-form" action="{{ route('logout') }}" method="post" class="d-none">
-                                    @csrf
-                                </form>
+                                @endif
                             </div>
                         </li>
-                        @endguest
-                    </ul>
-                </div>
+
+                        <!-- Giữ nguyên mục Thống kê -->
+                        @if(auth()->user()->role === 'admin')
+                            <li class="nav-item nav-item-custom">
+                                <a class="nav-link" href="{{ route('admin.thongke') }}">
+                                    <i class="fas fa-chart-bar"></i> Thống kê
+                                </a>
+                            </li>
+                        @endif
+                    @endif
+                </ul>
+                <!-- Right side of Navbar -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    @guest
+                    @if (Route::has('login'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">
+                            <i class="fas fa-sign-in-alt"></i> Đăng nhập
+                        </a>
+                    </li>
+                    @endif
+                    @if (Route::has('register'))
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">
+                            <i class="fas fa-user-plus"></i> Đăng ký
+                        </a>
+                    </li>
+                    @endif
+                    @else
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#nguoidung" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-user-circle"></i> {{ Auth::user()->name }}
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
+                                <i class="fas fa-sign-out-alt"></i> Đăng xuất
+                            </a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="post" class="d-none">
+                                @csrf
+                            </form>
+                        </div>
+                    </li>
+                    @endguest
+                </ul>
             </div>
-        </nav>
+        </div>
+    </nav>
 
-        <main class="pt-3">
-            @yield('content')
-        </main>
+    <main class="pt-3">
+        @yield('content')
+    </main>
 
-        <hr class="shadow-sm" />
-        <footer>Bản quyền &copy; {{ date('Y') }} bởi {{ config('app.name', 'Laravel') }}.</footer>
-    </div>
+    <hr class="shadow-sm" />
+    <footer>Bản quyền © {{ date('Y') }} bởi {{ config('app.name', 'Laravel') }}.</footer>
+</div>
 
     <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>

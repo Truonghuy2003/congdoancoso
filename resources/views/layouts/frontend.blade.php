@@ -233,6 +233,24 @@
                                                ]) }}">Văn kiện Đại hội nhiệm kỳ 2023-2028</a></li>
                                     </ul>
                                 </li>
+                                <!-- Thêm mục Cơ cấu tổ chức -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle fw-bold" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside">
+                                        <i class="fas fa-sitemap me-2"></i>Cơ cấu tổ chức▾
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        @php
+                                            $phong_ban_list = App\Models\BanChapHanh::select('ten_phong_ban')->distinct()->pluck('ten_phong_ban');
+                                        @endphp
+                                        @foreach($phong_ban_list as $phong_ban)
+                                            <li>
+                                                <a class="dropdown-item" href="{{ route('frontend.banchaphanh', ['ten_phong_ban' => $phong_ban]) }}">
+                                                    {{ $phong_ban }}
+                                                </a>
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle fw-bold" href="{{ route('frontend.baiviet') }}" data-bs-toggle="dropdown" data-bs-auto-close="outside">
                                         <i class="fas fa-book me-2"></i>Quy chế▾

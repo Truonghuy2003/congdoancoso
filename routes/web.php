@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\KhachController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\BanChapHanhController;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 
@@ -34,8 +35,8 @@ Route::name('frontend.')->group(function () {
     Route::get('/bai-viet/{tenchude_slug}', [HomeController::class, 'getBaiViet'])->name('baiviet.chude');
     Route::get('/bai-viet/{tenchude_slug}/{tieude_slug}', [HomeController::class, 'getBaiViet_ChiTiet'])->name('baiviet.chitiet');
 
-    // Route xem chi tiết bài viết theo ID(giờ chưa cần tính năng này)
-    //Route::get('/baiviet/{id}', [BaiVietController::class, 'chiTiet'])->name('frontend.baiviet.chitiet');
+    Route::get('/ban-chap-hanh', [HomeController::class, 'getBanChapHanh'])->name('banchaphanh');
+
 
     // Liên hệ
     Route::get('/lien-he', [HomeController::class, 'getLienHe'])->name('lienhe');
@@ -96,7 +97,13 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
         Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
         Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
-        // Quản lý Bình luận File ((chỉ admin được truy cập)
+        // Route cho BanChapHanh
+        Route::get('/banchaphanh', [BanChapHanhController::class, 'getDanhSach'])->name('banchaphanh'); // Route chính
+        Route::get('/banchaphanh/them', [BanChapHanhController::class, 'getThem'])->name('banchaphanh.them');
+        Route::post('/banchaphanh/them', [BanChapHanhController::class, 'postThem']);
+        Route::get('/banchaphanh/sua/{id}', [BanChapHanhController::class, 'getSua'])->name('banchaphanh.sua');
+        Route::post('/banchaphanh/sua/{id}', [BanChapHanhController::class, 'postSua']);
+        Route::get('/banchaphanh/xoa/{id}', [BanChapHanhController::class, 'getXoa'])->name('banchaphanh.xoa');
         
 
     });
