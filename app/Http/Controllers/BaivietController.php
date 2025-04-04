@@ -4,22 +4,53 @@ namespace App\Http\Controllers;
 
 use App\Models\ChuDe;
 use App\Models\BaiViet;
-use App\Models\File; // Thêm model File
+use App\Models\File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
 use App\Models\LuuBaiViet;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage; // Thêm Storage để xử lý tệp
+use Illuminate\Support\Facades\Storage;
 
 class BaivietController extends Controller
 {
-    // Controller cho admin
     public function getDanhSach()
     {
-        $baiviet = BaiViet::with('file')->orderBy('created_at', 'desc')->get(); // Tải kèm quan hệ file
-        return view('admin.baiviet.danhsach', compact('baiviet'));
+        // Lấy tất cả chủ đề để hiển thị trong dropdown
+        $chude = ChuDe::all();
+
+        // Lấy danh sách bài viết, áp dụng lọc và sắp xếp
+        $query = BaiViet::with(['ChuDe', 'NguoiDung', 'file']);
+
+        // Lọc theo chude_id nếu có
+        if (request('chude_id')) {
+            $query->where('chude_id', request('chude_id'));
+        }
+
+        // Tìm kiếm theo tiêu đề nếu có
+        if (request('tieude')) {
+            $query->where('tieude', 'like', '%' . request('tieude') . '%');
+        }
+
+        // Sắp xếp: Ưu tiên tuyệt đối
+        if (request('date_sort')) {
+            // Nếu có date_sort, chỉ sắp xếp theo ngày đăng
+            $dateSort = request('date_sort', 'desc'); // Mặc định là mới nhất đến cũ nhất
+            $query->orderBy('created_at', $dateSort);
+        } elseif (request('sort')) {
+            // Nếu không có date_sort nhưng có sort, sắp xếp theo tiêu đề
+            $sort = request('sort', 'asc'); // Mặc định là A-Z
+            $query->orderBy('tieude', $sort);
+        } else {
+            // Mặc định: Sắp xếp theo ngày đăng (mới nhất đến cũ nhất) nếu không có tiêu chí nào
+            $query->orderBy('created_at', 'desc');
+        }
+
+        $baiviet = $query->get();
+
+        // Trả về view với dữ liệu
+        return view('admin.baiviet.danhsach', compact('baiviet', 'chude'));
     }
 
     public function getThem()
@@ -58,8 +89,8 @@ class BaivietController extends Controller
     
         if ($request->hasFile('tep')) {
             $tep = $request->file('tep');
-            $tenGoc = $tep->getClientOriginalName(); // Lấy tên gốc của tệp
-            $duongDanTep = $tep->store('tep_tin', 'public'); // Lưu tệp với tên ngẫu nhiên
+            $tenGoc = $tep->getClientOriginalName();
+            $duongDanTep = $tep->store('tep_tin', 'public');
             $loaiTep = $tep->getClientMimeType();
     
             File::create([
@@ -67,7 +98,7 @@ class BaivietController extends Controller
                 'nguoidung_id' => Auth::user()->id,
                 'duong_dan_file' => $duongDanTep,
                 'loai_file' => $loaiTep,
-                'ten_goc' => $tenGoc, // Lưu tên gốc
+                'ten_goc' => $tenGoc,
             ]);
         }
     
@@ -102,19 +133,16 @@ class BaivietController extends Controller
         $baiViet->noidung = $request->noidung;
         $baiViet->save();
     
-        // Xử lý tệp
-        $xoaTep = $request->has('xoa_tep') && $request->xoa_tep == '1'; // Kiểm tra nếu người dùng chọn xóa tệp
+        $xoaTep = $request->has('xoa_tep') && $request->xoa_tep == '1';
     
         if ($baiViet->file()->exists()) {
             $tepHienTai = $baiViet->file->first();
-            // Nếu người dùng chọn xóa tệp hoặc upload tệp mới, xóa tệp cũ
             if ($xoaTep || $request->hasFile('tep')) {
                 Storage::disk('public')->delete($tepHienTai->duong_dan_file);
                 $tepHienTai->delete();
             }
         }
     
-        // Nếu người dùng upload tệp mới, lưu tệp mới
         if ($request->hasFile('tep')) {
             $tep = $request->file('tep');
             $tenGoc = $tep->getClientOriginalName();
@@ -136,7 +164,7 @@ class BaivietController extends Controller
     public function getXoa($id)
     {
         $baiViet = BaiViet::find($id);
-        $baiViet->delete(); // Tệp sẽ tự động xóa nhờ cascade trong migration
+        $baiViet->delete();
         return redirect()->route('admin.baiviet');
     }
 
@@ -145,7 +173,6 @@ class BaivietController extends Controller
         $baiViet = BaiViet::find($id);
         $baiViet->kiemduyet = 1 - $baiViet->kiemduyet;
         $baiViet->save();
-
         return redirect()->route('admin.baiviet');
     }
 
@@ -154,7 +181,6 @@ class BaivietController extends Controller
         $baiViet = BaiViet::find($id);
         $baiViet->kichhoat = 1 - $baiViet->kichhoat;
         $baiViet->save();
-
         return redirect()->route('admin.baiviet');
     }
 
@@ -217,6 +243,7 @@ class BaivietController extends Controller
 
         return redirect()->route('user.baiviet.luu')->with('success', 'Bỏ lưu bài viết thành công.');
     }
+
     public function taiTep($id)
     {
         $tep = File::findOrFail($id);
@@ -226,7 +253,6 @@ class BaivietController extends Controller
             return redirect()->back()->with('error', 'Tệp không tồn tại!');
         }
     
-        // Sử dụng ten_goc nếu có, nếu không thì dùng basename của duong_dan_file
         $tenTaiXuong = $tep->ten_goc ?? basename($tep->duong_dan_file);
         return response()->download($duongDan, $tenTaiXuong);
     }

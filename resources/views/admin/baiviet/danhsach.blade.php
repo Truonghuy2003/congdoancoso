@@ -3,7 +3,62 @@
 <div class="card">
     <div class="card-header fw-bold">Bài viết</div>
     <div class="card-body table-responsive">
-        <p><a href="{{ route('admin.baiviet.them') }}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
+        <!-- Form lọc -->
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <!-- Form lọc theo chủ đề -->
+                <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
+                    <div class="input-group mb-2">
+                        <select name="chude_id" class="form-control">
+                            <option value="">Tất cả chủ đề</option>
+                            @foreach($chude as $cd)
+                                <option value="{{ $cd->id }}" {{ request('chude_id') == $cd->id ? 'selected' : '' }}>
+                                    {{ $cd->tenchude }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <button type="submit" class="btn btn-primary">Lọc</button>
+                    </div>
+                </form>
+
+                <!-- Form tìm kiếm và sắp xếp theo tiêu đề -->
+                <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
+                    <div class="input-group mb-2">
+                        <input type="text" name="tieude" class="form-control" placeholder="Tìm theo tiêu đề" value="{{ request('tieude') }}">
+                        <select name="sort" class="form-control">
+                            <option value="asc" {{ request('sort') == 'asc' ? 'selected' : '' }}>A-Z</option>
+                            <option value="desc" {{ request('sort') == 'desc' ? 'selected' : '' }}>Z-A</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Tìm</button>
+                    </div>
+                    <!-- Giữ lại chude_id nếu có -->
+                    @if(request('chude_id'))
+                        <input type="hidden" name="chude_id" value="{{ request('chude_id') }}">
+                    @endif
+                </form>
+
+                <!-- Form sắp xếp theo ngày đăng -->
+                <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
+                    <div class="input-group">
+                        <select name="date_sort" class="form-control">
+                            <option value="">Sắp xếp theo ngày</option>
+                            <option value="desc" {{ request('date_sort') == 'desc' ? 'selected' : '' }}>Mới nhất đến mới nhất</option>
+                            <option value="asc" {{ request('date_sort') == 'asc' ? 'selected' : '' }}>Cũ nhất đến cũ nhất</option>
+                        </select>
+                        <button type="submit" class="btn btn-primary">Lọc theo ngày</button>
+                    </div>
+                    <!-- Giữ lại chude_id nếu có -->
+                    @if(request('chude_id'))
+                        <input type="hidden" name="chude_id" value="{{ request('chude_id') }}">
+                    @endif
+                </form>
+            </div>
+            <div class="col-md-8 text-end">
+                <p><a href="{{ route('admin.baiviet.them') }}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
+            </div>
+        </div>
+
+        <!-- Bảng danh sách bài viết -->
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
@@ -52,7 +107,6 @@
                             </a>
                         </td>
                     @endif
-
                     <td class="text-center">
                         <a href="{{ route('admin.baiviet.sua', ['id' => $value->id]) }}">
                             <i class="fa-light fa-lg fas fa-edit"></i>
