@@ -300,6 +300,7 @@
                                         <li><a class="dropdown-item" href="http://mail.agu.edu.vn/">Thư điện tử</a></li>
                                         <li><a class="dropdown-item" href="http://lib.agu.edu.vn/">Tạp chí khoa học</a></li>
                                         <li><a class="dropdown-item" href="http://enews.agu.edu.vn/">e-News</a></li> 
+                                        <li><a class="dropdown-item" href="https://fit.agu.edu.vn/">Khoa CNTT</a></li> 
                                     </ul>
                                 </li>
                                 <li class="nav-item">
