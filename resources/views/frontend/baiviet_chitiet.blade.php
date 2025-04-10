@@ -30,17 +30,15 @@
                     <div class="d-flex align-items-center fs-sm mb-2">
                         <span class="blog-entry-meta-link">{{ optional($baiviet->NguoiDung)->name }}</span>
                         <span class="blog-entry-meta-divider"></span>
-                        <span class="blog-entry-meta-link">{{ Carbon\Carbon::parse($baiviet->created_at)->format('d/m/Y') }}</span>
+                        <span class="blog-entry-meta-link">{{ Carbon\Carbon::parse($baiviet->created_at)->format('d/m/Y - H:i') }}</span>
                         <span class="blog-entry-meta-divider"></span>
                         <span class="blog-entry-meta-link text-nowrap"><i class="fas fa-eye"></i> {{ $baiviet->luotxem }}</span>
                     </div>
                     <div>
-                        <span class="blog-entry-meta-link text-nowrap"><i class="fas fa-pencil-alt"></i>Đã chỉnh sửa: {{($baiviet->updated_at)->format('d/m/Y H:i') }}</span>
+                        <span class="blog-entry-meta-link text-nowrap fs-sm"><i class="fas fa-pencil-alt"></i>Đã chỉnh sửa: {{ ($baiviet->updated_at)->format('d/m/Y - H:i') }}</span>
                     </div>
                 </div>
                 <p style="text-align:justify" class="fw-bold text-center">{{ $baiviet->tomtat }}</p>
-                
-                <!-- Nội dung với hình ảnh căn giữa -->
                 <div class="content-with-centered-images" style="text-align:justify">
                     {!! $baiviet->noidung !!}
                 </div>
@@ -62,9 +60,11 @@
 
                 <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
                     <div class="mt-3 me-3">
-                        <a class="badge bg-primary mb-2 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => optional($baiviet->ChuDe)->tenchude_slug]) }}">
-                            {{ optional($baiviet->ChuDe)->tenchude }}
-                        </a>
+                        @foreach($baiviet->chudes as $chude)
+                            <a class="badge bg-primary mb-2 me-1 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
+                                {{ $chude->tenchude }}
+                            </a>
+                        @endforeach
                     </div>
     
                     <div class="pt-2 mt-5 text-center w-100" id="comments">
@@ -83,7 +83,7 @@
                                 @endphp
                                 @if($binhLuanHienThi || $laBinhLuanCuaChinhToi)
                                     <div class="d-flex align-items-start py-4 w-50">
-                                        <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.jpg') }}" width="50" />
+                                        <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.png') }}" width="50" />
                                         <div class="text-start w-100">
                                             <h6 class="fs-md mb-0">
                                                 {{ optional($value->NguoiDung)->name }}
@@ -119,7 +119,7 @@
                             <div class="card border-0 shadow mt-2 mb-4 w-50 mx-auto">
                                 <div class="card-body">
                                     <div class="d-flex align-items-center">
-                                        <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.jpg') }}" width="50" />
+                                        <img class="rounded-circle me-3" src="{{ asset('public/img/avatar.png') }}" width="50" />
                                         <form class="w-100 needs-validation" method="POST" action="{{ route('user.baiviet.binhluan', $baiviet->id) }}" novalidate>
                                             @csrf
                                             <div class="mb-3">
@@ -151,22 +151,18 @@
             <h2 class="h4 text-center pb-4">Bài viết cùng chuyên mục</h2>
             <div class="tns-carousel">
                 @php
-                    function LayHinhCuoiCung($strNoiDung) 
-                    { 
+                    function LayHinhCuoiCung($strNoiDung) { 
                         $first_img = ''; 
                         ob_start(); 
                         ob_end_clean(); 
                         $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
-                        if(empty($output)) 
-                            return asset('public/img/noimage.png'); 
-                        else 
-                            return str_replace('&amp;', '&', $matches[1][0]); 
+                        return empty($output) ? asset('public/img/noimage.png') : str_replace('&', '&', $matches[1][0]); 
                     } 
                 @endphp
                 <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 20},&quot;900&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">
                     @foreach($baivietcungchuyemuc as $value)
                         <article>
-                            <a class="blog-entry-thumb mb-3 d-block" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
+                            <a class="blog-entry-thumb mb-3 d-block" href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chudes->first()->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
                                 <img class="img-fluid rounded shadow" src="{{ LayHinhCuoiCung($value->noidung) }}" alt="{{ $value->tieude }}">
                             </a>
                             <div class="d-flex align-items-center fs-sm mb-2 justify-content-center">
@@ -175,7 +171,7 @@
                                 <span class="blog-entry-meta-link">📅 {{ Carbon\Carbon::parse($value->created_at)->format('d/m/Y H:i') }} | 👁️ {{ $value->luotxem }} lượt xem</span>
                             </div>
                             <h3 class="h6 blog-entry-title">
-                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
+                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chudes->first()->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}">
                                     {{ $value->tieude }}
                                 </a>
                             </h3>
@@ -187,50 +183,13 @@
     </div>
 
     <style>
-        .badge.bg-danger {
-            background-color: #dc3545 !important; /* Màu đỏ Bootstrap */
-            font-size: 0.75rem;
-            font-weight: bold;
-            padding: 4px 8px;
-            border-radius: 10px;
-        }
-        .blog-entry-thumb img {
-            width: 100%; /* Đảm bảo ảnh chiếm toàn bộ chiều rộng */
-            height: 200px; 
-            object-fit: cover; /* Cắt ảnh để vừa khung */
-            border-radius: 10px; /* Bo góc ảnh cho đẹp */
-            transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; /* Hiệu ứng hover */
-        }
-        .blog-entry-thumb img:hover {
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* Hiệu ứng đổ bóng khi hover */
-            transform: scale(1.05); /* Phóng to nhẹ khi hover */
-        }    
-        article {
-            text-align: center; 
-            padding: 10px;
-        }
-        .blog-entry-title a {
-            text-decoration: none;
-            color: #333; /* Màu chữ */
-            font-weight: bold;
-        }
-        .blog-entry-title a:hover {
-            color: #FE696A; /* Đổi màu khi di chuột */
-        }
-        /* Căn giữa hình ảnh và chú thích trong nội dung */
-        .content-with-centered-images img {
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-            height: auto;
-        }
-        .content-with-centered-images figcaption,
-        .content-with-centered-images p:empty + img + p {
-            text-align: center;
-            font-style: italic;
-            color: #666;
-            margin-top: 10px;
-            margin-bottom: 20px;
-        }
+        .badge.bg-danger { background-color: #dc3545 !important; font-size: 0.75rem; font-weight: bold; padding: 4px 8px; border-radius: 10px; }
+        .blog-entry-thumb img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out; }
+        .blog-entry-thumb img:hover { box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); transform: scale(1.05); }    
+        article { text-align: center; padding: 10px; }
+        .blog-entry-title a { text-decoration: none; color: #333; font-weight: bold; }
+        .blog-entry-title a:hover { color: #FE696A; }
+        .content-with-centered-images img { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+        .content-with-centered-images figcaption, .content-with-centered-images p:empty + img + p { text-align: center; font-style: italic; color: #666; margin-top: 10px; margin-bottom: 20px; }
     </style>
 @endsection

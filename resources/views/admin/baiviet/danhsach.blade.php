@@ -3,10 +3,8 @@
 <div class="card">
     <div class="card-header fw-bold">Bài viết</div>
     <div class="card-body table-responsive">
-        <!-- Form lọc -->
         <div class="row mb-3">
             <div class="col-md-4">
-                <!-- Form lọc theo chủ đề -->
                 <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
                     <div class="input-group mb-2">
                         <select name="chude_id" class="form-control">
@@ -21,7 +19,6 @@
                     </div>
                 </form>
 
-                <!-- Form tìm kiếm và sắp xếp theo tiêu đề -->
                 <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
                     <div class="input-group mb-2">
                         <input type="text" name="tieude" class="form-control" placeholder="Tìm theo tiêu đề" value="{{ request('tieude') }}">
@@ -31,23 +28,20 @@
                         </select>
                         <button type="submit" class="btn btn-primary">Tìm</button>
                     </div>
-                    <!-- Giữ lại chude_id nếu có -->
                     @if(request('chude_id'))
                         <input type="hidden" name="chude_id" value="{{ request('chude_id') }}">
                     @endif
                 </form>
 
-                <!-- Form sắp xếp theo ngày đăng -->
                 <form method="GET" action="{{ route('admin.baiviet.danhsach') }}">
                     <div class="input-group">
                         <select name="date_sort" class="form-control">
                             <option value="">Sắp xếp theo ngày</option>
-                            <option value="desc" {{ request('date_sort') == 'desc' ? 'selected' : '' }}>Mới nhất đến mới nhất</option>
-                            <option value="asc" {{ request('date_sort') == 'asc' ? 'selected' : '' }}>Cũ nhất đến cũ nhất</option>
+                            <option value="desc" {{ request('date_sort') == 'desc' ? 'selected' : '' }}>Mới nhất đến cũ nhất</option>
+                            <option value="asc" {{ request('date_sort') == 'asc' ? 'selected' : '' }}>Cũ nhất đến mới nhất</option>
                         </select>
                         <button type="submit" class="btn btn-primary">Lọc theo ngày</button>
                     </div>
-                    <!-- Giữ lại chude_id nếu có -->
                     @if(request('chude_id'))
                         <input type="hidden" name="chude_id" value="{{ request('chude_id') }}">
                     @endif
@@ -58,7 +52,6 @@
             </div>
         </div>
 
-        <!-- Bảng danh sách bài viết -->
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
@@ -72,7 +65,11 @@
                 @foreach($baiviet as $value)
                 <tr>
                     <td>{{ $loop->iteration }}</td>
-                    <td>{{ $value->ChuDe->tenchude }}</td>
+                    <td>
+                        @foreach($value->chudes as $chude)
+                            {{ $chude->tenchude }}@if(!$loop->last), @endif
+                        @endforeach
+                    </td>
                     <td>
                         <span class="d-block fw-bold text-primary"><a href="{{ route('admin.baiviet.sua', ['id' => $value->id]) }}">{{ $value->tieude }}</a></span>
                         <span class="d-block small">

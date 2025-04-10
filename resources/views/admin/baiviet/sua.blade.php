@@ -5,17 +5,35 @@
     <div class="card-body">
         <form action="{{ route('admin.baiviet.sua', ['id' => $baiviet->id]) }}" method="post" enctype="multipart/form-data">
             @csrf
-            @method('POST') <!-- Thêm @method('POST') vì route sửa dùng POST -->
+            @method('POST')
             <div class="mb-3">
-                <label class="form-label" for="chude_id">Chủ đề</label>
-                <select class="form-select @error('chude_id') is-invalid @enderror" id="chude_id" name="chude_id" required>
-                    <option value="">-- Chọn --</option>
-                    @foreach($chude as $value)
-                    <option value="{{ $value->id }}" {{ ($baiviet->chude_id == $value->id) ? 'selected' : '' }}>{{ $value->tenchude }}</option>
-                    @endforeach
-                </select>
-                @error('chude_id')
-                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                <label class="form-label" for="chude_ids">Chủ đề</label>
+                <div class="dropdown">
+                    <button class="btn btn-outline-secondary dropdown-toggle w-100 text-start @error('chude_ids') is-invalid @enderror" 
+                            type="button" 
+                            id="dropdownChude" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false">
+                        Chọn chủ đề
+                    </button>
+                    <ul class="dropdown-menu w-100" aria-labelledby="dropdownChude" style="max-height: 200px; overflow-y: auto;">
+                        @foreach($chude as $value)
+                            <li>
+                                <div class="form-check px-3 ms-3">
+                                    <input type="checkbox" 
+                                           class="form-check-input" 
+                                           id="chude_{{ $value->id }}" 
+                                           name="chude_ids[]" 
+                                           value="{{ $value->id }}" 
+                                           {{ $baiviet->chudes->contains('id', $value->id) ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="chude_{{ $value->id }}">{{ $value->tenchude }}</label>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @error('chude_ids')
+                    <div class="invalid-feedback d-block"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
 
@@ -23,24 +41,23 @@
                 <label class="form-label" for="tieude">Tiêu đề</label>
                 <input type="text" class="form-control @error('tieude') is-invalid @enderror" id="tieude" name="tieude" value="{{ $baiviet->tieude }}" required />
                 @error('tieude')
-                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="tomtat">Tóm tắt</label>
                 <textarea class="form-control @error('tomtat') is-invalid @enderror" id="tomtat" name="tomtat">{{ $baiviet->tomtat }}</textarea>
                 @error('tomtat')
-                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
             <div class="mb-3">
                 <label class="form-label" for="noidung">Nội dung bài viết</label>
                 <textarea class="form-control @error('noidung') is-invalid @enderror" id="noidung" name="noidung" required>{{ $baiviet->noidung }}</textarea>
                 @error('noidung')
-                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
-            <!-- Hiển thị tệp hiện tại và tùy chọn xóa -->
             <div class="mb-3">
                 <label class="form-label" for="tep">Đính kèm tệp (tùy chọn)</label>
                 @if($baiviet->file->isNotEmpty())
@@ -57,7 +74,7 @@
                 @endif
                 <input type="file" class="form-control @error('tep') is-invalid @enderror" id="tep" name="tep" />
                 @error('tep')
-                <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
+                    <div class="invalid-feedback"><strong>{{ $message }}</strong></div>
                 @enderror
             </div>
 
@@ -74,6 +91,25 @@
         window.editor = editor;
     }).catch(error => {
         console.error(error);
+    });
+
+    // Tùy chỉnh hiển thị nút dropdown dựa trên các checkbox được chọn
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdownButton = document.getElementById('dropdownChude');
+        const checkboxes = document.querySelectorAll('input[name="chude_ids[]"]');
+        
+        function updateButtonText() {
+            const selected = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.nextElementSibling.textContent.trim());
+            dropdownButton.textContent = selected.length > 0 ? selected.join(', ') : 'Chọn chủ đề';
+        }
+
+        checkboxes.forEach(cb => {
+            cb.addEventListener('change', updateButtonText);
+        });
+
+        updateButtonText(); // Cập nhật lần đầu khi tải trang
     });
 </script>
 @endsection

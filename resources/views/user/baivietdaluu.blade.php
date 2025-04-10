@@ -30,7 +30,7 @@
                 <div class="d-md-flex justify-content-between align-items-center text-center text-md-start p-4">
                     <div class="d-md-flex align-items-center">
                         <div class="img-thumbnail rounded-circle flex-shrink-0 mx-auto mb-2 mx-md-0 mb-md-0" style="width:6.375rem;">
-                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
+                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default_avatar.jpg')) }}" width="90" />
                         </div>
                         <div class="ps-md-3">
                             <h3 class="fs-base mb-0">{{ $nguoidung->name }}</h3>
@@ -110,7 +110,7 @@
                             <td class="text-center">{{ $value->luotxem }}</td>
                             <td>{{ $value->created_at->format('d/m/Y') }}</td>
                             <td class="text-center">
-                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary">Xem chi tiết</a>
+                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chudes->first()->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary">Xem chi tiết</a>
                                 <form action="{{ route('user.baiviet.boluulai', $value->id) }}" method="POST" style="display:inline;">
                                     @csrf
                                     @method('DELETE')

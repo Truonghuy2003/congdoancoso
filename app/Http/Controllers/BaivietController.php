@@ -17,39 +17,31 @@ class BaivietController extends Controller
 {
     public function getDanhSach()
     {
-        // Lấy tất cả chủ đề để hiển thị trong dropdown
         $chude = ChuDe::all();
+        $query = BaiViet::with(['chudes', 'NguoiDung', 'file']);
 
-        // Lấy danh sách bài viết, áp dụng lọc và sắp xếp
-        $query = BaiViet::with(['ChuDe', 'NguoiDung', 'file']);
-
-        // Lọc theo chude_id nếu có
+        // Lọc theo chude_id nếu có (lọc bài viết có chứa một chủ đề cụ thể)
         if (request('chude_id')) {
-            $query->where('chude_id', request('chude_id'));
+            $query->whereHas('chudes', function ($q) {
+                $q->where('chude_id', request('chude_id'));
+            });
         }
 
-        // Tìm kiếm theo tiêu đề nếu có
         if (request('tieude')) {
             $query->where('tieude', 'like', '%' . request('tieude') . '%');
         }
 
-        // Sắp xếp: Ưu tiên tuyệt đối
         if (request('date_sort')) {
-            // Nếu có date_sort, chỉ sắp xếp theo ngày đăng
-            $dateSort = request('date_sort', 'desc'); // Mặc định là mới nhất đến cũ nhất
+            $dateSort = request('date_sort', 'desc');
             $query->orderBy('created_at', $dateSort);
         } elseif (request('sort')) {
-            // Nếu không có date_sort nhưng có sort, sắp xếp theo tiêu đề
-            $sort = request('sort', 'asc'); // Mặc định là A-Z
+            $sort = request('sort', 'asc');
             $query->orderBy('tieude', $sort);
         } else {
-            // Mặc định: Sắp xếp theo ngày đăng (mới nhất đến cũ nhất) nếu không có tiêu chí nào
             $query->orderBy('created_at', 'desc');
         }
 
         $baiviet = $query->get();
-
-        // Trả về view với dữ liệu
         return view('admin.baiviet.danhsach', compact('baiviet', 'chude'));
     }
 
@@ -64,35 +56,34 @@ class BaivietController extends Controller
         if (!Auth::check()) {
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để thêm bài viết.');
         }
-        
+
         $request->validate([
-            'chude_id' => ['required', 'integer'],
+            'chude_ids' => ['required', 'array'], // Nhiều chủ đề
+            'chude_ids.*' => ['integer', 'exists:chude,id'],
             'tieude' => ['required', 'string', 'max:300', 'unique:baiviet'],
             'noidung' => ['required', 'string', 'min:10'],
             'tep' => ['nullable', 'file', 'mimetypes:image/jpeg,image/png,application/pdf,text/plain', 'max:10240'],
-        ], [
-            'tep.file' => 'Tệp tải lên không hợp lệ.',
-            'tep.mimetypes' => 'Tệp phải có định dạng: jpg, png, pdf, txt.',
-            'tep.max' => 'Tệp không được vượt quá 10MB.',
         ]);
-    
+
         $baiViet = new BaiViet();
-        $baiViet->chude_id = $request->chude_id;
         $baiViet->nguoidung_id = Auth::user()->id;
         $baiViet->tieude = $request->tieude;
         $baiViet->tieude_slug = Str::slug($request->tieude, '-');
-        if (!empty($request->tomtat)) $baiViet->tomtat = $request->tomtat;
+        $baiViet->tomtat = $request->tomtat ?? null;
         $baiViet->noidung = $request->noidung;
         $baiViet->kiemduyet = 0;
         $baiViet->kichhoat = 1;
         $baiViet->save();
-    
+
+        // Gắn nhiều chủ đề vào bài viết
+        $baiViet->chudes()->attach($request->chude_ids);
+
         if ($request->hasFile('tep')) {
             $tep = $request->file('tep');
             $tenGoc = $tep->getClientOriginalName();
             $duongDanTep = $tep->store('tep_tin', 'public');
             $loaiTep = $tep->getClientMimeType();
-    
+
             File::create([
                 'baiviet_id' => $baiViet->id,
                 'nguoidung_id' => Auth::user()->id,
@@ -101,40 +92,39 @@ class BaivietController extends Controller
                 'ten_goc' => $tenGoc,
             ]);
         }
-    
+
         return redirect()->route('admin.baiviet')->with('success', 'Bài viết đã được thêm!');
     }
 
     public function getSua($id)
     {
         $chude = ChuDe::all();
-        $baiviet = BaiViet::find($id);
+        $baiviet = BaiViet::findOrFail($id);
         return view('admin.baiviet.sua', compact('chude', 'baiviet'));
     }
 
     public function postSua(Request $request, $id)
     {
         $request->validate([
-            'chude_id' => ['required', 'integer'],
-            'tieude' => ['required', 'string', 'max:300', 'unique:baiviet,tieude,'.$id],
+            'chude_ids' => ['required', 'array'],
+            'chude_ids.*' => ['integer', 'exists:chude,id'],
+            'tieude' => ['required', 'string', 'max:300', 'unique:baiviet,tieude,' . $id],
             'noidung' => ['required', 'string'],
             'tep' => ['nullable', 'file', 'mimetypes:image/jpeg,image/png,application/pdf,text/plain', 'max:10240'],
-        ], [
-            'tep.file' => 'Tệp tải lên không hợp lệ.',
-            'tep.mimetypes' => 'Tệp phải có định dạng: jpg, png, pdf, txt.',
-            'tep.max' => 'Tệp không được vượt quá 10MB.',
         ]);
-    
-        $baiViet = BaiViet::find($id);
-        $baiViet->chude_id = $request->chude_id;
+
+        $baiViet = BaiViet::findOrFail($id);
         $baiViet->tieude = $request->tieude;
         $baiViet->tieude_slug = Str::slug($request->tieude, '-');
         $baiViet->tomtat = $request->tomtat ?? null;
         $baiViet->noidung = $request->noidung;
         $baiViet->save();
-    
+
+        // Đồng bộ hóa các chủ đề
+        $baiViet->chudes()->sync($request->chude_ids);
+
         $xoaTep = $request->has('xoa_tep') && $request->xoa_tep == '1';
-    
+
         if ($baiViet->file()->exists()) {
             $tepHienTai = $baiViet->file->first();
             if ($xoaTep || $request->hasFile('tep')) {
@@ -142,13 +132,13 @@ class BaivietController extends Controller
                 $tepHienTai->delete();
             }
         }
-    
+
         if ($request->hasFile('tep')) {
             $tep = $request->file('tep');
             $tenGoc = $tep->getClientOriginalName();
             $duongDanTep = $tep->store('tep_tin', 'public');
             $loaiTep = $tep->getClientMimeType();
-    
+
             File::create([
                 'baiviet_id' => $baiViet->id,
                 'nguoidung_id' => Auth::user()->id,
@@ -157,7 +147,7 @@ class BaivietController extends Controller
                 'ten_goc' => $tenGoc,
             ]);
         }
-    
+
         return redirect()->route('admin.baiviet')->with('success', 'Bài viết đã được cập nhật!');
     }
 

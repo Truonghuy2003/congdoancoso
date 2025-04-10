@@ -31,7 +31,7 @@
                 <div class="d-md-flex justify-content-between align-items-center text-center text-md-start p-4">
                     <div class="d-md-flex align-items-center">
                         <div class="img-thumbnail rounded-circle flex-shrink-0 mx-auto mb-2 mx-md-0 mb-md-0" style="width:6.375rem;">
-                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
+                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default_avatar.jpg')) }}" width="90" />
                         </div>
                         <div class="ps-md-3">
                             <h3 class="fs-base mb-0">{{ $nguoidung->name }}</h3>
@@ -98,7 +98,7 @@
                 <div class="bg-body-secondary rounded-3 p-4 mb-4">
                     <div class="d-flex align-items-center justify-content-between">
                         <div class="d-flex align-items-center">
-                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
+                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default_avatar.jpg')) }}" width="90" />
                             <div class="ps-3">
                                 <input type="file" name="avatar" class="form-control mb-2" accept="image/*">
                                 <button class="btn btn-light btn-shadow btn-sm" type="submit">

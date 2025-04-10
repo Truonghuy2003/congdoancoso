@@ -5,13 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
 
 class baiviet extends Model
 {
-    //
     protected $table = 'baiviet';
+
     protected static function boot()
     {
         parent::boot();
@@ -20,9 +21,10 @@ class baiviet extends Model
         });
     }
 
-    public function chude(): BelongsTo
+    // Quan hệ nhiều-nhiều với Chude
+    public function chudes(): BelongsToMany
     {
-        return $this->belongsTo(ChuDe::class, 'chude_id', 'id');
+        return $this->belongsToMany(Chude::class, 'baiviet_chude', 'baiviet_id', 'chude_id');
     }
 
     public function NguoiDung(): BelongsTo
@@ -34,18 +36,21 @@ class baiviet extends Model
     {
         return $this->hasMany(binh_luan_bai_viet::class, 'baiviet_id', 'id');
     }
-    public function getNgayDangAttribute() {
+
+    public function getNgayDangAttribute()
+    {
         return Carbon::parse($this->created_at)->format('d/m/Y');
     }
-    protected $fillable = ['tieude', 'slug', 'tomtat', 'chude_id'];
+
+    protected $fillable = ['tieude', 'tieude_slug', 'tomtat', 'noidung'];
 
     public function getRouteKeyName()
     {
-        return 'slug';
+        return 'tieude_slug';
     }
+
     public function file()
     {
         return $this->hasMany(File::class, 'baiviet_id');
     }
-
 }

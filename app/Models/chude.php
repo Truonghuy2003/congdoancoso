@@ -3,15 +3,16 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class chude extends Model
 {
-    //
     protected $table = 'chude';
-    protected $fillable = ['slug'];
-    public function BaiViet(): HasMany
+    protected $fillable = ['tenchude', 'tenchude_slug'];
+
+    // Quan hệ nhiều-nhiều với Baiviet
+    public function baiviets(): BelongsToMany
     {
-        return $this->hasMany(BaiViet::class, 'chude_id', 'id');
+        return $this->belongsToMany(BaiViet::class, 'baiviet_chude', 'chude_id', 'baiviet_id');
     }
 }

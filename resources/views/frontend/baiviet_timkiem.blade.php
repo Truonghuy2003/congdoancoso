@@ -9,34 +9,33 @@
     @if($baiviet_timkiem->count() > 0)
         <div class="row">
             @php
-                function LayHinhCuoiCung($strNoiDung) 
-                    { 
-                        $first_img = ''; 
-                        ob_start(); 
-                        ob_end_clean(); 
-                        $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
-                        if(empty($output)) 
-                            // Nếu không tìm thấy ảnh, trả về ảnh mặc định
-                            return $first_img ?: asset('public/img/noimage.jpg'); 
-                        else 
-                            return str_replace('&amp;', '&', $matches[1][0]); 
-                    } 
+                function LayHinhCuoiCung($strNoiDung) { 
+                    $first_img = ''; 
+                    ob_start(); 
+                    ob_end_clean(); 
+                    $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
+                    return empty($output) ? asset('public/img/noimage.jpg') : str_replace('&', '&', $matches[1][0]); 
+                } 
             @endphp 
             @foreach ($baiviet_timkiem as $bv)
             <div class="col-lg-4 col-md-6 col-sm-12 px-2 mb-4"> 
                 <div class="card shadow-sm border-0 hover-shadow"> 
                     <a class="card-img-top d-block overflow-hidden" 
-                        href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
+                        href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chudes->first()->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
                         <img src="{{ LayHinhCuoiCung($bv->noidung) }}" 
                             style="width: 100%; height: 200px; object-fit: cover;" 
                             alt="Hình minh họa bài viết" />
                     </a> 
                     <div class="card-body py-3"> 
-                        <a class="badge bg-primary mb-2 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $bv->ChuDe->tenchude_slug]) }}">
-                            {{ $bv->ChuDe->tenchude }}
-                        </a> 
+                        <div class="mb-2">
+                            @foreach($bv->chudes as $chude)
+                                <a class="badge bg-primary me-1 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
+                                    {{ $chude->tenchude }}
+                                </a>
+                            @endforeach
+                        </div>
                         <h5 class="card-title text-dark blog-entry-title"> 
-                            <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chude->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
+                            <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $bv->chudes->first()->tenchude_slug, 'tieude_slug' => $bv->tieude_slug]) }}">
                                 {{ Str::limit($bv->tieude, 100) }}
                             </a> 
                         </h5> 
@@ -44,7 +43,7 @@
                     </div> 
                     <div class="card-footer bg-white d-flex justify-content-between align-items-center"> 
                         <small class="text-muted">
-                            <i class="fas fa-user"></i> {{ $bv->nguoidung->name ?? 'Ẩn danh' }} 
+                            <i class="fas fa-user"></i> {{ $bv->NguoiDung->name ?? 'Ẩn danh' }} 
                             | <i class="fas fa-calendar-alt"></i> {{ Carbon\Carbon::parse($bv->created_at)->format('d/m/Y H:i') }} 
                             | <i class="fas fa-eye"></i> {{ $bv->luotxem }} 
                         </small>  
@@ -62,20 +61,24 @@
                     </div> 
                 </div> 
             </div> 
-        @endforeach
-        @push('scripts')
+            @endforeach
+        </div>
+        <div class="d-flex justify-content-center">
+            {{ $baiviet_timkiem->links() }}
+        </div>
+    @else
+        <p class="text-muted">Không tìm thấy bài viết nào.</p>
+    @endif
+
+    @push('scripts')
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 let buttons = document.querySelectorAll(".save-post");
-        
                 buttons.forEach((btn) => {
                     btn.onclick = function () {
                         let postId = this.dataset.id;
-                        
-                        // Vô hiệu hóa nút khi đang gửi request
                         btn.disabled = true;
                         btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Đang lưu...';
-        
                         fetch("{{ route('user.baiviet.luu') }}", {
                             method: "POST",
                             headers: {
@@ -104,26 +107,12 @@
                 });
             });
         </script>                        
-        @endpush
-        @stack('scripts')        
-        </div>
+    @endpush
+    @stack('scripts')
 
-        <!-- Hiển thị nút phân trang -->
-        <div class="d-flex justify-content-center">
-            {{ $baiviet_timkiem->links() }}
-        </div>
-    @else
-        <p class="text-muted">Không tìm thấy bài viết nào.</p>
-    @endif
     <style>
-        /* Hiệu ứng khi di chuột vào bài viết */
-        .hover-shadow {
-            transition: box-shadow 0.3s ease-in-out;
-        }
-    
-        .hover-shadow:hover {
-            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important;
-        }
+        .hover-shadow { transition: box-shadow 0.3s ease-in-out; }
+        .hover-shadow:hover { box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important; }
     </style>
 </div>
 @endsection

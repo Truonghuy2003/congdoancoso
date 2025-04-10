@@ -30,7 +30,7 @@
                 <div class="d-md-flex justify-content-between align-items-center text-center text-md-start p-4">
                     <div class="d-md-flex align-items-center">
                         <div class="img-thumbnail rounded-circle flex-shrink-0 mx-auto mb-2 mx-md-0 mb-md-0" style="width:6.375rem;">
-                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default-avatar.jpg')) }}" width="90" />
+                            <img class="rounded" src="{{ asset('storage/avatars/' . ($nguoidung->avatar ?? 'default_avatar.jpg')) }}" width="90" />
                         </div>
                         <div class="ps-md-3">
                             <h3 class="fs-base mb-0">{{ $nguoidung->name }}</h3>
@@ -89,34 +89,39 @@
             <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
                 <h6 class="fs-base text-dark mb-0">Bài viết đã đăng:</h6>
             </div>
-            <table class="table table-bordered table-hover table-sm mb-0">
-                <thead>
-                    <tr>
-                        <th width="5%">STT</th>
-                        <th width="25%">Tiêu đề</th>
-                        <th width="30%">Tóm tắt</th>
-                        <th width="10%">Nội dung</th>
-                        <th width="15%">Lượt xem</th>
-                        <th width="15%">Ngày đăng</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($baiviet as $key => $value)
-                    <tr>
-                        <td>{{ $loop->iteration }}</td>
-                        <td>{{ $value->tieude }}</td>
-                        <td>{{ Str::limit($value->tomtat, 50) }}</td>
-                        <td>{{ Str::limit($value->noidung, 50) }}</td> <!-- Hiển thị nội dung tóm tắt -->
-                        <td class="text-center">{{ $value->luotxem }}</td>
-                        <td>{{ $value->created_at->format('d/m/Y H:i:s') }}</td>
-                        <td>
-                            <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chude->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" class="btn btn-sm btn-primary" class="btn btn-sm btn-primary">Xem chi tiết</a>
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-                
-            </table>
+            @if ($baiviet->count() > 0)
+                <table class="table table-bordered table-hover table-sm mb-0">
+                    <thead>
+                        <tr>
+                            <th width="5%">STT</th>
+                            <th width="25%">Tiêu đề</th>
+                            <th width="30%">Tóm tắt</th>
+                            <th width="10%">Nội dung</th>
+                            <th width="15%">Lượt xem</th>
+                            <th width="15%">Ngày đăng</th>
+                            <th width="15%">Thao tác</th> <!-- Thêm cột Thao tác -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($baiviet as $key => $value)
+                        <tr>
+                            <td>{{ $loop->iteration }}</td>
+                            <td>{{ $value->tieude }}</td>
+                            <td>{{ Str::limit($value->tomtat, 50) }}</td>
+                            <td>{{ Str::limit($value->noidung, 50) }}</td> <!-- Hiển thị nội dung tóm tắt -->
+                            <td class="text-center">{{ $value->luotxem }}</td>
+                            <td>{{ $value->created_at->format('d/m/Y H:i:s') }}</td>
+                            <td class="text-center">
+                                <a href="{{ route('frontend.baiviet.chitiet', ['tenchude_slug' => $value->chudes->first()->tenchude_slug, 'tieude_slug' => $value->tieude_slug]) }}" 
+                                   class="btn btn-sm btn-primary">Xem chi tiết</a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @else
+                <p class="text-center">Bạn chưa đăng bài viết nào.</p>
+            @endif
         </section>
     </div>
 </div>
