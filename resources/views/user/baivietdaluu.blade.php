@@ -52,7 +52,12 @@
                             <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none active" href="{{ route('user.baiviet.luu') }}">
                                 <i class="fas fa-bookmark me-2"></i> Bài viết đã lưu
                             </a>
-                        </li>   
+                        </li> 
+                        <li class="border-bottom mb-0">
+                            <a class="nav-link-style d-flex align-items-center px-4 py-3 text-decoration-none" href="{{ route('user.binhluan') }}">
+                                <i class="fas fa-comment me-2"></i> Bình luận
+                            </a>
+                        </li>    
                         <li class="d-lg-none border-top mb-0">
                             <a class="nav-link-style d-flex align-items-center px-4 py-3" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                                 <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất

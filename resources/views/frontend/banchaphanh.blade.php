@@ -39,7 +39,7 @@
                             <img src="{{ $member->anh_dai_dien ? asset('public/storage/' . $member->anh_dai_dien) : asset('public/img/default_avatar.jpg') }}"
                                 alt="{{ $member->ho_ten }}"
                                 class="img-fluid"
-                                style="width: 100%; height: 320px; object-fit: cover; border-radius: 20px 20px 0 0; transition: transform 0.6s ease, filter 0.3s ease;">
+                                style="width: 100%; object-fit: cover; border-radius: 20px 20px 0 0; transition: transform 0.6s ease, filter 0.3s ease;">
                             <div class="overlay position-absolute top-0 start-0 w-100 h-100"
                                 style="background: linear-gradient(to bottom, rgba(0, 114, 198, 0.3), rgba(0, 0, 0, 0.5)); opacity: 0; transition: opacity 0.4s ease;"></div>
                         </div>
@@ -100,7 +100,6 @@
         }
         .team-card:hover img {
             transform: scale(1.1);
-            filter: saturate(1.2);
         }
         .team-card:hover .overlay {
             opacity: 1;

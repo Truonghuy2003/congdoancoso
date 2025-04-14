@@ -56,6 +56,7 @@ Route::prefix('khach')->name('user.')->middleware('auth')->group(function () {
     // Bình luận bài viết
     Route::get('/binh-luan', [KhachController::class, 'getBinhLuanBaiViet'])->name('binhluan');
     Route::post('/bai-viet/{baiviet_id}/binh-luan', [KhachController::class, 'postBinhLuanBaiViet'])->name('baiviet.binhluan');
+    Route::delete('/binh-luan/{id}', [KhachController::class, 'deleteBinhLuan'])->name('binhluan.xoa');
     // Lưu bài viết
     Route::post('/baiviet/luu', [BaiVietController::class, 'luuBaiViet'])->name('baiviet.luu')->middleware('auth');
 
@@ -94,6 +95,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
         Route::get('/binhluanbaiviet/xoa/{id}', [BinhLuanBaiVietController::class, 'getXoa'])->name('binhluanbaiviet.xoa');
         Route::get('/binhluanbaiviet/kiemduyet/{id}', [BinhLuanBaiVietController::class, 'getKiemDuyet'])->name('binhluanbaiviet.kiemduyet');
         Route::get('/binhluanbaiviet/kichhoat/{id}', [BinhLuanBaiVietController::class, 'getKichHoat'])->name('binhluanbaiviet.kichhoat');
+        Route::get('/binhluanbaiviet/autocomplete', [BinhLuanBaiVietController::class, 'autocomplete'])->name('binhluanbaiviet.autocomplete');
 
         // Route cho BanChapHanh
         Route::get('/banchaphanh', [BanChapHanhController::class, 'getDanhSach'])->name('banchaphanh');

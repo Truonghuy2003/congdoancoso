@@ -71,7 +71,7 @@
                         @endforeach
                     </td>
                     <td>
-                        <span class="d-block fw-bold text-primary"><a href="{{ route('admin.baiviet.sua', ['id' => $value->id]) }}">{{ $value->tieude }}</a></span>
+                        <span class="d-block fw-bold text-primary"><a class="text-decoration-none" href="{{ route('admin.baiviet.sua', ['id' => $value->id]) }}">{{ $value->tieude }}</a></span>
                         <span class="d-block small">
                             Ngày đăng: <strong>{{ Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $value->created_at)->format('d/m/Y H:i:s') }}</strong>
                             <br />Người đăng: <strong>{{ $value->NguoiDung->name }}</strong>

@@ -12,9 +12,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use App\Models\ChuDe;
+
 class KhachController extends Controller
 {
-    //
     public function getHome()
     {
         if (Auth::check()) {
@@ -23,21 +23,22 @@ class KhachController extends Controller
         } else
             return redirect()->route('user.dangnhap');
     }
+
     public function getHoSoCaNhan()
     {
-        // Bổ sung code tại đây
-        return redirect()->route('user.home');
+        $nguoidung = Auth::user();
+        return view('user.home', compact('nguoidung'));
     }
 
     public function postHoSoCaNhan(Request $request)
     {
-        // Bổ sung code tại đây
         $id = Auth::user()->id;
 
         $request->validate([
             'name' => ['required', 'string', 'max:100'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:nguoidung,email,' . $id],
             'password' => ['confirmed'],
+            'avatar' => ['image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
 
         $orm = NguoiDung::find($id);
@@ -45,10 +46,22 @@ class KhachController extends Controller
         $orm->username = Str::before($request->email, '@');
         $orm->email = $request->email;
         if (!empty($request->password)) $orm->password = Hash::make($request->password);
+        
+        if ($request->hasFile('avatar')) {
+            if ($orm->avatar && Storage::exists('public/avatars/' . $orm->avatar)) {
+                Storage::delete('public/avatars/' . $orm->avatar);
+            }
+            $file = $request->file('avatar');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->storeAs('public/avatars', $filename);
+            $orm->avatar = $filename;
+        }
+
         $orm->save();
 
         return redirect()->route('user.home')->with('success', 'Đã cập nhật thông tin thành công.');
     }
+
     public function postDangXuat(Request $request)
     {
         Auth::logout();
@@ -56,27 +69,27 @@ class KhachController extends Controller
         $request->session()->regenerateToken();
         return redirect()->route('frontend.home');
     }
+
     public function chude()
     {
-        // Lấy tất cả chủ đề từ database
         $chude = ChuDe::all();
-
-        // Trả dữ liệu về view user.home
         return view('user.home', compact('chude'));
     }
+
     public function postBaiViet()
     {
         $nguoidung = Auth::user();
         $baiviet = baiviet::where('nguoidung_id', $nguoidung->id)->orderBy('created_at', 'desc')->get();
         return view('user.baiviet', compact('nguoidung', 'baiviet'));
     }
+
     public function getBinhLuanBaiViet()
     {
+        $nguoidung = Auth::user();
         $binhluans = binh_luan_bai_viet::where('nguoidung_id', Auth::id())->orderBy('created_at', 'desc')->get();
-        return view('khach.binhluan', compact('binhluans'));
+        return view('user.binhluan', compact('nguoidung', 'binhluans'));
     }
 
-    // Xử lý thêm bình luận
     public function postBinhLuanBaiViet(Request $request, $baiviet_id)
     {
         $request->validate([
@@ -87,10 +100,9 @@ class KhachController extends Controller
             return redirect()->route('login')->with('error', 'Bạn cần đăng nhập để bình luận.');
         }
 
-        $baiviet = BaiViet::findOrFail($baiviet_id);
+        $baiviet = baiviet::findOrFail($baiviet_id);
         $nguoidung = Auth::user();
         
-        // Nếu người dùng là admin, bình luận sẽ tự động được kiểm duyệt
         $kiemduyet = in_array($nguoidung->role, ['admin', 'giaovien']) ? 1 : 0;
 
         binh_luan_bai_viet::create([
@@ -98,10 +110,16 @@ class KhachController extends Controller
             'baiviet_id' => $baiviet->id,
             'noidungbinhluan' => $request->noidung,
             'kiemduyet' => $kiemduyet,
-            'kichhoat' => 1, // Bình luận được kích hoạt
+            'kichhoat' => 1,
         ]);
 
         return redirect()->back()->with('success', $kiemduyet ? 'Bình luận của bạn đã được đăng!' : 'Bình luận của bạn đã được gửi và đang chờ duyệt!');
     }
 
+    public function deleteBinhLuan($id)
+    {
+        $binhluan = binh_luan_bai_viet::where('id', $id)->where('nguoidung_id', Auth::id())->firstOrFail();
+        $binhluan->delete();
+        return redirect()->route('user.binhluan')->with('success', 'Đã xóa bình luận thành công.');
+    }
 }

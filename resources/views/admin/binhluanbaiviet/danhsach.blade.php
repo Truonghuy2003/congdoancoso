@@ -3,6 +3,17 @@
 <div class="card">
     <div class="card-header fw-bold">Bình luận bài viết</div>
     <div class="card-body table-responsive">
+        <!-- Form tìm kiếm -->
+        <form method="GET" action="{{ route('admin.binhluanbaiviet') }}" class="mb-3">
+            <div class="input-group">
+                <input type="text" name="search" id="search-input" class="form-control" placeholder="Tìm kiếm theo tên người đăng..." value="{{ request('search') }}" autocomplete="off">
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                @if (request('search'))
+                    <a href="{{ route('admin.binhluanbaiviet') }}" class="btn btn-secondary ms-2">Xóa bộ lọc</a>
+                @endif
+            </div>
+        </form>
+
         <p><a href="{{ route('admin.binhluanbaiviet.them') }}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
@@ -20,7 +31,7 @@
                         <td>{{ $value->NguoiDung->name }}</td>
                         <td style="text-align:justify">
                             <span class="d-block fw-bold text-primary ">
-                                <a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">{{ $value->BaiViet->tieude }}</a>
+                                <a class="text-decoration-none" href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">{{ $value->BaiViet->tieude }}</a>
                                 <button class="btn btn-link p-0 toggle-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $value->baiviet_id }}" aria-expanded="false" aria-controls="collapse{{ $value->baiviet_id }}">
                                     <i class="fas fa-chevron-down fa-lg ms-2"></i>
                                 </button>
@@ -48,7 +59,6 @@
                                 @endif
                             </a>
                         </td>
-
                         <td class="text-center">
                             <a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">
                                 <i class="fa-light fa-lg fas fa-edit text-primary"></i>
@@ -128,57 +138,59 @@
                         </td>
                     </tr>
                 @endforeach
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-                        // Nếu trang được reload (F5, Ctrl+R), thì xóa sessionStorage
-                        if (performance.navigation.type === 1) {
-                            sessionStorage.clear();
-                        }
-                
-                        document.querySelectorAll('.toggle-collapse').forEach(button => {
-                            let targetId = button.getAttribute('data-bs-target');
-                            let collapseElement = document.querySelector(targetId);
-                
-                            // Kiểm tra nếu đã lưu trạng thái mở, thì mở lại collapse và đổi icon
-                            if (sessionStorage.getItem(targetId) === 'open') {
-                                collapseElement.classList.add('show');
-                                let icon = button.querySelector('i');
-                                icon.classList.remove('fa-chevron-down');
-                                icon.classList.add('fa-chevron-up');
-                            }
-                
-                            // Lắng nghe sự kiện khi collapse thay đổi trạng thái
-                            collapseElement.addEventListener('shown.bs.collapse', function () {
-                                sessionStorage.setItem(targetId, 'open');
-                                let icon = button.querySelector('i');
-                                icon.classList.remove('fa-chevron-down');
-                                icon.classList.add('fa-chevron-up');
-                            });
-                
-                            collapseElement.addEventListener('hidden.bs.collapse', function () {
-                                sessionStorage.removeItem(targetId);
-                                let icon = button.querySelector('i');
-                                icon.classList.remove('fa-chevron-up');
-                                icon.classList.add('fa-chevron-down');
-                            });
-                        });
-                    });
-                </script> 
-                <style>
-                    .toggle-collapse i {
-                        transition: transform 0.3s ease-in-out, color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
-                        font-size: 1.2rem; /* Kích thước icon */
-                    }
-                
-                    /* Hiệu ứng khi hover */
-                    .toggle-collapse i:hover {
-                        color: #ff9800;  /* Đổi màu cam nổi bật */
-                        text-shadow: 0px 0px 10px rgba(255, 152, 0, 0.8); /* Hiệu ứng phát sáng */
-                    }
-                    
-                </style>
             </tbody>
         </table>
     </div>  
 </div>
+
+@section('javascript')
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Nếu trang được reload (F5, Ctrl+R), thì xóa sessionStorage
+            if (performance.navigation.type === 1) {
+                sessionStorage.clear();
+            }
+    
+            document.querySelectorAll('.toggle-collapse').forEach(button => {
+                let targetId = button.getAttribute('data-bs-target');
+                let collapseElement = document.querySelector(targetId);
+    
+                // Kiểm tra nếu đã lưu trạng thái mở, thì mở lại collapse và đổi icon
+                if (sessionStorage.getItem(targetId) === 'open') {
+                    collapseElement.classList.add('show');
+                    let icon = button.querySelector('i');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                }
+    
+                // Lắng nghe sự kiện khi collapse thay đổi trạng thái
+                collapseElement.addEventListener('shown.bs.collapse', function () {
+                    sessionStorage.setItem(targetId, 'open');
+                    let icon = button.querySelector('i');
+                    icon.classList.remove('fa-chevron-down');
+                    icon.classList.add('fa-chevron-up');
+                });
+    
+                collapseElement.addEventListener('hidden.bs.collapse', function () {
+                    sessionStorage.removeItem(targetId);
+                    let icon = button.querySelector('i');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                });
+            });
+        });
+    </script>
+    <style>
+        .toggle-collapse i {
+            transition: transform 0.3s ease-in-out, color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+            font-size: 1.2rem; /* Kích thước icon */
+        }
+    
+        /* Hiệu ứng khi hover */
+        .toggle-collapse i:hover {
+            color: #ff9800;  /* Đổi màu cam nổi bật */
+            text-shadow: 0px 0px 10px rgba(255, 152, 0, 0.8); /* Hiệu ứng phát sáng */
+        }
+    </style>
+@endsection
 @endsection
