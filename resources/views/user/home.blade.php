@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-@section('title', 'Hồ sơ khách hàng')
+@section('title', 'Hồ sơ cá nhân')
 @section('content')
 <div class="page-title-overlap bg-body-secondary pt-4">
     <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
@@ -12,7 +12,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item text-nowrap ">
-                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách hàng</a>
+                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách</a>
                     </li>
                     <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">Hồ sơ</li>
                 </ol>
@@ -36,6 +36,14 @@
                         <div class="ps-md-3">
                             <h3 class="fs-base mb-0">{{ $nguoidung->name }}</h3>
                             <span class="text-accent fs-sm">{{ $nguoidung->email }}</span>
+                            <div>
+                                <span class="badge 
+                                    @if($nguoidung->role == 'admin') bg-danger 
+                                    @elseif($nguoidung->role == 'giaovien') bg-primary 
+                                    @else bg-secondary text-white @endif fs-xs">
+                                    Vai trò: {{ ucfirst($nguoidung->role) }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,7 +101,7 @@
         </aside>
         <section class="col-lg-8">
             <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-                <h6 class="fs-base text-dark mb-0">Cập nhật chi tiết hồ sơ của bạn:</h6>
+                <h5 class="text-dark mb-0">Cập nhật chi tiết hồ sơ của bạn:</h5>
                 <a class="btn btn-primary btn-sm" href="{{ route('logout') }}" onclick="event.preventDefault();document.getElementById('logout-form').submit();">
                     <i class="fas fa-sign-out-alt me-2"></i> Đăng xuất
                 </a>

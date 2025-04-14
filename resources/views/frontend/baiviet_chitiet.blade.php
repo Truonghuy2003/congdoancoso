@@ -156,7 +156,7 @@
                         ob_start(); 
                         ob_end_clean(); 
                         $output = preg_match_all('/<img.+src=[\'"]([^\'"]+)[\'"].*>/i', $strNoiDung, $matches); 
-                        return empty($output) ? asset('public/img/noimage.png') : str_replace('&', '&', $matches[1][0]); 
+                        return empty($output) ? asset('public/img/noimage.jpg') : str_replace('&', '&', $matches[1][0]); 
                     } 
                 @endphp
                 <div class="tns-carousel-inner" data-carousel-options="{&quot;items&quot;: 2, &quot;controls&quot;: false, &quot;autoHeight&quot;: true, &quot;responsive&quot;: {&quot;0&quot;:{&quot;items&quot;:1},&quot;500&quot;:{&quot;items&quot;:2, &quot;gutter&quot;: 20},&quot;900&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 20}, &quot;1100&quot;:{&quot;items&quot;:3, &quot;gutter&quot;: 30}}}">

@@ -24,17 +24,27 @@ class BinhLuanBaiVietController extends Controller
             ->with(['NguoiDung', 'BaiViet']);
 
         if ($search) {
-            $query->whereHas('NguoiDung', function ($q) use ($search) {
-                $q->where('name', 'like', '%' . $search . '%');
+            $query->where(function ($q) use ($search) {
+                $q->whereHas('NguoiDung', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                })->orWhere('noidungbinhluan', 'like', '%' . $search . '%');
             });
         }
 
         $binhluanmoinhat = $query->orderBy('created_at', 'desc')->get();
 
-        // Lấy tất cả bình luận để hiển thị khi mở rộng
-        $tatcabinhluan = binh_luan_bai_viet::with(['NguoiDung', 'BaiViet'])
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // Lấy tất cả bình luận để hiển thị khi mở rộng, với cùng bộ lọc tìm kiếm
+        $tatcabinhluanQuery = binh_luan_bai_viet::with(['NguoiDung', 'BaiViet']);
+
+        if ($search) {
+            $tatcabinhluanQuery->where(function ($q) use ($search) {
+                $q->whereHas('NguoiDung', function ($q) use ($search) {
+                    $q->where('name', 'like', '%' . $search . '%');
+                })->orWhere('noidungbinhluan', 'like', '%' . $search . '%');
+            });
+        }
+
+        $tatcabinhluan = $tatcabinhluanQuery->orderBy('created_at', 'desc')->get();
 
         return view('admin.binhluanbaiviet.danhsach', compact('binhluanmoinhat', 'tatcabinhluan'));
     }
@@ -65,31 +75,6 @@ class BinhLuanBaiVietController extends Controller
         // Sau khi thêm thành công thì tự động chuyển về trang danh sách
         return redirect()->route('admin.binhluanbaiviet');
     }
-
-    public function getSua($id)
-    {
-        $baiviet = baiviet::orderBy('created_at', 'desc')->get();
-        $binhluanbaiviet = binh_luan_bai_viet::find($id);
-        return view('admin.binhluanbaiviet.sua', compact('baiviet', 'binhluanbaiviet'));
-    }
-
-    public function postSua(Request $request, $id)
-    {
-        // Kiểm tra
-        $request->validate([
-            'baiviet_id' => ['required', 'integer'],
-            'noidungbinhluan' => ['required', 'string', 'min:20'],
-        ]);
-
-        $orm = binh_luan_bai_viet::find($id);
-        $orm->baiviet_id = $request->baiviet_id;
-        $orm->noidungbinhluan = $request->noidungbinhluan;
-        $orm->save();
-
-        // Sau khi sửa thành công thì tự động chuyển về trang danh sách
-        return redirect()->route('admin.binhluanbaiviet');
-    }
-
     public function getXoa($id)
     {
         $orm = binh_luan_bai_viet::find($id);

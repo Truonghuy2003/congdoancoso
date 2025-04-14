@@ -6,7 +6,7 @@
         <!-- Form tìm kiếm -->
         <form method="GET" action="{{ route('admin.binhluanbaiviet') }}" class="mb-3">
             <div class="input-group">
-                <input type="text" name="search" id="search-input" class="form-control" placeholder="Tìm kiếm theo tên người đăng..." value="{{ request('search') }}" autocomplete="off">
+                <input type="text" name="search" id="search-input" class="form-control" placeholder="Tìm kiếm theo tên người đăng hoặc nội dung..." value="{{ request('search') }}" autocomplete="off">
                 <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                 @if (request('search'))
                     <a href="{{ route('admin.binhluanbaiviet') }}" class="btn btn-secondary ms-2">Xóa bộ lọc</a>
@@ -15,6 +15,9 @@
         </form>
 
         <p><a href="{{ route('admin.binhluanbaiviet.them') }}" class="btn btn-info"><i class="fa-light fas fa-plus"></i> Thêm mới</a></p>
+        @if ($binhluanmoinhat->isEmpty())
+            <p class="text-center">Không tìm thấy bình luận nào.</p>
+        @else
         <table class="table table-bordered table-hover table-sm mb-0">
             <thead>
                 <tr>
@@ -30,9 +33,19 @@
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $value->NguoiDung->name }}</td>
                         <td style="text-align:justify">
-                            <span class="d-block fw-bold text-primary ">
-                                <a class="text-decoration-none" href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">{{ $value->BaiViet->tieude }}</a>
-                                <button class="btn btn-link p-0 toggle-collapse" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $value->baiviet_id }}" aria-expanded="false" aria-controls="collapse{{ $value->baiviet_id }}">
+                            <span class="d-block fw-bold text-primary">
+                                <a class="text-decoration-none toggle-collapse" 
+                                   data-bs-toggle="collapse" 
+                                   data-bs-target="#collapse{{ $value->baiviet_id }}" 
+                                   aria-expanded="false" 
+                                   aria-controls="collapse{{ $value->baiviet_id }}">
+                                    {{ $value->BaiViet->tieude }}
+                                </a>
+                                <button class="btn btn-link p-0 toggle-collapse" type="button" 
+                                        data-bs-toggle="collapse" 
+                                        data-bs-target="#collapse{{ $value->baiviet_id }}" 
+                                        aria-expanded="false" 
+                                        aria-controls="collapse{{ $value->baiviet_id }}">
                                     <i class="fas fa-chevron-down fa-lg ms-2"></i>
                                 </button>
                             </span>
@@ -60,11 +73,6 @@
                             </a>
                         </td>
                         <td class="text-center">
-                            <a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $value->id]) }}">
-                                <i class="fa-light fa-lg fas fa-edit text-primary"></i>
-                            </a>
-                        </td>
-                        <td class="text-center">
                             <a href="{{ route('admin.binhluanbaiviet.xoa', ['id' => $value->id]) }}" onclick="return confirm('Bạn có muốn xóa bình luận của bài viết {{ $value->BaiViet->tieude }} không?')">
                                 <i class="fa-light fa-lg fas fa-trash-alt text-danger"></i>
                             </a>
@@ -80,16 +88,18 @@
                                             <i class="fas fa-chevron-up"></i>
                                         </button>
                                     </div>
+                                    <h4>Các bình luận khác cùng bài viết</h4>
+                                    @if($tatcabinhluan->where('baiviet_id', $value->baiviet_id)->where('id', '!=', $value->id)->isEmpty())
+                                        <p class="text-center">Không có bình luận nào khác.</p>
+                                    @else
                                     <table class="table table-bordered">
                                         <thead>
-                                            <h4>Các bình luận khác cùng bài viết</h4>
                                             <tr>
                                                 <th width="15%">Người đăng</th>
                                                 <th width="15%">Ngày đăng</th>
-                                                <th width="30%">Nội dung</th>
+                                                <th width="40%">Nội dung</th>
                                                 <th width="10%" class="text-center">Kiểm duyệt</th>
                                                 <th width="10%" class="text-center">Kích hoạt</th>
-                                                <th width="10%" class="text-center">Sửa</th>
                                                 <th width="10%" class="text-center">Xóa</th>
                                             </tr>
                                         </thead>
@@ -119,11 +129,6 @@
                                                             </a>
                                                         </td>
                                                         <td class="text-center">
-                                                            <a href="{{ route('admin.binhluanbaiviet.sua', ['id' => $bl->id]) }}" class="text-primary" title="Sửa">
-                                                                <i class="fa-light fa-lg fas fa-edit"></i>
-                                                            </a>
-                                                        </td>
-                                                        <td class="text-center">
                                                             <a href="{{ route('admin.binhluanbaiviet.xoa', ['id' => $bl->id]) }}" class="text-danger" onclick="return confirm('Bạn có muốn xóa bình luận này không?')" title="Xóa">
                                                                 <i class="fa-light fa-lg fas fa-trash-alt"></i>
                                                             </a>
@@ -133,6 +138,7 @@
                                             @endforeach
                                         </tbody>
                                     </table>
+                                    @endif
                                 </div>
                             </div>
                         </td>
@@ -140,6 +146,7 @@
                 @endforeach
             </tbody>
         </table>
+        @endif
     </div>  
 </div>
 
@@ -190,6 +197,13 @@
         .toggle-collapse i:hover {
             color: #ff9800;  /* Đổi màu cam nổi bật */
             text-shadow: 0px 0px 10px rgba(255, 152, 0, 0.8); /* Hiệu ứng phát sáng */
+        }
+        .toggle-collapse {
+            transition: color 0.3s ease-in-out, text-shadow 0.3s ease-in-out;
+        }
+        .toggle-collapse:hover {
+            color: #ff9800; /* Màu vàng cam */
+            text-shadow: 0px 0px 5px rgba(255, 152, 0, 0.8); /* Hiệu ứng phát sáng */
         }
     </style>
 @endsection

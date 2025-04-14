@@ -115,7 +115,7 @@ class KhachController extends Controller
 
         return redirect()->back()->with('success', $kiemduyet ? 'Bình luận của bạn đã được đăng!' : 'Bình luận của bạn đã được gửi và đang chờ duyệt!');
     }
-
+    //Tự xóa bình luận trong hồ sơ cá nhân -> bình luận
     public function deleteBinhLuan($id)
     {
         $binhluan = binh_luan_bai_viet::where('id', $id)->where('nguoidung_id', Auth::id())->firstOrFail();

@@ -1,5 +1,5 @@
 @extends('layouts.frontend')
-@section('title', 'Hồ sơ khách hàng')
+@section('title', 'Bài đăng')
 @section('content')
 <div class="page-title-overlap bg-body-secondary pt-4">
     <div class="container d-lg-flex justify-content-between py-2 py-lg-3">
@@ -12,7 +12,7 @@
                         </a>
                     </li>
                     <li class="breadcrumb-item text-nowrap">
-                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách hàng</a>
+                        <a class="text-dark text-decoration-none" href="{{ route('user.home') }}">Khách</a>
                     </li>
                     <li class="breadcrumb-item text-nowrap active text-dark" aria-current="page">Hồ sơ</li>
                 </ol>
@@ -35,6 +35,14 @@
                         <div class="ps-md-3">
                             <h3 class="fs-base mb-0">{{ $nguoidung->name }}</h3>
                             <span class="text-accent fs-sm">{{ $nguoidung->email }}</span>
+                            <div>
+                                <span class="badge 
+                                    @if($nguoidung->role == 'admin') bg-danger 
+                                    @elseif($nguoidung->role == 'giaovien') bg-primary 
+                                    @else bg-secondary text-white @endif fs-xs">
+                                    Vai trò: {{ ucfirst($nguoidung->role) }}
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -92,19 +100,19 @@
         </aside>
         <section class="col-lg-8">
             <div class="d-none d-lg-flex justify-content-between align-items-center pt-lg-3 pb-4 pb-lg-5 mb-lg-3">
-                <h6 class="fs-base text-dark mb-0">Bài viết đã đăng:</h6>
+                <h5 class="text-dark mb-0">Bài viết đã đăng:</h5>
             </div>
             @if ($baiviet->count() > 0)
                 <table class="table table-bordered table-hover table-sm mb-0">
                     <thead>
                         <tr>
                             <th width="5%">STT</th>
-                            <th width="25%">Tiêu đề</th>
-                            <th width="30%">Tóm tắt</th>
+                            <th width="30%">Tiêu đề</th>
+                            <th width="20%">Tóm tắt</th>
                             <th width="10%">Nội dung</th>
                             <th width="15%">Lượt xem</th>
-                            <th width="15%">Ngày đăng</th>
-                            <th width="15%">Thao tác</th> <!-- Thêm cột Thao tác -->
+                            <th width="10%">Ngày đăng</th>
+                            <th width="10%">Thao tác</th> 
                         </tr>
                     </thead>
                     <tbody>
