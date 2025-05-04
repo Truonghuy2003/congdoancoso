@@ -47,7 +47,7 @@
                         <div class="card-body">
                             <div class="mb-2">
                                 @foreach($value->chudes as $chude)
-                                    <a class="badge bg-primary me-1 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
+                                    <a class="badge badge-custom me-1 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
                                         {{ $chude->tenchude }}
                                     </a>
                                 @endforeach

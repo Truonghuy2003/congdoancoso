@@ -61,7 +61,7 @@
                 <div class="d-flex flex-wrap justify-content-between pt-2 pb-4 mb-1">
                     <div class="mt-3 me-3">
                         @foreach($baiviet->chudes as $chude)
-                            <a class="badge bg-primary mb-2 me-1 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
+                            <a class="badge badge-custom me-1 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
                                 {{ $chude->tenchude }}
                             </a>
                         @endforeach

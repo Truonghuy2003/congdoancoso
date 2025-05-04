@@ -117,17 +117,21 @@
                                 <button class="btn btn-light btn-shadow btn-sm" type="submit">
                                     <i class="fas fa-image"></i> Đổi ảnh đại diện
                                 </button>
+                                <div class="mt-2">
+                                    @if($nguoidung->role === 'admin')
+                                        <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm">
+                                            <i class="fas fa-user-shield me-2"></i>Trang quản trị
+                                        </a>
+                                    @elseif($nguoidung->role === 'giaovien')
+                                        <a href="{{ route('admin.home') }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-chalkboard-teacher me-2"></i>Trang giáo viên
+                                        </a>
+                                    @endif
+                                </div>
                             </div>
+                            
                         </div>
-                        @if($nguoidung->role === 'admin')
-                            <a href="{{ route('admin.home') }}" class="btn btn-danger btn-sm">
-                                <i class="fas fa-user-shield me-2"></i>Trang quản trị
-                            </a>
-                        @elseif($nguoidung->role === 'giaovien')
-                            <a href="{{ route('admin.home') }}" class="btn btn-primary btn-sm">
-                                <i class="fas fa-chalkboard-teacher me-2"></i>Trang giáo viên
-                            </a>
-                        @endif
+                        
                     </div>
                 </div>         
                 <div class="row gx-4 gy-3 bg-white rounded-3 p-4">

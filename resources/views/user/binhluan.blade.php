@@ -19,7 +19,7 @@
             </nav>
         </div>
         <div class="order-lg-1 pe-lg-4 text-center text-lg-start">
-            <h1 class="h3 text-dark fw-bold">Bình luận của tôi</h1>
+            <h1 class="h3 text-dark fw-bold">Hồ sơ cá nhân</h1>
         </div>
     </div>
 </div>

@@ -31,8 +31,26 @@
         </div> 
     </section>
     <style>
-        .hover-shadow { transition: box-shadow 0.3s ease-in-out; }
-        .hover-shadow:hover { box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important; }
+        .hover-shadow { 
+            transition: box-shadow 0.3s ease-in-out; 
+        }
+        .hover-shadow:hover { 
+            box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2) !important; 
+        }
+        .card-body .badge-custom { 
+            background-color: #2563eb; /* Base blue color */
+            color: #ffffff; /* White text for contrast */
+            transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            padding: 0.4em 0.8em;
+            border-radius: 0.25rem;
+        }
+        .card-body .badge-custom:hover { 
+            background-color: #1e40af !important; /* Darker blue on hover */
+            transform: scale(1.05); /* Slight scale effect */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15) !important; /* Subtle shadow */
+            color: #ffffff !important; /* Ensure text stays white */
+        }
     </style>
     <section class="container mt-4 mb-grid-gutter rounded-3 shadow-lg"> 
         <div class="rounded-3 py-1 px-4 px-sm-1"> 
@@ -63,7 +81,7 @@
                                 <div class="card-body py-3 "> 
                                     <div class="mb-2">
                                         @foreach($bv->chudes as $chude)
-                                            <a class="badge bg-primary me-1 hover-shadow text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
+                                            <a class="badge badge-custom me-1 text-decoration-none" href="{{ route('frontend.baiviet.chude', ['tenchude_slug' => $chude->tenchude_slug]) }}">
                                                 {{ $chude->tenchude }}
                                             </a>
                                         @endforeach
